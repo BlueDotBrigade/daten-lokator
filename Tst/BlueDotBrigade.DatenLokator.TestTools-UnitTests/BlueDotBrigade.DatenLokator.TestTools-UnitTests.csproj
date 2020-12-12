@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+
+    <RootNamespace>BlueDotBrigade.Datenlokator.TestTools</RootNamespace>
+
+    <PackageId>BlueDotBrigade.Datenlokator.TestTools-UnitTests</PackageId>
+
+    <Version>1.1.0</Version>
+
+    <Authors>BlueDotBrigade;</Authors>
+
+    <Company>Blue Dot Brigade;</Company>
+
+    <Description>A unit test library for the `Daten Lokator` project.</Description>
+
+    <Copyright>© 2020 Blue Dot Brigade. All rights reserved.</Copyright>
+
+    <RepositoryUrl>https://dev.azure.com/BlueDotBrigade/OpenSource/_git</RepositoryUrl>
+
+    <RepositoryType>git</RepositoryType>
+
+    <PackageTags>BlueDotBrigade</PackageTags>
+
+    <PackageReleaseNotes>Release notes from the C#project.</PackageReleaseNotes>
+
+    <PackageProjectUrl>https://dev.azure.com/BlueDotBrigade/OpenSource/_git/daten-lokator?path=README.md</PackageProjectUrl>
+
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+    <PackageReference Include="Moq" Version="4.14.1" />
+    <PackageReference Include="MSTest.TestAdapter" Version="2.1.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="2.1.0" />
+    <PackageReference Include="coverlet.collector" Version="1.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Src\BlueDotBrigade.Datenlokator.TestTools\BlueDotBrigade.Datenlokator.TestsTools.csproj" />
+  </ItemGroup>
+
+</Project>

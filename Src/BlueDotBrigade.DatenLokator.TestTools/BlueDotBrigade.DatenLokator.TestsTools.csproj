@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+	<PackageId>BlueDotBrigade.DatenLokator</PackageId>
+    <Version>1.1.0</Version>
+    <Authors>BlueDotBrigade;</Authors>
+	<Copyright>© 2020 Blue Dot Brigade. All rights reserved.</Copyright>
+	<Owners>Blue Dot Brigade</Owners>
+	<Title>Datenlokator</Title>
+	<Summary>Project summary.</Summary>
+    <Description>A support library that locates input for automated tests using convention over configuration.</Description>
+    <IsPackable>true</IsPackable>
+	<PackageReleaseNotes>Release notes from C# project properties.</PackageReleaseNotes>
+	<PackageTags>BlueDotBrigade;Framework;TDD;Test;TestFramework;Test;Testing;UnitTest;</PackageTags>
+	<RepositoryType>git</RepositoryType>
+	<PackageProjectUrl>https://dev.azure.com/BlueDotBrigade/OpenSource/_git/daten-lokator?path=README.md</PackageProjectUrl>
+	<RepositoryUrl>https://dev.azure.com/BlueDotBrigade/OpenSource/_git</RepositoryUrl>
+	<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+	<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Collections.Immutable" Version="1.3.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
+  </ItemGroup>
+</Project>

@@ -20,7 +20,7 @@ steps:
   inputs:
     command: 'build'
     arguments: '--configuration $(buildConfiguration)'
-    projects: '/Src/BlueDotBrigade.DatenLokator.TestTools/BlueDotBrigade.DatenLokator.TestsTools.csproj'
+    projects: 'Src/BlueDotBrigade.DatenLokator.TestTools/BlueDotBrigade.DatenLokator.TestsTools.csproj'
 
 # The second task is dotnet pack command again pointing to the csproj file
 # The nobuild means the project will not be compiled before running pack, because its already built in above step
@@ -29,7 +29,7 @@ steps:
   inputs:
     command: 'pack'
     arguments: '--configuration $(buildConfiguration)'
-    packagesToPack: '/Src/BlueDotBrigade.DatenLokator.TestTools/BlueDotBrigade.DatenLokator.TestsTools.csproj'
+    packagesToPack: 'Src/BlueDotBrigade.DatenLokator.TestTools/BlueDotBrigade.DatenLokator.TestsTools.csproj'
     nobuild: true
     versioningScheme: 'off'
 

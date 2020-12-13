@@ -16,29 +16,27 @@ steps:
 
 # The first task is the dotnet command build, pointing to our csproj file
 - task: DotNetCoreCLI@2
-  displayName: 'dotnet build'
+  displayName: 'Build'
   inputs:
     command: 'build'
     arguments: '--configuration $(buildConfiguration)'
     projects: 'Src/BlueDotBrigade.DatenLokator.TestTools/BlueDotBrigade.DatenLokator.TestsTools.csproj'
 
-# The second task is dotnet pack command again pointing to the csproj file
-# The nobuild means the project will not be compiled before running pack, because its already built in above step
-- task: DotNetCoreCLI@2
-  displayName: "dotnet pack"
-  inputs:
-    command: 'pack'
-    arguments: '--configuration $(buildConfiguration)'
-    packagesToPack: 'Src/BlueDotBrigade.DatenLokator.TestTools/BlueDotBrigade.DatenLokator.TestsTools.csproj'
-    nobuild: true
-    versioningScheme: 'off'
+
+
+# - task: VSBuild@1
+#  displayName: 'Run Unit Tests'
+# inputs:
+#    solution: '**\*.sln'
+#    msbuildArchitecture: 'x64'
+#    createLogFile: true
 
 # The last task is a nuget command, nuget push
 # This will push any .nupkg files to the 'TestFeed' artifact feed
 # allowPackageConflicts allows us to build the same version and not throw an error when trying to push
 # instead it just ingores the latest package unless the version changes
 - task: NuGetCommand@2
-  displayName: 'nuget push'
+  displayName: 'Push NuGet package to: Azure'
   inputs:
     command: 'push'
     feedsToUse: 'select'
@@ -49,6 +47,7 @@ steps:
     allowPackageConflicts: true
 
 - task: NuGetCommand@2
+  displayName: 'Push NuGet package to: NuGet.org'
   inputs:
     command: 'push'
     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'

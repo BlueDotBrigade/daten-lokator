@@ -1,16 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
 	<PackageId>BlueDotBrigade.DatenLokator</PackageId>
-    <Version>1.1.0</Version>
+    <Version>1.2.0</Version>
     <Authors>BlueDotBrigade;</Authors>
-	<Copyright>© 2020 Blue Dot Brigade. All rights reserved.</Copyright>
+	<Copyright>© 2019 Blue Dot Brigade. All rights reserved.</Copyright>
 	<Owners>Blue Dot Brigade</Owners>
 	<Title>Datenlokator</Title>
 	<Summary>Project summary.</Summary>
-    <Description>A support library that locates input for automated tests using convention over configuration.</Description>
+    <Description>Simplifies testing by automatically selecting the appropriate input data for a given test case.</Description>
     <IsPackable>true</IsPackable>
-	<PackageReleaseNotes>Release notes from C# project properties.</PackageReleaseNotes>
+	<PackageReleaseNotes>BE ADVISED: This version is not yet production worthy.</PackageReleaseNotes>
 	<PackageTags>BlueDotBrigade;Framework;TDD;Test;TestFramework;Test;Testing;UnitTest;</PackageTags>
 	<RepositoryType>git</RepositoryType>
 	<PackageProjectUrl>https://dev.azure.com/BlueDotBrigade/OpenSource/_git/daten-lokator?path=README.md</PackageProjectUrl>

@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
 	<PackageId>BlueDotBrigade.DatenLokator</PackageId>
-    <Version>1.2.2</Version>
+    <Version>1.2.3</Version>
     <Authors>BlueDotBrigade;</Authors>
 	<Copyright>© 2019 Blue Dot Brigade. All rights reserved.</Copyright>
 	<Owners>Blue Dot Brigade</Owners>

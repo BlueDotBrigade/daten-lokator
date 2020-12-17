@@ -47,9 +47,9 @@ steps:
     allowPackageConflicts: true
 
 - task: NuGetCommand@2
-  displayName: 'Push NuGet package to: NuGet.org'
+  displayName: 'Push NuGet package to: Azure'
   inputs:
     command: 'push'
     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
     nuGetFeedType: 'external'
-    publishFeedCredentials: 'NugetDotOrg'
+    publishFeedCredentials: 'NugetDotConnection'

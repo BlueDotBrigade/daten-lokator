@@ -1,3 +1,9 @@
+
+| Package | Latest Release | Downloads |
+| --- | --- | --- |
+| BlueDotBrigade.Datenlokator | [![latest version](https://img.shields.io/nuget/v/BlueDotBrigade.Datenlokator)](https://www.nuget.org/packages/BlueDotBrigade.Datenlokator) | [![downloads](https://img.shields.io/nuget/dt/BlueDotBrigade.Datenlokator)](https://www.nuget.org/packages/BlueDotBrigade.Datenlokator) |
+
+
 # Introduction 
 TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
 

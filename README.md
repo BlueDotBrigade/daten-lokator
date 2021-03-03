@@ -16,7 +16,8 @@ public class TestEnvironment
   [AssemblyInitialize]
   public static void Setup(TestContext context)
   {
-    // As part of the initialization, compressed input files (`*.zip`) will be decompressed.
+    // As part of the initialization process, 
+    // compressed input files (`*.zip`) will be decompressed.
     InputData.Setup();
   }
 
@@ -34,7 +35,7 @@ Step 2: Call `InputData.GetFilePath()` as needed.
 using BlueDotBrigade.Weevil;
 
 [TestMethod]
-public void SupportClearingSelectedRecords()
+public void Clear_BeforeSelected_Returns200()
 {
 	// The input file associated with this test
 	// will be automatically located.

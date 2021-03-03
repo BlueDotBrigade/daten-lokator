@@ -34,10 +34,10 @@ Step 2: Call `InputData.GetFilePath()` as needed.
 using BlueDotBrigade.Weevil;
 
 [TestMethod]
-public void Clear_BeforeSelected_Returns200()
+public void SupportClearingSelectedRecords()
 {
-  // The input file associated with this test
-  // will be automatically located.
+	// The input file associated with this test
+	// will be automatically located.
 	var engine = Engine
 		.UsingPath(InputData.GetFilePath())
 		.Open();
@@ -47,7 +47,7 @@ public void Clear_BeforeSelected_Returns200()
 		.Select(lineNumber: 56);
 
 	engine.Clear(ClearRecordsOperation.BeforeSelected);
-	
+
 	Assert.AreEqual(200, engine.Records.Length);
 }
 ```

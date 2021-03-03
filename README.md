@@ -3,26 +3,51 @@
 | --- | --- | --- |
 | BlueDotBrigade.Datenlokator | [![latest version](https://img.shields.io/nuget/v/BlueDotBrigade.Datenlokator)](https://www.nuget.org/packages/BlueDotBrigade.Datenlokator) | [![downloads](https://img.shields.io/nuget/dt/BlueDotBrigade.Datenlokator)](https://www.nuget.org/packages/BlueDotBrigade.Datenlokator) |
 
+# For Developers
 
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+## Sample Usage
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+Step 1: Initialize the framework once by calling `Setup()`.
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+```CSharp
+[TestClass]
+public class TestEnvironment
+{
+  [AssemblyInitialize]
+  public static void Setup(TestContext context)
+  {
+    // As part of the initialization, compressed input files (`*.zip`) will be decompressed.
+    InputData.Setup();
+  }
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+  [AssemblyCleanup]
+  public static void Teardown()
+  {
+    InputData.Teardown();
+  }
+}
+```
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+Step 2: Call `InputData.GetFilePath()` as needed.
 
-Test
+```CSharp
+using BlueDotBrigade.Weevil;
+
+[TestMethod]
+public void Clear_BeforeSelected_Returns200()
+{
+  // The input file associated with this test
+  // will be automatically located.
+	var engine = Engine
+		.UsingPath(InputData.GetFilePath())
+		.Open();
+
+	engine
+		.Selector
+		.Select(lineNumber: 56);
+
+	engine.Clear(ClearRecordsOperation.BeforeSelected);
+	
+	Assert.AreEqual(200, engine.Records.Length);
+}
+```

@@ -1,37 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-
+    <TargetFramework>net6.0</TargetFramework>
     <IsPackable>false</IsPackable>
-
     <RootNamespace>BlueDotBrigade.Datenlokator.TestTools</RootNamespace>
-
     <PackageId>BlueDotBrigade.Datenlokator.TestTools-UnitTests</PackageId>
-
-    <Version>1.2.0</Version>
-
+    <Version>1.2.4</Version>
     <Authors>BlueDotBrigade;</Authors>
-
     <Company>Blue Dot Brigade;</Company>
-
     <Description>Simplifies testing by automatically selecting the appropriate input data for a given test case.</Description>
-
-    <Copyright>© 2019 Blue Dot Brigade. All rights reserved.</Copyright>
-
+    <Copyright>© 2022 Blue Dot Brigade. All rights reserved.</Copyright>
     <RepositoryUrl>https://dev.azure.com/BlueDotBrigade/OpenSource/_git</RepositoryUrl>
-
     <RepositoryType>git</RepositoryType>
-
     <PackageTags>BlueDotBrigade</PackageTags>
-
     <PackageReleaseNotes>Release notes from the C#project.</PackageReleaseNotes>
-
     <PackageProjectUrl>https://dev.azure.com/BlueDotBrigade/OpenSource/_git/daten-lokator?path=README.md</PackageProjectUrl>
-
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <Platforms>x64</Platforms>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
     <PackageReference Include="Moq" Version="4.14.1" />
@@ -43,5 +29,4 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Src\BlueDotBrigade.Datenlokator.TestTools\BlueDotBrigade.Datenlokator.TestsTools.csproj" />
   </ItemGroup>
-
 </Project>

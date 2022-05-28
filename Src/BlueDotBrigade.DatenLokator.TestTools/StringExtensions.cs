@@ -3,7 +3,7 @@
     public static class StringExtensions
     {
         /// <summary>
-        ///     Identifies the position where the prefixes no longer match.
+        /// Identifies the position where the prefixes no longer match.
         /// </summary>
         /// <returns>The zero-based index position of the last matching value, or -1 if the strings do not have a matching prefix.</returns>
         public static int LastIndexOfPrefix(this string instance, string value)

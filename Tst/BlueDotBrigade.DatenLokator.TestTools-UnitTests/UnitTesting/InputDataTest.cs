@@ -1,16 +1,38 @@
 ﻿namespace BlueDotBrigade.DatenLokator.TestTools
 {
-    using System.Configuration;
+	using System.Collections.Specialized;
+	using System.Configuration;
     using System.Diagnostics;
     using System.IO;
+    using BlueDotBrigade.DatenLokator.TestsTools;
+    using BlueDotBrigade.DatenLokator.TestsTools.IO;
     using BlueDotBrigade.DatenLokator.TestsTools.Reflection;
-    using BlueDotBrigade.DatenLokator.TestsTools.UnitTesting;
+    using BlueDotBrigade.DatenLokator.TestsTools.Strategies;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class InputDataTest
     {
-        private static string GetProjectDirectory()
+		private FileManager _fileManager;
+
+		[TestInitialize]
+		public void TestInitialize()
+		{
+			_fileManager = new FileManager(new SimpleFileManager(), new AssertActArrangeStrategy());
+			_fileManager.Setup(
+				new OsDirectory(),
+				new OsFile(),
+				new NameValueCollection(),
+				AssemblyHelper.ExecutingDirectory);
+		}
+
+		[TestCleanup]
+		public void TestCleanup()
+		{
+			// nothing to do
+		}
+
+		private static string GetProjectDirectory()
         {
             var projectDirectory = Path.Combine(AssemblyHelper.ExecutingDirectory, @"..\..\..\");
 
@@ -18,65 +40,66 @@
             return Path.GetFullPath(projectDirectory);
         }
 
-        [TestMethod]
-        public void BasePath_AssumedLocalPath_ReturnsPathToProjectFolder()
-        {
-            Assert.IsTrue(string.IsNullOrWhiteSpace(ConfigurationManager.AppSettings["InputDataPath"]),
-                $"This test requires that you do NOT define a `{nameof(InputData.BaseDirectoryPath)}` for the input data. BaseDirectoryPath=`{InputData.BaseDirectoryPath}`");
+        //[TestMethod]
+        //public void BasePath_AssumedLocalPath_ReturnsPathToProjectFolder()
+        //{
+        //    Assert.IsTrue(string.IsNullOrWhiteSpace(ConfigurationManager.AppSettings["InputDataPath"]),
+        //        $"This test requires that you do NOT define a `{nameof(new Daten(_fileManager).BaseDirectoryPath)}` for the input data. BaseDirectoryPath=`{new Daten(_fileManager).BaseDirectoryPath}`");
 
-            Debug.WriteLine($"Base path is assumed to be: {InputData.BaseDirectoryPath}");
+        //    Debug.WriteLine($"Base path is assumed to be: {new Daten(_fileManager).BaseDirectoryPath}");
 
-            var expectedInputDataPath = Path.Combine(GetProjectDirectory(), InputData.BaseDirectoryName);
+        //    var expectedInputDataPath = Path.Combine(GetProjectDirectory(), new Daten(_fileManager).BaseDirectoryName);
 
-            Assert.AreEqual(expectedInputDataPath, InputData.BaseDirectoryPath);
-        }
+        //    Assert.AreEqual(expectedInputDataPath, new Daten(_fileManager).BaseDirectoryPath);
+        //}
 
-        [TestMethod]
-        public void BasePath_ExplicitlyDefinedPath_ReturnsPathToProjectFolder()
-        {
-            var newInputDataFolder = "InputAlternateLocation";
-            var originalValue = ConfigurationManager.AppSettings[InputData.BasePathKey];
+        //[TestMethod]
+        //public void BasePath_ExplicitlyDefinedPath_ReturnsPathToProjectFolder()
+        //{
+        //    var newInputDataFolder = "InputAlternateLocation";
+        //    var originalValue = ConfigurationManager.AppSettings[new Daten(_fileManager).BasePathKey];
 
-            try
-            {
-                ConfigurationManager.AppSettings[InputData.BasePathKey] =
-                    Path.Combine(GetProjectDirectory(), newInputDataFolder);
-                Debug.WriteLine($"Base path was explicitly set as: {InputData.BaseDirectoryPath}");
+        //    try
+        //    {
+        //        ConfigurationManager.AppSettings[new Daten(_fileManager).BasePathKey] =
+        //            Path.Combine(GetProjectDirectory(), newInputDataFolder);
+        //        Debug.WriteLine($"Base path was explicitly set as: {new Daten(_fileManager).BaseDirectoryPath}");
 
-                var newBasePath = Path.Combine(GetProjectDirectory(), newInputDataFolder);
+        //        var newBasePath = Path.Combine(GetProjectDirectory(), newInputDataFolder);
 
-                Assert.IsTrue(!string.IsNullOrWhiteSpace(ConfigurationManager.AppSettings[InputData.BasePathKey]));
-                Assert.AreEqual(newBasePath, InputData.BaseDirectoryPath);
-            }
-            finally
-            {
-                ConfigurationManager.AppSettings[InputData.BasePathKey] = originalValue;
-            }
-        }
+        //        Assert.IsTrue(!string.IsNullOrWhiteSpace(ConfigurationManager.AppSettings[new Daten(_fileManager).BasePathKey]));
+        //        Assert.AreEqual(newBasePath, new Daten(_fileManager).BaseDirectoryPath);
+        //    }
+        //    finally
+        //    {
+        //        ConfigurationManager.AppSettings[new Daten(_fileManager).BasePathKey] = originalValue;
+        //    }
+        //}
 
         [TestMethod]
         public void GetAsString_FileRequestedExplicitly_ReturnsFileContent()
         {
-            Assert.AreEqual("NothingWasImplied", InputData.GetAsString("FileRequestedExplicitly.txt"));
+            Assert.AreEqual("NothingWasImplied", new Daten(_fileManager).AsString("FileRequestedExplicitly.txt"));
         }
 
         [TestMethod]
         public void GetAsString_FileRequestedImplicitly_ReturnsFileContent()
         {
-            Assert.AreEqual("FileNameImpliedByUnitTestName", InputData.GetAsString());
+            Assert.AreEqual("FileNameImpliedByUnitTestName", new Daten(_fileManager).AsString());
         }
 
         [TestMethod]
         public void GetAsString_FileRequestedImplicitlyHasExtension_ReturnsFileContent()
         {
-            Assert.AreEqual("Convention Over Configuration", InputData.GetAsString());
-        }
+			//Assert.AreEqual("Convention Over Configuration", new Daten(_fileManager).GetAsString());
+			Assert.AreEqual("Convention Over Configuration", new Daten(_fileManager).AsString());
+		}
 
         [TestMethod]
         [ExpectedException(typeof(FileNotFoundException))]
         public void GetAsString_FileDoesNotExist_ThrowsFileNotFound()
         {
-            InputData.GetAsString("FileDoesNotExistOnDisk.txt", @"c:\Invalid\Path\Here");
+            new Daten(_fileManager).AsString("FileDoesNotExistOnDisk.txt", @"c:\Invalid\Path\Here");
         }
     }
 }

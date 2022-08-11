@@ -13,17 +13,35 @@
         [TestMethod]
         public void GlobalDirectoryPath_TypicalEnvironment_ReturnsGlobalDirectoryPath()
         {
-            var pathSelector = new InputPathSelector(
-                new Mock<IDirectory>().Object,
-                new Mock<IFile>().Object,
-                new NameValueCollection(),
-                @"C:\SourceCode\ApplicationName\ProjectName\bin\x64\Debug");
+	        var tempDirectory = Path.GetTempPath();
 
-            var expectedPath = Path.Combine(
-                @"C:\SourceCode\ApplicationName\ProjectName\Dat",
-                InputPathSelector.GlobalDirectory);
+	        var dotNetOutputFolder = Path.Combine(tempDirectory, @"ProjectName\bin\x64\Debug");
 
-            Assert.AreEqual(expectedPath, pathSelector.GlobalDirectoryPath);
+			try
+	        {
+				Directory.CreateDirectory(dotNetOutputFolder);
+
+				var fileManager = new SimpleFileManager();
+				fileManager.Setup(
+					new OsDirectory(),
+					new OsFile(),
+					new NameValueCollection(),
+					dotNetOutputFolder);
+
+				var expectedPath = Path.Combine(
+					tempDirectory,
+					@"\ProjectName\Dat",
+					SimpleFileManager.SharedDataDirectory);
+
+				Assert.AreEqual(expectedPath, fileManager.GlobalDirectoryPath);
+			}
+	        finally
+	        {
+		        if (Directory.Exists(dotNetOutputFolder))
+		        {
+					Directory.Delete(dotNetOutputFolder, true);
+		        }
+	        }
         }
 
         [TestMethod]
@@ -35,8 +53,8 @@
             };
 
             var pathSelector = new InputPathSelector(
-                new Mock<IDirectory>().Object,
-                new Mock<IFile>().Object,
+                new Mock<IOsDirectory>().Object,
+                new Mock<IOsFile>().Object,
                 appSettings,
                 @"C:\SourceCode\ApplicationName\ProjectName\bin\x64\Debug");
 
@@ -47,8 +65,8 @@
         public void BaseDirectoryPath_ConfigurationIsEmpty_ReturnsAssumedPath()
         {
             var pathSelector = new InputPathSelector(
-                new Mock<IDirectory>().Object,
-                new Mock<IFile>().Object,
+                new Mock<IOsDirectory>().Object,
+                new Mock<IOsFile>().Object,
                 new NameValueCollection(),
                 @"C:\SourceCode\ApplicationName\ProjectName\bin\x64\Debug");
 
@@ -63,8 +81,8 @@
         public void BaseDirectoryPath_ConfigurationMissing_ReturnsAssumedPath()
         {
             var pathSelector = new InputPathSelector(
-                new Mock<IDirectory>().Object,
-                new Mock<IFile>().Object,
+                new Mock<IOsDirectory>().Object,
+                new Mock<IOsFile>().Object,
                 new NameValueCollection(),
                 @"C:\SourceCode\ApplicationName\ProjectName\bin\x64\Debug");
 
@@ -84,8 +102,8 @@
             };
 
             var pathSelector = new InputPathSelector(
-                new Mock<IDirectory>().Object,
-                new Mock<IFile>().Object,
+                new Mock<IOsDirectory>().Object,
+                new Mock<IOsFile>().Object,
                 appSettings,
                 @"C:\SourceCode\ApplicationName\ProjectName\bin\x64\Debug");
 
@@ -102,8 +120,8 @@
         public void GraphToBaseDirectory_ConfigurationIsEmpty_ReturnsExecutingAssemblyPlusTest()
         {
             var pathSelector = new InputPathSelector(
-                new Mock<IDirectory>().Object,
-                new Mock<IFile>().Object,
+                new Mock<IOsDirectory>().Object,
+                new Mock<IOsFile>().Object,
                 new NameValueCollection(),
                 @"C:\SourceCode\ApplicationName\ProjectName\bin\x64\Debug");
 
@@ -123,8 +141,8 @@
         public void GraphToBaseDirectory_ConfigurationMissing_ReturnsExecutingAssemblyPlusTest()
         {
             var pathSelector = new InputPathSelector(
-                new Mock<IDirectory>().Object,
-                new Mock<IFile>().Object,
+                new Mock<IOsDirectory>().Object,
+                new Mock<IOsFile>().Object,
                 new NameValueCollection(),
                 @"C:\SourceCode\ApplicationName\ProjectName\bin\x64\Debug");
 
@@ -143,13 +161,13 @@
         [TestMethod]
         public void GetFilePathOrInfer_ExplicitFileNameAndDirectory_ReturnsRequestedPath()
         {
-            var fileTool = new Mock<IFile>();
+            var fileTool = new Mock<IOsFile>();
 
             var localFile = $@"T:\TestData\Data.xml";
             fileTool.Setup(f => f.Exists(localFile)).Returns(true);
 
             var pathSelector = new InputPathSelector(
-                new Mock<IDirectory>().Object,
+                new Mock<IOsDirectory>().Object,
                 fileTool.Object,
                 new NameValueCollection(),
                 @"C:\SourceCode\ApplicationName\ProjectName\bin\x64\Debug");
@@ -162,7 +180,7 @@
         [TestMethod]
         public void GetFilePathOrInfer_ExplicitDirectory_ReturnsImpliedFileWithoutExtension()
         {
-            var mockedFileUtility = new Mock<IFile>();
+            var mockedFileUtility = new Mock<IOsFile>();
 
             mockedFileUtility.Setup(f =>
                     f.Exists(@"T:\TestData\GetFilePathOrInfer_ExplicitDirectory_ReturnsDirectoryWithImpliedFile"))
@@ -171,7 +189,7 @@
             mockedFileUtility.Setup(f => f.Exists(@"T:\TestData\TestedScenario"))
                 .Returns(true);
 
-            var mockedDirectoryUtility = new Mock<IDirectory>();
+            var mockedDirectoryUtility = new Mock<IOsDirectory>();
             mockedDirectoryUtility.Setup(d => d.GetFiles("TestedScenario"))
                 .Returns(new[] { @"T:\TestData\TestedScenario.xml" });
 
@@ -190,7 +208,7 @@
         [TestMethod]
         public void GetFilePathOrInfer_ExplicitDirectory_ReturnsDirectoryWithImpliedFile()
         {
-            var mockedFileUtility = new Mock<IFile>();
+            var mockedFileUtility = new Mock<IOsFile>();
 
             mockedFileUtility.Setup(f =>
                     f.Exists(@"T:\TestData\GetFilePathOrInfer_ExplicitDirectory_ReturnsDirectoryWithImpliedFile"))
@@ -202,7 +220,7 @@
             mockedFileUtility.Setup(f => f.Exists(@"T:\TestData\TestedScenario.xml"))
                 .Returns(true);
 
-            var mockedDirectoryUtility = new Mock<IDirectory>();
+            var mockedDirectoryUtility = new Mock<IOsDirectory>();
             mockedDirectoryUtility
                 .Setup(d => d.GetFiles(@"T:\TestData", "TestedScenario.*", SearchOption.TopDirectoryOnly))
                 .Returns(new[] { new FileInfo(@"T:\TestData\TestedScenario.xml") });
@@ -222,7 +240,7 @@
         [TestMethod]
         public void GetFilePathOrInfer_LocalFileExists_ReturnsLocalFile()
         {
-            var fileTool = new Mock<IFile>();
+            var fileTool = new Mock<IOsFile>();
 
             var localFile = $@"T:\TestData\Data.xml";
             fileTool.Setup(f => f.Exists(localFile)).Returns(true);
@@ -231,7 +249,7 @@
             fileTool.Setup(f => f.Exists(globalFile)).Returns(true);
 
             var pathSelector = new InputPathSelector(
-                new Mock<IDirectory>().Object,
+                new Mock<IOsDirectory>().Object,
                 fileTool.Object,
                 new NameValueCollection(),
                 @"C:\ProjectName\bin\x64\Debug");
@@ -244,7 +262,7 @@
         [TestMethod]
         public void GetFilePathOrInfer_LocalFileMissing_ReturnsGlobalFile()
         {
-            var fileTool = new Mock<IFile>();
+            var fileTool = new Mock<IOsFile>();
 
             var localFile = $@"T:\TestData\Data.xml";
             fileTool.Setup(f => f.Exists(localFile)).Returns(false);
@@ -253,7 +271,7 @@
             fileTool.Setup(f => f.Exists(globalFile)).Returns(true);
 
             var pathSelector = new InputPathSelector(
-                new Mock<IDirectory>().Object,
+                new Mock<IOsDirectory>().Object,
                 fileTool.Object,
                 new NameValueCollection(),
                 @"C:\ProjectName\bin\x64\Debug");

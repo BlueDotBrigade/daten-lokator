@@ -1,6 +1,12 @@
 ﻿namespace BlueDotBrigade.DatenLokator.TestsTools.IO
 {
-    public interface IFile
+	/// <summary>
+	/// Provides access to file system files.
+	/// </summary>
+	/// <remarks>
+	/// Interface exists to facilitate unit testing.
+	/// </remarks>
+	public interface IOsFile
     {
         bool Exists(string path);
         string ReadAllText(string path);

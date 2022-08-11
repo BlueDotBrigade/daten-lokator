@@ -2,7 +2,13 @@
 {
     using System.IO;
 
-    public interface IDirectory
+	/// <summary>
+	/// Provides access to file system directories.
+	/// </summary>
+	/// <remarks>
+	/// Interface exists to facilitate unit testing.
+	/// </remarks>
+    public interface IOsDirectory
     {
         bool Exists(string path);
         string[] GetDirectories(string path);

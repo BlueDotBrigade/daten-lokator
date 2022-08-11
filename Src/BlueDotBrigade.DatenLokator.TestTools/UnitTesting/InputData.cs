@@ -25,8 +25,8 @@
         public const string BaseDirectoryName = InputPathSelector.BaseDirectoryName;
 
         private static readonly InputPathSelector Selector = new InputPathSelector(
-            new Directory(),
-            new File(),
+            new OsDirectory(),
+            new OsFile(),
             ConfigurationManager.AppSettings,
             AssemblyHelper.ExecutingDirectory);
 
@@ -35,11 +35,6 @@
         public static void Setup()
         {
             Selector.Setup();
-        }
-
-        public static void Decompress(string directoryPath)
-        {
-            Selector.Decompress(directoryPath);
         }
 
         /// <seealso cref="Setup" />

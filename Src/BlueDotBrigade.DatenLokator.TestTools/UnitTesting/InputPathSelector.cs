@@ -1,12 +1,14 @@
 ﻿namespace BlueDotBrigade.DatenLokator.TestsTools.UnitTesting
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.Specialized;
-    using System.Globalization;
-    using System.IO;
-    using System.IO.Compression;
-    using BlueDotBrigade.DatenLokator.TestsTools.IO;
+	using System;
+	using System.Collections.Generic;
+	using System.Collections.Specialized;
+	using System.Globalization;
+	using System.IO;
+	using System.IO.Compression;
+	using BlueDotBrigade.DatenLokator.TestsTools;
+	using BlueDotBrigade.DatenLokator.TestsTools.IO;
+	using BlueDotBrigade.DatenLokator.TestsTools.Strategies;
 
 	/// <summary>
 	///     Uses "Convention Over Configuration" to simplify the management of automated test data.
@@ -30,11 +32,12 @@
 
 		private readonly NameValueCollection _appSettings;
 
-		private readonly IDirectory _directory;
 		private readonly string _executingAssemblyPath;
-		private readonly IFile _file;
 
-		public InputPathSelector(IDirectory directory, IFile file, NameValueCollection appSettings,
+		private readonly IOsDirectory _directory;
+		private readonly IOsFile _file;
+
+		public InputPathSelector(IOsDirectory directory, IOsFile file, NameValueCollection appSettings,
 			 string executingAssemblyPath)
 		{
 			if (string.IsNullOrWhiteSpace(executingAssemblyPath))
@@ -210,7 +213,7 @@
 			{
 				try
 				{
-					filePath = GetFileOrInfer(fileName, searchPaths[i]);
+					filePath = GetFileOrInferName(fileName, searchPaths[i]);
 					isSearching = false;
 				}
 				catch (FileNotFoundException) 
@@ -282,7 +285,7 @@
 		/// <returns></returns>
 		/// <exception cref="FileNotFoundException"/>
 		/// <exception cref="DirectoryNotFoundException"/>
-		private string GetFileOrInfer(string filename, string directoryPath)
+		private string GetFileOrInferName(string filename, string directoryPath)
 		{
 			var filePath = System.IO.Path.Combine(directoryPath, filename);
 
@@ -294,7 +297,7 @@
 				var unitTestName = filename.Split('_');
 				if (unitTestName.Length == 3)
 				{
-					var scenarioName = $"{unitTestName[(int)UnitTestNamingConvention.StateUnderTest]}";
+					var scenarioName = $"{unitTestName[(int)AssertActArrangeParts.Scenario]}";
 					filePath = System.IO.Path.Combine(directoryPath, scenarioName);
 
 					// Are we looking for a file without an extension?

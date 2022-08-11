@@ -2,7 +2,7 @@
 {
     using System.IO;
 
-    public class File : IFile
+	public class OsFile : IOsFile
     {
         public virtual bool Exists(string path) => System.IO.File.Exists(path);
 

@@ -2,7 +2,7 @@
 {
     using System.IO;
 
-    public class Directory : IDirectory
+    public class OsDirectory : IOsDirectory
     {
         public virtual bool Exists(string path) => System.IO.Directory.Exists(path);
 

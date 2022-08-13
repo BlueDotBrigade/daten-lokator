@@ -20,8 +20,8 @@
 			_fileManager.Setup(
 				new OsDirectory(),
 				new OsFile(),
-				new NameValueCollection(),
-				AssemblyHelper.ExecutingDirectory);
+				AssemblyHelper.ExecutingDirectory,
+				new NameValueCollection());
 		}
 
 		[TestCleanup]

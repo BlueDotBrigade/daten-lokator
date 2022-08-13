@@ -1,6 +1,7 @@
 ﻿namespace BlueDotBrigade.DatenLokator.TestsTools.IO
 {
 	using System;
+	using System.Collections;
 	using System.Collections.Generic;
 	using System.Collections.Specialized;
 	using System.Globalization;
@@ -36,7 +37,7 @@
 		public const string CompressedFileExtension = ".Zip";
 		public const string CompressedFileTempDirectory = "~ZIP";
 
-		private NameValueCollection _appSettings;
+		private IDictionary _testEnvironmentSettings;
 
 		private string _executingAssemblyPath;
 
@@ -59,9 +60,9 @@
 			{
 				var result = string.Empty;
 
-				if (_appSettings.HasKeys())
+				if (_testEnvironmentSettings.Contains(BasePathKey))
 				{
-					var value = _appSettings[BasePathKey];
+					var value = _testEnvironmentSettings[BasePathKey]?.ToString();
 
 					// Does key exist in configuration file?
 					// ... if not, then default to the assumed local directoryPath
@@ -135,7 +136,7 @@
 			IOsDirectory directory,
 			IOsFile file,
 			string executingAssemblyPath,
-			NameValueCollection applicationSettings)
+			IDictionary testEnvironmentSettings)
 		{
 			if (string.IsNullOrWhiteSpace(executingAssemblyPath))
 			{
@@ -144,8 +145,8 @@
 
 			_directory = directory ?? throw new ArgumentNullException(nameof(directory));
 			_file = file ?? throw new ArgumentNullException(nameof(file));
-			_appSettings = applicationSettings ?? throw new ArgumentNullException(nameof(applicationSettings));
 			_executingAssemblyPath = executingAssemblyPath;
+			_testEnvironmentSettings = testEnvironmentSettings ?? throw new ArgumentNullException(nameof(testEnvironmentSettings));
 
 			var basePath = BaseDirectoryPath;
 

@@ -1,6 +1,7 @@
 ﻿namespace BlueDotBrigade.DatenLokator.TestsTools.IO
 {
 	using System;
+	using System.Collections;
 	using System.Collections.Specialized;
 	using BlueDotBrigade.DatenLokator.TestsTools.Strategies;
 
@@ -20,10 +21,10 @@
 		public void Setup(
 			IOsDirectory directory,
 			IOsFile file,
-			NameValueCollection applicationSettings,
-			string executingAssemblyPath)
+			string executingAssemblyPath,
+			IDictionary testEnvironmentSettings)
 		{
-			_fileManagementStrategy.Setup(directory, file, executingAssemblyPath, applicationSettings);
+			_fileManagementStrategy.Setup(directory, file, executingAssemblyPath, testEnvironmentSettings);
 			_isIniitialized = true;
 		}
 

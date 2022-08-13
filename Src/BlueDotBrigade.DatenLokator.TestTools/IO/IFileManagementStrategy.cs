@@ -1,5 +1,6 @@
 ﻿namespace BlueDotBrigade.DatenLokator.TestsTools.IO
 {
+	using System.Collections;
 	using System.Collections.Specialized;
 	using BlueDotBrigade.DatenLokator.TestsTools.Strategies;
 
@@ -9,7 +10,7 @@
 			IOsDirectory directory,
 			IOsFile file,
 			string executingAssemblyPath,
-			NameValueCollection applicationSettings);
+			IDictionary testEnvironmentSettings);
 
 		void TearDown();
 

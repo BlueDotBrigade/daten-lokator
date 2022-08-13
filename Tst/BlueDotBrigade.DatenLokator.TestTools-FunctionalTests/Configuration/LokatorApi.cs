@@ -7,21 +7,20 @@
 	using Moq;
 
 	/// <summary>
-	/// These test methods are more about exploring the <see cref="Lokator"/> API, to ensure that the library can be extended.
+	/// These methods are more about exploring the <see cref="Lokator"/> API, to ensure that the library can be extended.
 	/// </summary>
 	[TestClass]
-	internal class LokatorTests
+	internal class LokatorApi
 	{
 		[TestMethod]
-		public void UsingFileManagementStrategy_NewImplemenation_NoException()
+		public void UsingFileManagementStrategy()
 		{
 			var fakeFileManagementStrategy = new Mock<IFileManagementStrategy>().Object;
 
 			new Lokator().UsingFileManagementStrategy(fakeFileManagementStrategy);
 		}
 
-		[TestMethod]
-		public void UsingTestNamingStrategy_NewImplemenation_NoException()
+		public void UsingTestNamingStrategy()
 		{
 			var fakeTestNamingStrategy = new Mock<ITestNamingStrategy>().Object;
 

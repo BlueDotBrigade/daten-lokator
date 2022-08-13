@@ -33,4 +33,7 @@
 			<Link>Properties\DomainSpecificTerminology.xml</Link>
 		</CodeAnalysisDictionary>
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Configuration\" />
+	</ItemGroup>
 </Project>

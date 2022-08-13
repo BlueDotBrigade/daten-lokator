@@ -13,18 +13,38 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencie
 		DomainSpecificTerminology.xml = DomainSpecificTerminology.xml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueDotBrigade.DatenLokator.TestTools-FunctionalTests", "Tst\BlueDotBrigade.DatenLokator.TestTools-FunctionalTests\BlueDotBrigade.DatenLokator.TestTools-FunctionalTests.csproj", "{66C5F609-7A61-408F-AAD3-1E9F9594FBCA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{45CCE4A3-EF0E-4D01-A036-EABC7CEA4E88}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{45CCE4A3-EF0E-4D01-A036-EABC7CEA4E88}.Debug|Any CPU.Build.0 = Debug|x64
 		{45CCE4A3-EF0E-4D01-A036-EABC7CEA4E88}.Debug|x64.ActiveCfg = Debug|x64
 		{45CCE4A3-EF0E-4D01-A036-EABC7CEA4E88}.Debug|x64.Build.0 = Debug|x64
+		{45CCE4A3-EF0E-4D01-A036-EABC7CEA4E88}.Release|Any CPU.ActiveCfg = Release|x64
+		{45CCE4A3-EF0E-4D01-A036-EABC7CEA4E88}.Release|Any CPU.Build.0 = Release|x64
 		{45CCE4A3-EF0E-4D01-A036-EABC7CEA4E88}.Release|x64.ActiveCfg = Release|x64
+		{65CF85B2-561B-4B89-92C4-22C8C4E0B113}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{65CF85B2-561B-4B89-92C4-22C8C4E0B113}.Debug|Any CPU.Build.0 = Debug|x64
 		{65CF85B2-561B-4B89-92C4-22C8C4E0B113}.Debug|x64.ActiveCfg = Debug|x64
 		{65CF85B2-561B-4B89-92C4-22C8C4E0B113}.Debug|x64.Build.0 = Debug|x64
+		{65CF85B2-561B-4B89-92C4-22C8C4E0B113}.Release|Any CPU.ActiveCfg = Release|x64
+		{65CF85B2-561B-4B89-92C4-22C8C4E0B113}.Release|Any CPU.Build.0 = Release|x64
 		{65CF85B2-561B-4B89-92C4-22C8C4E0B113}.Release|x64.ActiveCfg = Release|x64
+		{66C5F609-7A61-408F-AAD3-1E9F9594FBCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66C5F609-7A61-408F-AAD3-1E9F9594FBCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66C5F609-7A61-408F-AAD3-1E9F9594FBCA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{66C5F609-7A61-408F-AAD3-1E9F9594FBCA}.Debug|x64.Build.0 = Debug|Any CPU
+		{66C5F609-7A61-408F-AAD3-1E9F9594FBCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66C5F609-7A61-408F-AAD3-1E9F9594FBCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66C5F609-7A61-408F-AAD3-1E9F9594FBCA}.Release|x64.ActiveCfg = Release|Any CPU
+		{66C5F609-7A61-408F-AAD3-1E9F9594FBCA}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

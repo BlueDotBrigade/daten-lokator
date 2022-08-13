@@ -11,7 +11,7 @@
 
 		public Daten()
 		{
-			_fileManager = Domain.Settings.FileManager;
+			_fileManager = Lokator.Settings.FileManager;
 		}
 
 		/// <summary>

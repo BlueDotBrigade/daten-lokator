@@ -6,12 +6,12 @@
 	using BlueDotBrigade.DatenLokator.TestsTools.Reflection;
 	using BlueDotBrigade.DatenLokator.TestsTools.Strategies;
 
-	public sealed class Domain
+	public sealed class Lokator
 	{
 		private static readonly IFileManagementStrategy DefaultFileManagementStrategy;
 		private static readonly ITestNamingStrategy DefaultTestNamingStrategy;
 
-		internal static readonly DomainSettings Settings;
+		internal static readonly LokatorSettings Settings;
 
         private readonly IOsDirectory _directory;
         private readonly IOsFile _file;
@@ -19,19 +19,19 @@
 		private IFileManagementStrategy _fileManagementStrategy;
 		private ITestNamingStrategy _testNamingStrategy;
 
-		static Domain()
+		static Lokator()
 		{
 			DefaultFileManagementStrategy = new SimpleFileManagementStrategy();
 			DefaultTestNamingStrategy = new AssertActArrangeStrategy();
 
-			Settings = new DomainSettings
+			Settings = new LokatorSettings
 			{
 				DefaultFile = string.Empty,
 				FileManager = new FileManager(DefaultFileManagementStrategy, DefaultTestNamingStrategy),
 			};
 		}
 
-		public Domain()
+		public Lokator()
 		{
 			_directory = new OsDirectory();
 			_file = new OsFile();
@@ -40,25 +40,25 @@
 			_testNamingStrategy = DefaultTestNamingStrategy;
 		}
 
-		public static Domain Get()
+		public static Lokator Get()
         {
-            return new Domain();
+            return new Lokator();
         }
 
-        public Domain UsingDefaultFile(string path)
+        public Lokator UsingDefaultFile(string path)
         {
             Settings.DefaultFile = path;
             return this;
         }
 
-        public Domain UsingTestNamingConvention(ITestNamingStrategy strategy)
+        public Lokator UsingTestNamingConvention(ITestNamingStrategy strategy)
         {
 	        _testNamingStrategy = strategy ?? throw new ArgumentNullException(nameof(strategy));
 
 	        return this;
         }
 
-        public Domain UsingFileManager(IFileManagementStrategy strategy)
+        public Lokator UsingFileManager(IFileManagementStrategy strategy)
         {
 	        _fileManagementStrategy = strategy ?? throw new ArgumentNullException(nameof(strategy));
 

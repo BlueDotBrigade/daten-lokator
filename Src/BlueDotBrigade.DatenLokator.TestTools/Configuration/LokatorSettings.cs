@@ -3,7 +3,7 @@
 	using System;
 	using BlueDotBrigade.DatenLokator.TestsTools.IO;
 
-	internal class DomainSettings
+	internal class LokatorSettings
     {
 	    private FileManager _fileManager;
 	    internal bool IsSetup { get; set; } = false;

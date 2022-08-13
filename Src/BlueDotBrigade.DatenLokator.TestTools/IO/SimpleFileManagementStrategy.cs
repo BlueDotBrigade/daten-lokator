@@ -3,7 +3,6 @@
 	using System;
 	using System.Collections;
 	using System.Collections.Generic;
-	using System.Collections.Specialized;
 	using System.Globalization;
 	using System.IO;
 	using System.IO.Compression;
@@ -11,6 +10,8 @@
 
 	internal class SimpleFileManagementStrategy : IFileManagementStrategy
 	{
+		private static readonly IDictionary NoEnvironmentSettings = new Dictionary<string, object>();
+
 		/// <summary>
 		/// Represents the application setting key that is used to explicitly define the <see cref="BaseDirectoryPath" /> path.
 		/// </summary>
@@ -24,7 +25,7 @@
 		/// 1. very large input files
 		/// 2. data that is shared by a large numnber of tests
 		/// </remarks>
-		public const string SharedDataDirectory = "~Global";
+		public const string GlobalDirectoryName = "~Global";
 
 		/// <summary>
 		/// Represents the name of the root directory that all input data is stored within.
@@ -32,7 +33,7 @@
 		/// <remarks>
 		/// By default, this directory is assumed to be in the same folder as `.csproj`.
 		/// </remarks>
-		public const string BaseDirectory = "Dat";
+		public const string BaseDirectoryName = "Dat";
 
 		public const string CompressedFileExtension = ".Zip";
 		public const string CompressedFileTempDirectory = "~ZIP";
@@ -45,9 +46,9 @@
 		private IOsFile _file;
 
 
-		public string SharedDirectoryPath
+		public string GlobalDirectoryPath
 		{
-			get { return Path.Combine(this.BaseDirectoryPath, SharedDataDirectory); }
+			get { return Path.Combine(this.BaseDirectoryPath, GlobalDirectoryName); }
 		}
 
 		// TODO: Implement more reliable way to determine the base directory path.
@@ -77,7 +78,7 @@
 					var index = _executingAssemblyPath.LastIndexOf(@"\bin\");
 					var projectDirectoryPath = _executingAssemblyPath.Substring(0, index);
 
-					result = Path.Combine(projectDirectoryPath, BaseDirectory);
+					result = Path.Combine(projectDirectoryPath, BaseDirectoryName);
 				}
 
 				// Ensure that there are no relative path references (i.e. return a real path)
@@ -132,6 +133,15 @@
 			}
 		}
 
+
+		public void Setup(
+			IOsDirectory directory,
+			IOsFile file,
+			string executingAssemblyPath)
+		{
+			Setup(directory, file, executingAssemblyPath, NoEnvironmentSettings);
+		}
+
 		public void Setup(
 			IOsDirectory directory,
 			IOsFile file,
@@ -148,7 +158,7 @@
 			_executingAssemblyPath = executingAssemblyPath;
 			_testEnvironmentSettings = testEnvironmentSettings ?? throw new ArgumentNullException(nameof(testEnvironmentSettings));
 
-			var basePath = BaseDirectoryPath;
+			var basePath = this.BaseDirectoryPath;
 
 			if (string.IsNullOrWhiteSpace(basePath))
 			{
@@ -196,8 +206,8 @@
 			var decompressedArchive = Path.GetFileNameWithoutExtension(fileName) + CompressedFileTempDirectory;
 
 			// try looking in the shared file cache
-			searchPaths.Add(Path.Combine(this.SharedDirectoryPath, decompressedArchive));
-			searchPaths.Add(this.SharedDirectoryPath);
+			searchPaths.Add(Path.Combine(this.GlobalDirectoryPath, decompressedArchive));
+			searchPaths.Add(this.GlobalDirectoryPath);
 
 			return searchPaths.ToArray();
 		}

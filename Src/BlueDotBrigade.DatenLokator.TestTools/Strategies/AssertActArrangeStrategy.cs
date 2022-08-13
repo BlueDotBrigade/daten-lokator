@@ -2,13 +2,13 @@
 {
 	internal class AssertActArrangeStrategy : ITestNamingStrategy
 	{
-		public bool TryGetFileName(string hint, out string fileName)
+		public bool TryGetFileName(string methodOrFileName, out string fileName)
 		{
 			var canParse = false;
 
 			fileName = string.Empty;
 
-			var testName = hint.Split('_');
+			var testName = methodOrFileName.Split('_');
 			if (testName.Length == 3)
 			{
 				fileName = $"{testName[(int)AssertActArrangeParts.Scenario]}";

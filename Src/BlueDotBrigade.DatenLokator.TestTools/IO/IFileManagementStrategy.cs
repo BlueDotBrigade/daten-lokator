@@ -1,9 +1,11 @@
 ﻿namespace BlueDotBrigade.DatenLokator.TestsTools.IO
 {
 	using System.Collections;
-	using System.Collections.Specialized;
 	using BlueDotBrigade.DatenLokator.TestsTools.Strategies;
 
+	/// <summary>
+	/// Responsible for locating a file on disk.
+	/// </summary>
 	public interface IFileManagementStrategy
 	{
 		void Setup(

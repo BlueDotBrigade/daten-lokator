@@ -8,7 +8,7 @@
 	using System.IO.Compression;
 	using BlueDotBrigade.DatenLokator.TestsTools.Strategies;
 
-	internal class SimpleFileManager : IFileManager
+	internal class SimpleFileManagementStrategy : IFileManagementStrategy
 	{
 		/// <summary>
 		/// Represents the application setting key that is used to explicitly define the <see cref="BaseDirectoryPath" /> path.
@@ -134,8 +134,8 @@
 		public void Setup(
 			IOsDirectory directory,
 			IOsFile file,
-			NameValueCollection applicationSettings,
-			string executingAssemblyPath)
+			string executingAssemblyPath,
+			NameValueCollection applicationSettings)
 		{
 			if (string.IsNullOrWhiteSpace(executingAssemblyPath))
 			{

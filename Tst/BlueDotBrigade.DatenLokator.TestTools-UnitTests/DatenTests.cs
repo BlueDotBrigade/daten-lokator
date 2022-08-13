@@ -16,7 +16,7 @@
 		[TestInitialize]
 		public void TestInitialize()
 		{
-			_fileManager = new FileManager(new SimpleFileManager(), new AssertActArrangeStrategy());
+			_fileManager = new FileManager(new SimpleFileManagementStrategy(), new AssertActArrangeStrategy());
 			_fileManager.Setup(
 				new OsDirectory(),
 				new OsFile(),

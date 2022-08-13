@@ -20,7 +20,7 @@
 			{
 				Directory.CreateDirectory(dotNetOutputFolder);
 
-				var fileManager = new SimpleFileManager();
+				var fileManager = new SimpleFileManagementStrategy();
 				fileManager.Setup(
 					new OsDirectory(),
 					new OsFile(),
@@ -30,7 +30,7 @@
 				var expectedPath = Path.Combine(
 					tempDirectory,
 					@"\ProjectName\Dat",
-					SimpleFileManager.SharedDataDirectory);
+					SimpleFileManagementStrategy.SharedDataDirectory);
 
 				Assert.AreEqual(expectedPath, fileManager.SharedDirectoryPath);
 			}
@@ -48,7 +48,7 @@
 		{
 			var appSettings = new NameValueCollection()
 			{
-				{ SimpleFileManager.BasePathKey, @"C:\UnitTestData"},
+				{ SimpleFileManagementStrategy.BasePathKey, @"C:\UnitTestData"},
 			};
 
 			var pathSelector = new InputPathSelector(
@@ -71,7 +71,7 @@
 
 			var expectedResult = Path.Combine(
 				@"C:\SourceCode\ApplicationName\ProjectName",
-				SimpleFileManager.BaseDirectory);
+				SimpleFileManagementStrategy.BaseDirectory);
 
 			Assert.AreEqual(expectedResult, pathSelector.BaseDirectoryPath);
 		}

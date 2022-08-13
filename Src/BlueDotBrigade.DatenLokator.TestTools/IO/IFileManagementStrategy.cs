@@ -3,13 +3,13 @@
 	using System.Collections.Specialized;
 	using BlueDotBrigade.DatenLokator.TestsTools.Strategies;
 
-	public interface IFileManager
+	public interface IFileManagementStrategy
 	{
 		void Setup(
 			IOsDirectory directory,
 			IOsFile file,
-			NameValueCollection applicationSettings,
-			string executingAssemblyPath);
+			string executingAssemblyPath,
+			NameValueCollection applicationSettings);
 
 		void TearDown();
 

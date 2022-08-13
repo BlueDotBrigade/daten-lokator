@@ -8,7 +8,7 @@
 
 	public sealed class Domain
 	{
-		private static readonly IFileManager DefaultFileManager;
+		private static readonly IFileManagementStrategy DefaultFileManagementStrategy;
 		private static readonly ITestNamingStrategy DefaultTestNamingStrategy;
 
 		internal static readonly DomainSettings Settings;
@@ -16,18 +16,18 @@
         private readonly IOsDirectory _directory;
         private readonly IOsFile _file;
 
-		private IFileManager _fileManagerStrategy;
+		private IFileManagementStrategy _fileManagementStrategy;
 		private ITestNamingStrategy _testNamingStrategy;
 
 		static Domain()
 		{
-			DefaultFileManager = new SimpleFileManager();
+			DefaultFileManagementStrategy = new SimpleFileManagementStrategy();
 			DefaultTestNamingStrategy = new AssertActArrangeStrategy();
 
 			Settings = new DomainSettings
 			{
 				DefaultFile = string.Empty,
-				FileManager = new FileManager(DefaultFileManager, DefaultTestNamingStrategy),
+				FileManager = new FileManager(DefaultFileManagementStrategy, DefaultTestNamingStrategy),
 			};
 		}
 
@@ -36,7 +36,7 @@
 			_directory = new OsDirectory();
 			_file = new OsFile();
 
-			_fileManagerStrategy = DefaultFileManager;
+			_fileManagementStrategy = DefaultFileManagementStrategy;
 			_testNamingStrategy = DefaultTestNamingStrategy;
 		}
 
@@ -58,16 +58,16 @@
 	        return this;
         }
 
-        public Domain UsingFileManager(IFileManager strategy)
+        public Domain UsingFileManager(IFileManagementStrategy strategy)
         {
-	        _fileManagerStrategy = strategy ?? throw new ArgumentNullException(nameof(strategy));
+	        _fileManagementStrategy = strategy ?? throw new ArgumentNullException(nameof(strategy));
 
 	        return this;
         }
 
 		public void Setup()
         {
-	        Settings.FileManager = new FileManager(_fileManagerStrategy, _testNamingStrategy);
+	        Settings.FileManager = new FileManager(_fileManagementStrategy, _testNamingStrategy);
 
 			Settings.FileManager.Setup(
 				_directory, 

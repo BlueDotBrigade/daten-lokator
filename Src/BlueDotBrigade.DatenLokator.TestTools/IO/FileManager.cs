@@ -6,14 +6,14 @@
 
 	internal class FileManager
 	{
-		private readonly IFileManager _fileManager;
+		private readonly IFileManagementStrategy _fileManagementStrategy;
 		private readonly ITestNamingStrategy _testNamingStrategy;
 
 		private bool _isIniitialized;
 
-		public FileManager(IFileManager fileManager, ITestNamingStrategy testNamingStrategy)
+		public FileManager(IFileManagementStrategy fileManagementStrategy, ITestNamingStrategy testNamingStrategy)
 		{
-			_fileManager = fileManager;
+			_fileManagementStrategy = fileManagementStrategy;
 			_testNamingStrategy = testNamingStrategy;
 		}
 
@@ -23,20 +23,20 @@
 			NameValueCollection applicationSettings,
 			string executingAssemblyPath)
 		{
-			_fileManager.Setup(directory, file, applicationSettings, executingAssemblyPath);
+			_fileManagementStrategy.Setup(directory, file, executingAssemblyPath, applicationSettings);
 			_isIniitialized = true;
 		}
 
 		public void TearDown()
 		{
-			_fileManager.TearDown();
+			_fileManagementStrategy.TearDown();
 		}
 
 		public string GetFilePath(string fileName, string sourceDirectory)
 		{
 			if (_isIniitialized)
 			{
-				return _fileManager.GetFilePath(_testNamingStrategy, fileName, sourceDirectory);
+				return _fileManagementStrategy.GetFilePath(_testNamingStrategy, fileName, sourceDirectory);
 			}
 			else
 			{

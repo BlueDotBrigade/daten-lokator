@@ -32,7 +32,7 @@
 					@"\ProjectName\Dat",
 					SimpleFileManager.SharedDataDirectory);
 
-				Assert.AreEqual(expectedPath, fileManager.GlobalDirectoryPath);
+				Assert.AreEqual(expectedPath, fileManager.SharedDirectoryPath);
 			}
 			finally
 			{
@@ -48,7 +48,7 @@
 		{
 			var appSettings = new NameValueCollection()
 			{
-				{InputPathSelector.BasePathKey, @"C:\UnitTestData"},
+				{ SimpleFileManager.BasePathKey, @"C:\UnitTestData"},
 			};
 
 			var pathSelector = new InputPathSelector(
@@ -71,7 +71,7 @@
 
 			var expectedResult = Path.Combine(
 				@"C:\SourceCode\ApplicationName\ProjectName",
-				InputPathSelector.BaseDirectoryName);
+				SimpleFileManager.BaseDirectory);
 
 			Assert.AreEqual(expectedResult, pathSelector.BaseDirectoryPath);
 		}

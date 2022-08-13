@@ -14,6 +14,9 @@
 			_fileManager = Domain.Settings.FileManager;
 		}
 
+		/// <summary>
+		/// Initializes an instance of the <see cref="Daten"/> class, to be used by automated testing.
+		/// </summary>
 		internal Daten(FileManager fileManager)
 		{
 			_fileManager = fileManager;

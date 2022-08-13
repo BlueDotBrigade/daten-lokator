@@ -7,7 +7,6 @@
 	using System.IO;
 	using System.IO.Compression;
 	using BlueDotBrigade.DatenLokator.TestsTools.Strategies;
-	using BlueDotBrigade.DatenLokator.TestsTools.UnitTesting;
 
 	internal class SimpleFileManager : IFileManager
 	{
@@ -17,22 +16,22 @@
 		internal const string BasePathKey = "InputDataBasePath";
 
 		/// <summary>
-		/// This directory holds input data that is shared by several different automated tests.
+		/// Represents the name of the directory that holds input data that is shared by several automated tests.
 		/// </summary>
 		/// <remarks>
-		/// Consider using this directory to store:
+		/// This directory contains:
 		/// 1. very large input files
 		/// 2. data that is shared by a large numnber of tests
 		/// </remarks>
 		public const string SharedDataDirectory = "~Global";
 
 		/// <summary>
-		/// This directory has 1 folder per automated test. Each folder holds input data that is unique to a test.
+		/// Represents the name of the root directory that all input data is stored within.
 		/// </summary>
 		/// <remarks>
 		/// By default, this directory is assumed to be in the same folder as `.csproj`.
 		/// </remarks>
-		public const string PrivateDataDirectory = "Dat";
+		public const string BaseDirectory = "Dat";
 
 		public const string CompressedFileExtension = ".Zip";
 		public const string CompressedFileTempDirectory = "~ZIP";
@@ -45,9 +44,9 @@
 		private IOsFile _file;
 
 
-		public string GlobalDirectoryPath
+		public string SharedDirectoryPath
 		{
-			get { return Path.Combine(this.BaseDirectoryPath, InputPathSelector.GlobalDirectory); }
+			get { return Path.Combine(this.BaseDirectoryPath, SharedDataDirectory); }
 		}
 
 		// TODO: Implement more reliable way to determine the base directory path.
@@ -77,7 +76,7 @@
 					var index = _executingAssemblyPath.LastIndexOf(@"\bin\");
 					var projectDirectoryPath = _executingAssemblyPath.Substring(0, index);
 
-					result = Path.Combine(projectDirectoryPath, PrivateDataDirectory);
+					result = Path.Combine(projectDirectoryPath, BaseDirectory);
 				}
 
 				// Ensure that there are no relative path references (i.e. return a real path)
@@ -172,63 +171,6 @@
 			// nothing to do
 		}
 
-		public string GetFilePath(ITestNamingStrategy testNamingStrategy, string fileNameOrHint, string sourceDirectory)
-		{
-			if (string.IsNullOrWhiteSpace(fileNameOrHint))
-			{
-				throw new System.ArgumentException("A file name (or unit test name) was expected.",
-					nameof(fileNameOrHint));
-			}
-
-			if (string.IsNullOrWhiteSpace(sourceDirectory))
-			{
-				throw new System.ArgumentException("A directory path (or the path to an automated test) was expected.",
-					nameof(sourceDirectory));
-			}
-
-			var filePath = string.Empty;
-
-			var isStillSearching = true;
-			var searchPaths = GetSearchPaths(fileNameOrHint, sourceDirectory);
-
-			for (int i = 0; i < searchPaths.Length && isStillSearching; i++)
-			{
-				try
-				{
-					filePath = GetFileOrInferName(testNamingStrategy, fileNameOrHint, searchPaths[i]);
-					isStillSearching = false;
-				}
-				catch (FileNotFoundException)
-				{
-					// the file is not in the search path
-					// ... that's ok, lets try another directory
-				}
-				catch (DirectoryNotFoundException)
-				{
-					// the given search path does not refer to a valid directory
-					// ... that's ok, lets try another directory
-				}
-			}
-
-			if (string.IsNullOrWhiteSpace(filePath))
-			{
-				var firstFilePath = Path.Combine(sourceDirectory, fileNameOrHint);
-
-				var prioritizedSearchPaths = string.Empty;
-
-				for (int i = 0; i < searchPaths.Length; i++)
-				{
-					prioritizedSearchPaths += $"\r\n\tPriority={i}, Path={searchPaths[i]}";
-				}
-
-				throw new FileNotFoundException(
-					$@"The specified file could not be found. DirectoryPath=`{sourceDirectory}\`, FileName=`{fileNameOrHint}`{prioritizedSearchPaths}",
-					firstFilePath);
-			}
-
-			return filePath;
-		}
-
 		private string[] GetSearchPaths(string fileName, string sourceDirectory)
 		{
 			const string SourceCodeFileExtension = ".cs";
@@ -253,8 +195,8 @@
 			var decompressedArchive = Path.GetFileNameWithoutExtension(fileName) + CompressedFileTempDirectory;
 
 			// try looking in the shared file cache
-			searchPaths.Add(Path.Combine(this.GlobalDirectoryPath, decompressedArchive));
-			searchPaths.Add(this.GlobalDirectoryPath);
+			searchPaths.Add(Path.Combine(this.SharedDirectoryPath, decompressedArchive));
+			searchPaths.Add(this.SharedDirectoryPath);
 
 			return searchPaths.ToArray();
 		}
@@ -314,6 +256,63 @@
 						$@"The specified file could not be found. DirectoryPath=`{sourceDirectory}\`, FileName=`{fileNameOrHint}`",
 						filePath);
 				}
+			}
+
+			return filePath;
+		}
+
+		public string GetFilePath(ITestNamingStrategy testNamingStrategy, string fileNameOrHint, string sourceDirectory)
+		{
+			if (string.IsNullOrWhiteSpace(fileNameOrHint))
+			{
+				throw new System.ArgumentException("A file name (or unit test name) was expected.",
+					nameof(fileNameOrHint));
+			}
+
+			if (string.IsNullOrWhiteSpace(sourceDirectory))
+			{
+				throw new System.ArgumentException("A directory path (or the path to an automated test) was expected.",
+					nameof(sourceDirectory));
+			}
+
+			var filePath = string.Empty;
+
+			var isStillSearching = true;
+			var searchPaths = GetSearchPaths(fileNameOrHint, sourceDirectory);
+
+			for (int i = 0; i < searchPaths.Length && isStillSearching; i++)
+			{
+				try
+				{
+					filePath = GetFileOrInferName(testNamingStrategy, fileNameOrHint, searchPaths[i]);
+					isStillSearching = false;
+				}
+				catch (FileNotFoundException)
+				{
+					// the file is not in the search path
+					// ... that's ok, lets try another directory
+				}
+				catch (DirectoryNotFoundException)
+				{
+					// the given search path does not refer to a valid directory
+					// ... that's ok, lets try another directory
+				}
+			}
+
+			if (string.IsNullOrWhiteSpace(filePath))
+			{
+				var firstFilePath = Path.Combine(sourceDirectory, fileNameOrHint);
+
+				var prioritizedSearchPaths = string.Empty;
+
+				for (int i = 0; i < searchPaths.Length; i++)
+				{
+					prioritizedSearchPaths += $"\r\n\tPriority={i}, Path={searchPaths[i]}";
+				}
+
+				throw new FileNotFoundException(
+					$@"The specified file could not be found. DirectoryPath=`{sourceDirectory}\`, FileName=`{fileNameOrHint}`{prioritizedSearchPaths}",
+					firstFilePath);
 			}
 
 			return filePath;

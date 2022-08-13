@@ -1,7 +1,6 @@
 ﻿namespace BlueDotBrigade.Datenlokator.TestTools.IO
 {
 	using System.Collections.Generic;
-	using System.Collections.Specialized;
 	using System.IO;
 	using BlueDotBrigade.DatenLokator.TestsTools.IO;
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -54,8 +53,8 @@
 			var fileStrategy = new SimpleFileManagementStrategy(
 				new Mock<IOsDirectory>().Object,
 				new Mock<IOsFile>().Object,
-				testEnvironmentSettings,
-				@"C:\SourceCode\ApplicationName\ProjectName\bin\x64\Debug");
+				@"C:\SourceCode\ApplicationName\ProjectName\bin\x64\Debug",
+				testEnvironmentSettings);
 
 			Assert.AreEqual(@"C:\UnitTestData", fileStrategy.BaseDirectoryPath);
 		}

@@ -3,8 +3,6 @@
 	using System;
 	using System.Collections;
 	using System.Collections.Generic;
-	using System.Collections.Specialized;
-	using System.Configuration;
 	using BlueDotBrigade.DatenLokator.TestsTools.IO;
 	using BlueDotBrigade.DatenLokator.TestsTools.Reflection;
 	using BlueDotBrigade.DatenLokator.TestsTools.Strategies;
@@ -61,14 +59,14 @@
             return this;
         }
 
-        public Lokator UsingTestNamingConvention(ITestNamingStrategy strategy)
+        public Lokator UsingTestNamingStrategy(ITestNamingStrategy strategy)
         {
 	        _testNamingStrategy = strategy ?? throw new ArgumentNullException(nameof(strategy));
 
 	        return this;
         }
 
-        public Lokator UsingFileManager(IFileManagementStrategy strategy)
+        public Lokator UsingFileManagementStrategy(IFileManagementStrategy strategy)
         {
 	        _fileManagementStrategy = strategy ?? throw new ArgumentNullException(nameof(strategy));
 

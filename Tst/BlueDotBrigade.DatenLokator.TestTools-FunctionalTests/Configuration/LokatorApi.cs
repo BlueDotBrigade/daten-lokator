@@ -2,7 +2,7 @@
 {
 	using BlueDotBrigade.DatenLokator.TestsTools.Configuration;
 	using BlueDotBrigade.DatenLokator.TestsTools.IO;
-	using BlueDotBrigade.DatenLokator.TestsTools.Strategies;
+	using BlueDotBrigade.DatenLokator.TestsTools.NamingConventions;
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
 	using Moq;
 

@@ -1,11 +1,11 @@
 ﻿namespace BlueDotBrigade.Datenlokator.TestTools
 {
-	using System.Collections.Specialized;
+	using System.Collections.Generic;
 	using System.IO;
 	using BlueDotBrigade.DatenLokator.TestsTools;
 	using BlueDotBrigade.DatenLokator.TestsTools.IO;
+	using BlueDotBrigade.DatenLokator.TestsTools.NamingConventions;
 	using BlueDotBrigade.DatenLokator.TestsTools.Reflection;
-	using BlueDotBrigade.DatenLokator.TestsTools.Strategies;
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 	[TestClass]
@@ -16,12 +16,14 @@
 		[TestInitialize]
 		public void TestInitialize()
 		{
-			_fileManager = new FileManager(new SimpleFileManagementStrategy(), new AssertActArrangeStrategy());
+			var noSettings = new Dictionary<string, object>();
+
+			_fileManager = new FileManager(new SubFolderThenGlobal(), new AssertActArrange());
 			_fileManager.Setup(
 				new OsDirectory(),
 				new OsFile(),
 				AssemblyHelper.ExecutingDirectory,
-				new NameValueCollection());
+				noSettings);
 		}
 
 		[TestCleanup]
@@ -77,7 +79,7 @@
 		[TestMethod]
 		public void AsFilePath_FileRequestedExplicitly_ReturnsPath()
 		{
-			var path = new Daten(_fileManager).AsString("FileRequestedExplicitly.txt");
+			var path = new Daten(_fileManager).AsFilePath("FileRequestedExplicitly.txt");
 			
 			Assert.IsTrue(File.Exists(path));
 		}

@@ -4,8 +4,8 @@
 	using System.Collections;
 	using System.Collections.Generic;
 	using BlueDotBrigade.DatenLokator.TestsTools.IO;
+	using BlueDotBrigade.DatenLokator.TestsTools.NamingConventions;
 	using BlueDotBrigade.DatenLokator.TestsTools.Reflection;
-	using BlueDotBrigade.DatenLokator.TestsTools.Strategies;
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 	public sealed class Lokator
@@ -27,12 +27,11 @@
 
 		static Lokator()
 		{
-			DefaultFileManagementStrategy = new SimpleFileManagementStrategy();
-			DefaultTestNamingStrategy = new AssertActArrangeStrategy();
+			DefaultFileManagementStrategy = new SubFolderThenGlobal();
+			DefaultTestNamingStrategy = new AssertActArrange();
 
 			Settings = new LokatorConfiguration
 			{
-				DefaultFile = string.Empty,
 				FileManager = new FileManager(DefaultFileManagementStrategy, DefaultTestNamingStrategy),
 			};
 		}
@@ -81,13 +80,15 @@
 
 		public void Setup()
         {
-	        Settings.FileManager = new FileManager(_fileManagementStrategy, _testNamingStrategy);
+	        var fileManager = new FileManager(_fileManagementStrategy, _testNamingStrategy);
 
-			Settings.FileManager.Setup(
+			fileManager.Setup(
 				_directory,
 				_file,
 				AssemblyHelper.ExecutingDirectory,
 				_testEnvironmentSettings);
+			
+			Settings.FileManager = fileManager;
 		}
 
 		public void TearDown()

@@ -1,4 +1,4 @@
-﻿namespace BlueDotBrigade.DatenLokator.TestsTools.Strategies
+﻿namespace BlueDotBrigade.DatenLokator.TestsTools.NamingConventions
 {
 	/// <summary>
 	///     In order to automatically retrieve input data, it is assumed

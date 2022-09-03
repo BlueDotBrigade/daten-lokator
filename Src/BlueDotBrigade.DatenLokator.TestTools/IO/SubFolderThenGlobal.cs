@@ -6,9 +6,9 @@
 	using System.Globalization;
 	using System.IO;
 	using System.IO.Compression;
-	using BlueDotBrigade.DatenLokator.TestsTools.Strategies;
+	using BlueDotBrigade.DatenLokator.TestsTools.NamingConventions;
 
-	internal class SimpleFileManagementStrategy : IFileManagementStrategy
+	internal class SubFolderThenGlobal : IFileManagementStrategy
 	{
 		private static readonly IDictionary NoEnvironmentSettings = new Dictionary<string, object>();
 

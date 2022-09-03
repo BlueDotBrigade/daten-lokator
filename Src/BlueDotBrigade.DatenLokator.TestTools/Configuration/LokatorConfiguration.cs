@@ -6,24 +6,26 @@
 	internal class LokatorConfiguration
     {
 	    private FileManager _fileManager;
-	    internal bool IsSetup { get; set; } = false;
 
 		internal string DefaultFile { get; set; }
 
-		internal FileManager FileManager
+		internal FileManager FileManager 
 		{
 			get
 			{
-				if (this.IsSetup)
+				return _fileManager;
+			}
+			set
+			{
+				if (value == null)
 				{
-					return _fileManager;
+					throw new ArgumentNullException(nameof(this.FileManager));
 				}
 				else
 				{
-					throw new InvalidOperationException("The DatenLokator environment has not been initialized. Hint: Call Domain.Setup()");
+					_fileManager = value;
 				}
 			}
-			set => _fileManager = value;
 		}
     }
 }

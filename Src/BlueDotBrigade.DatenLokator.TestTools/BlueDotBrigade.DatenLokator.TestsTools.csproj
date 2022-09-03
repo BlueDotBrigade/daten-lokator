@@ -10,7 +10,7 @@
 		<Summary>Project summary.</Summary>
 		<Description>Simplifies testing by automatically selecting the appropriate input data for a given test case.</Description>
 		<IsPackable>true</IsPackable>
-		<PackageReleaseNotes>BE ADVISED: This version is not yet production worthy.</PackageReleaseNotes>
+		<PackageReleaseNotes>This libary is currently a work in progress (WIP). As a result, backwards compatibility is not guaranteed.</PackageReleaseNotes>
 		<PackageTags>BlueDotBrigade;Framework;TDD;Test;TestFramework;Test;Testing;UnitTest;</PackageTags>
 		<RepositoryType>git</RepositoryType>
 		<PackageProjectUrl>https://github.com/BlueDotBrigade/daten-lokator</PackageProjectUrl>

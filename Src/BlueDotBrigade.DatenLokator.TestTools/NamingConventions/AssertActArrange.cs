@@ -1,6 +1,6 @@
-﻿namespace BlueDotBrigade.DatenLokator.TestsTools.Strategies
+﻿namespace BlueDotBrigade.DatenLokator.TestsTools.NamingConventions
 {
-	internal class AssertActArrangeStrategy : ITestNamingStrategy
+	internal class AssertActArrange : ITestNamingStrategy
 	{
 		public bool TryGetFileName(string methodOrFileName, out string fileName)
 		{

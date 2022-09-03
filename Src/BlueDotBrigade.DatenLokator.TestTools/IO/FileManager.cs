@@ -2,8 +2,7 @@
 {
 	using System;
 	using System.Collections;
-	using System.Collections.Specialized;
-	using BlueDotBrigade.DatenLokator.TestsTools.Strategies;
+	using BlueDotBrigade.DatenLokator.TestsTools.NamingConventions;
 
 	internal class FileManager
 	{

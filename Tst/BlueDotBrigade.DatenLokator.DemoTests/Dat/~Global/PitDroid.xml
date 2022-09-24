@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PitDroid xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BlueDotBrigade.DatenLokator.Demo.Droids">
+	<Manufacturer>Serv-O-Droid</Manufacturer>
+	<SerialNo>SD-922WAC471</SerialNo>
+	<Series>DUM</Series>
+</PitDroid>

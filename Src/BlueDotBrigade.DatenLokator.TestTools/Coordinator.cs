@@ -1,29 +1,32 @@
-﻿namespace BlueDotBrigade.DatenLokator.TestsTools.IO
+﻿namespace BlueDotBrigade.DatenLokator.TestsTools
 {
 	using System;
-	using System.Collections;
+	using System.Collections.Generic;
+	using BlueDotBrigade.DatenLokator.TestsTools.IO;
 	using BlueDotBrigade.DatenLokator.TestsTools.NamingConventions;
 
-	internal class FileManager
+	internal class Coordinator
 	{
 		private readonly IFileManagementStrategy _fileManagementStrategy;
 		private readonly ITestNamingStrategy _testNamingStrategy;
 
 		private bool _isIniitialized;
 
-		public FileManager(IFileManagementStrategy fileManagementStrategy, ITestNamingStrategy testNamingStrategy)
+		public Coordinator(IFileManagementStrategy fileManagementStrategy, ITestNamingStrategy testNamingStrategy)
 		{
 			_fileManagementStrategy = fileManagementStrategy;
 			_testNamingStrategy = testNamingStrategy;
 		}
 
-		public void Setup(
-			IOsDirectory directory,
-			IOsFile file,
-			string executingAssemblyPath,
-			IDictionary testEnvironmentSettings)
+		public void Setup(string rootDirectoryPath)
 		{
-			_fileManagementStrategy.Setup(directory, file, executingAssemblyPath, testEnvironmentSettings);
+			_fileManagementStrategy.Setup(rootDirectoryPath);
+			_isIniitialized = true;
+		}
+
+		public void Setup(string rootDirectoryPath, IDictionary<string, object> testEnvironmentSettings)
+		{
+			_fileManagementStrategy.Setup(rootDirectoryPath, testEnvironmentSettings);
 			_isIniitialized = true;
 		}
 
@@ -41,7 +44,7 @@
 			else
 			{
 				throw new InvalidOperationException(
-					$"The {nameof(FileManager)} has not been initialized. Hint: Call Setup() method");
+					$"The {nameof(Coordinator)} has not been initialized. Hint: Call Setup() method");
 			}
 		}
 	}

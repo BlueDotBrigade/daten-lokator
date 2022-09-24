@@ -1,30 +1,61 @@
 ﻿namespace BlueDotBrigade.DatenLokator.TestsTools
 {
+	using System;
 	using System.Diagnostics.CodeAnalysis;
 	using System.Runtime.CompilerServices;
 	using BlueDotBrigade.DatenLokator.TestsTools.Configuration;
 	using BlueDotBrigade.DatenLokator.TestsTools.IO;
+	using BlueDotBrigade.DatenLokator.TestsTools.NamingConventions;
 
 	public class Daten
 	{
-		private readonly FileManager _fileManager;
+		/// <summary>
+		/// Using the default value of <see cref="string.Empty"/> will result in DatenLokator using the <see cref="ITestNamingStrategy"/>
+		/// to determine the source file name.
+		/// </summary>
+		private const string UseNamingStrategy = "";
+
+		/// <summary>
+		/// Using the default value of <see cref="string.Empty"/> will result in DatenLokator receiving the calling method's path at runtime.
+		/// This path will then be added to the list of search directories.
+		/// </summary>
+		private const string UseCallersFilePath = "";
+
+		private readonly IOsDirectory _osDirectory;
+		private readonly IOsFile _osFile;
+
+		private readonly Coordinator _coordinator;
 
 		public Daten()
 		{
-			_fileManager = Lokator.Settings.FileManager;
+			Lokator lokator = Lokator.Get();
+
+			_osDirectory = lokator.OsDirectory;
+			_osFile = lokator.OsFile;
+
+			_coordinator = lokator.Coordinator;
+		}
+
+		internal Daten(Lokator lokator)
+		{
+			_osDirectory = lokator.OsDirectory;
+			_osFile = lokator.OsFile;
+
+			_coordinator = lokator.Coordinator;
 		}
 
 		/// <summary>
 		/// Initializes an instance of the <see cref="Daten"/> class, to be used by automated testing.
 		/// </summary>
-		internal Daten(FileManager fileManager)
+		[Obsolete("Remove this constructor")]
+		internal Daten(Coordinator coordinator)
 		{
-			_fileManager = fileManager;
+			_coordinator = coordinator;
 		}
 
-		private static void ThrowIfFileMissing(string path)
+		private  void ThrowIfFileMissing(string path)
         {
-            if (!System.IO.File.Exists(path))
+            if (!_osFile.Exists(path))
             {
                 var sourceFile = System.IO.Path.GetFileName(path);
                 var directoryPath = System.IO.Path.GetDirectoryName(path) + @"\";
@@ -33,10 +64,10 @@
                     path);
             }
 
-            System.Console.WriteLine($"Input data source has been selected. Name=`{System.IO.Path.GetFileName(path)}`");
+            System.Console.WriteLine($"Input data has been selected. SourceFileName=`{System.IO.Path.GetFileName(path)}`");
         }
 
-        /// <summary>
+		/// <summary>
         ///     Retrieves the path to a file based on the provided parameters.
         /// </summary>
         /// <param name="fileNameOrHint">
@@ -56,10 +87,10 @@
         /// </remarks>
         [SuppressMessage("Microsoft.Design", "CA1026")] // default is required by `CallerFilePath`
         public string AsFilePath(
-	        [CallerMemberName] string fileNameOrHint = "",
-            [CallerFilePath] string sourceDirectory = "")
+	        [CallerMemberName] string fileNameOrHint = UseNamingStrategy,
+            [CallerFilePath] string sourceDirectory = UseCallersFilePath)
         {
-	        var actualPath = _fileManager.GetFilePath(fileNameOrHint, sourceDirectory);
+	        var actualPath = _coordinator.GetFilePath(fileNameOrHint, sourceDirectory);
 
             ThrowIfFileMissing(actualPath);
 
@@ -89,11 +120,11 @@
 	        [CallerMemberName] string fileNameOrHint = "",
             [CallerFilePath] string sourceDirectory = "")
         {
-	        var actualPath = _fileManager.GetFilePath(fileNameOrHint, sourceDirectory);
+	        var actualPath = _coordinator.GetFilePath(fileNameOrHint, sourceDirectory);
 
             ThrowIfFileMissing(actualPath);
 
-            return System.IO.File.ReadAllText(actualPath);
+            return _osFile.ReadAllText(actualPath);
         }
 
         /// <summary>
@@ -119,11 +150,11 @@
 	        [CallerMemberName] string fileNameOrHint = "",
             [CallerFilePath] string sourceDirectory = "")
         {
-	        var actualPath = _fileManager.GetFilePath(fileNameOrHint, sourceDirectory);
+	        var actualPath = _coordinator.GetFilePath(fileNameOrHint, sourceDirectory);
 
 			ThrowIfFileMissing(actualPath);
 
-            return System.IO.File.OpenRead(actualPath);
+            return _osFile.OpenRead(actualPath);
         }
 
         /// <summary>
@@ -149,11 +180,11 @@
 	        [CallerMemberName] string fileNameOrHint = "",
             [CallerFilePath] string sourceDirectory = "")
         {
-	        var actualPath = _fileManager.GetFilePath(fileNameOrHint, sourceDirectory);
+	        var actualPath = _coordinator.GetFilePath(fileNameOrHint, sourceDirectory);
 
 			ThrowIfFileMissing(actualPath);
 
-            return new System.IO.StreamReader(System.IO.File.OpenRead(actualPath));
+            return new System.IO.StreamReader(_osFile.OpenRead(actualPath));
         }
     }
 }

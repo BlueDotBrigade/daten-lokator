@@ -3,6 +3,7 @@
 	using System;
 	using System.Collections;
 	using System.Collections.Generic;
+	using System.IO;
 	using BlueDotBrigade.DatenLokator.TestsTools.IO;
 	using BlueDotBrigade.DatenLokator.TestsTools.NamingConventions;
 	using BlueDotBrigade.DatenLokator.TestsTools.Reflection;
@@ -10,90 +11,155 @@
 
 	public sealed class Lokator
 	{
-		private static readonly IDictionary NoEnvironmentSettings = new Dictionary<string, object>();
+		private static readonly Lokator SharedInstance = new Lokator();
 
-		private static readonly IFileManagementStrategy DefaultFileManagementStrategy;
-		private static readonly ITestNamingStrategy DefaultTestNamingStrategy;
+		private readonly LokatorConfiguration _configuration;
 
-		internal static readonly LokatorConfiguration Settings;
+		private Coordinator _coordinator = null;
+		private readonly IOsDirectory _osDirectory;
+		private readonly IOsFile _osFile;
 
-        private readonly IOsDirectory _directory;
-        private readonly IOsFile _file;
-
-		private IFileManagementStrategy _fileManagementStrategy;
-		private ITestNamingStrategy _testNamingStrategy;
-
-		private IDictionary _testEnvironmentSettings;
-
-		static Lokator()
+		internal Lokator()
+		:this(new OsDirectory(), new OsFile())
 		{
-			DefaultFileManagementStrategy = new SubFolderThenGlobal();
-			DefaultTestNamingStrategy = new AssertActArrange();
-
-			Settings = new LokatorConfiguration
-			{
-				FileManager = new FileManager(DefaultFileManagementStrategy, DefaultTestNamingStrategy),
-			};
+			// nothing to do
 		}
 
-		public Lokator()
+		internal Lokator(IOsDirectory osOsDirectory, IOsFile osOsFile)
 		{
-			_directory = new OsDirectory();
-			_file = new OsFile();
+			_osDirectory = osOsDirectory;
+			_osFile = osOsFile;
 
-			_fileManagementStrategy = DefaultFileManagementStrategy;
-			_testNamingStrategy = DefaultTestNamingStrategy;
+			ITestNamingStrategy testNamingStrategy = new AssertActArrange();
 
-			_testEnvironmentSettings = NoEnvironmentSettings;
+			IFileManagementStrategy fileManagementStrategy = new SubFolderThenGlobal(
+				_osDirectory, 
+				_osFile);
+
+			_configuration = new LokatorConfiguration(testNamingStrategy, fileManagementStrategy);
+
+			_coordinator = new Coordinator(
+				_configuration.FileManagementStrategy,
+				_configuration.TestNamingStrategy);
+		}
+
+		public IOsDirectory OsDirectory => _osDirectory;
+
+		public IOsFile OsFile => _osFile;
+
+		internal Coordinator Coordinator
+		{
+			get
+			{
+				if (_coordinator == null)
+				{
+					throw new InvalidOperationException("The library must first be initialized using: Lokator.Setup()");
+				}
+				else
+				{
+					return _coordinator;
+				}
+			}
 		}
 
 		public static Lokator Get()
-        {
-            return new Lokator();
-        }
+		{
+			return SharedInstance;
+		}
 
         public Lokator UsingDefaultFile(string path)
         {
-            Settings.DefaultFile = path;
+            _configuration.DefaultFilePath = path;
             return this;
         }
 
         public Lokator UsingTestNamingStrategy(ITestNamingStrategy strategy)
         {
-	        _testNamingStrategy = strategy ?? throw new ArgumentNullException(nameof(strategy));
-
+	        _configuration.TestNamingStrategy = strategy;
 	        return this;
         }
 
         public Lokator UsingFileManagementStrategy(IFileManagementStrategy strategy)
         {
-	        _fileManagementStrategy = strategy ?? throw new ArgumentNullException(nameof(strategy));
-
+	        _configuration.FileManagementStrategy = strategy;
 	        return this;
         }
 
-        public Lokator UsingTestContext(TestContext context)
-        {
-			_testEnvironmentSettings = context.Properties;
-	        return this;
-        }
+		public Lokator UsingTestContext(IDictionary properties)
+		{
+			_configuration.TestEnvironmentProperties = properties as IDictionary<string, object>;
 
-		public void Setup()
-        {
-	        var fileManager = new FileManager(_fileManagementStrategy, _testNamingStrategy);
-
-			fileManager.Setup(
-				_directory,
-				_file,
-				AssemblyHelper.ExecutingDirectory,
-				_testEnvironmentSettings);
-			
-			Settings.FileManager = fileManager;
+			return this;
 		}
 
-		public void TearDown()
+		///// <summary>
+		///// Sets up the DatenLokator environment based on the parameters defined within MS Test&apos;s <see cref="TestContext"/>.
+		///// </summary>
+		///// <param name="properties">Represents the <see cref="TestContext"/> properties.
+		///// <example>
+		///// lokator.UsingTestContext(testContext.Properties as IDictionary&lt;string, object>);
+		///// </example>
+		///// </param>
+		//public Lokator UsingTestContext(IDictionary<string, object> properties)
+		//{
+		//	_configuration.TestEnvironmentProperties = properties;
+
+		//	return this;
+  //      }
+
+		private string GetProjectDirectoryPath()
+		{
+			var index = AssemblyHelper.ExecutingDirectory.LastIndexOf(@"\bin\");
+			var projectDirectoryPath = AssemblyHelper.ExecutingDirectory.Substring(0, index);
+
+			return Path.Combine(projectDirectoryPath, LokatorConfiguration.RootDirectoryName);
+		}
+
+		private string GetRootPathFromTestContext()
+		{
+			var result = string.Empty;
+
+			IDictionary<string, object> settings = _configuration.TestEnvironmentProperties;
+
+			if (settings.ContainsKey(LokatorConfiguration.RootDirectoryKey))
+			{
+				var rootDirectoryPath = settings[LokatorConfiguration.RootDirectoryKey]?.ToString();
+
+				if (_osDirectory.Exists(rootDirectoryPath))
+				{
+					result = rootDirectoryPath;
+				}
+				else
+				{
+					throw new ArgumentException($"TestContext collection was expected to include a valid root diretory path. Key={LokatorConfiguration.RootDirectoryKey}");
+				}
+			}
+			return result;
+		}
+
+		public Lokator Setup()
         {
-	        Settings.FileManager.TearDown();
+	        _coordinator = new Coordinator(
+		        _configuration.FileManagementStrategy,
+		        _configuration.TestNamingStrategy);
+
+	        var rootDirectoryPath = GetRootPathFromTestContext();
+
+	        if (string.IsNullOrEmpty(rootDirectoryPath))
+	        {
+		        rootDirectoryPath = GetProjectDirectoryPath();
+	        }
+
+	        _coordinator.Setup(rootDirectoryPath);
+
+	        return this;
+        }
+
+		public Lokator TearDown()
+        {
+	        _configuration.FileManagementStrategy.TearDown();
+
+	        return this;
 		}
 	}
 }

@@ -4,6 +4,10 @@
 
     public class OsDirectory : IOsDirectory
     {
+	    public OsDirectory()
+	    {
+		    
+	    }
         public virtual bool Exists(string path) => System.IO.Directory.Exists(path);
 
         public virtual string[] GetDirectories(string path) => System.IO.Directory.GetDirectories(path);

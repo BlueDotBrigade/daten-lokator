@@ -6,7 +6,7 @@
 		<Authors>BlueDotBrigade;</Authors>
 		<Copyright>© 2022 Blue Dot Brigade. All rights reserved.</Copyright>
 		<Owners>Blue Dot Brigade</Owners>
-		<Title>Datenlokator</Title>
+		<Title>DatenLokator</Title>
 		<Summary>Project summary.</Summary>
 		<Description>Simplifies testing by automatically selecting the appropriate input data for a given test case.</Description>
 		<IsPackable>true</IsPackable>

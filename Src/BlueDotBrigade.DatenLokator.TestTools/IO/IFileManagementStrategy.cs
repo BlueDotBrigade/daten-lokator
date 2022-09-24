@@ -1,6 +1,6 @@
 ﻿namespace BlueDotBrigade.DatenLokator.TestsTools.IO
 {
-	using System.Collections;
+	using System.Collections.Generic;
 	using BlueDotBrigade.DatenLokator.TestsTools.NamingConventions;
 
 	/// <summary>
@@ -8,11 +8,9 @@
 	/// </summary>
 	public interface IFileManagementStrategy
 	{
-		void Setup(
-			IOsDirectory directory,
-			IOsFile file,
-			string executingAssemblyPath,
-			IDictionary testEnvironmentSettings);
+		void Setup(string rootDirectoryPath);
+
+		void Setup(string rootDirectoryPath, IDictionary<string, object> testEnvironmentProperties);
 
 		void TearDown();
 

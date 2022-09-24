@@ -10,13 +10,6 @@
 
 	internal class SubFolderThenGlobal : IFileManagementStrategy
 	{
-		private static readonly IDictionary NoEnvironmentSettings = new Dictionary<string, object>();
-
-		/// <summary>
-		/// Represents the application setting key that is used to explicitly define the <see cref="BaseDirectoryPath" /> path.
-		/// </summary>
-		internal const string BasePathKey = "InputDataBasePath";
-
 		/// <summary>
 		/// Represents the name of the directory that holds input data that is shared by several automated tests.
 		/// </summary>
@@ -27,66 +20,27 @@
 		/// </remarks>
 		public const string GlobalDirectoryName = "~Global";
 
-		/// <summary>
-		/// Represents the name of the root directory that all input data is stored within.
-		/// </summary>
-		/// <remarks>
-		/// By default, this directory is assumed to be in the same folder as `.csproj`.
-		/// </remarks>
-		public const string BaseDirectoryName = "Dat";
-
 		public const string CompressedFileExtension = ".Zip";
 		public const string CompressedFileTempDirectory = "~ZIP";
 
-		private IDictionary _testEnvironmentSettings;
+		private readonly IOsDirectory _directory;
+		private readonly IOsFile _file;
 
-		private string _executingAssemblyPath;
+		private string _rootDirectoryPath;
 
-		private IOsDirectory _directory;
-		private IOsFile _file;
-
-
-		public string GlobalDirectoryPath
+		public SubFolderThenGlobal(IOsDirectory directory, IOsFile file)
 		{
-			get { return Path.Combine(this.BaseDirectoryPath, GlobalDirectoryName); }
+			_directory = directory ?? throw new ArgumentNullException(nameof(directory));
+			_file = file ?? throw new ArgumentNullException(nameof(file));
+
+			_rootDirectoryPath = string.Empty;
 		}
 
-		// TODO: Implement more reliable way to determine the base directory path.
-		// ... The executing assembly path can vary dramatically depending on a number of variables including the project's "bitness".
-		// ... 32 bit output directory: bin\Debug\
-		// ... 64 bit output directory: bin\x64\Debug\
-		public string BaseDirectoryPath
-		{
-			get
-			{
-				var result = string.Empty;
+		public string GlobalDirectoryPath => Path.Combine(this.RootDirectoryPath, GlobalDirectoryName);
+		
+		public string RootDirectoryPath => _rootDirectoryPath;
 
-				if (_testEnvironmentSettings.Contains(BasePathKey))
-				{
-					var value = _testEnvironmentSettings[BasePathKey]?.ToString();
-
-					// Does key exist in configuration file?
-					// ... if not, then default to the assumed local directoryPath
-					if (!string.IsNullOrWhiteSpace(value))
-					{
-						result = value;
-					}
-				}
-
-				if (string.IsNullOrWhiteSpace(result))
-				{
-					var index = _executingAssemblyPath.LastIndexOf(@"\bin\");
-					var projectDirectoryPath = _executingAssemblyPath.Substring(0, index);
-
-					result = Path.Combine(projectDirectoryPath, BaseDirectoryName);
-				}
-
-				// Ensure that there are no relative path references (i.e. return a real path)
-				return Path.GetFullPath(result);
-			}
-		}
-
-		public void Decompress(string directoryPath)
+		private void Decompress(string directoryPath)
 		{
 			var isDecompressedArchive = CultureInfo.InvariantCulture.CompareInfo.IndexOf(
 				directoryPath,
@@ -133,48 +87,29 @@
 			}
 		}
 
-
-		public void Setup(
-			IOsDirectory directory,
-			IOsFile file,
-			string executingAssemblyPath)
+		public void Setup(string rootDirectoryPath)
 		{
-			Setup(directory, file, executingAssemblyPath, NoEnvironmentSettings);
+			if (_directory.Exists(rootDirectoryPath))
+			{
+				_rootDirectoryPath = rootDirectoryPath;
+			}
+			else
+			{
+				throw new ArgumentException(
+					$"The provided root directory does not exist. Path={rootDirectoryPath}",
+					nameof(rootDirectoryPath));
+			}
+		}
+		public void Setup(string rootDirectoryPath, IDictionary<string, object> testEnvironmentProperties)
+		{
+			var settings = testEnvironmentProperties ?? throw new ArgumentNullException(nameof(testEnvironmentProperties));
+
+			Setup();
 		}
 
-		public void Setup(
-			IOsDirectory directory,
-			IOsFile file,
-			string executingAssemblyPath,
-			IDictionary testEnvironmentSettings)
+		public void Setup()
 		{
-			if (string.IsNullOrWhiteSpace(executingAssemblyPath))
-			{
-				throw new ArgumentException("message", nameof(executingAssemblyPath));
-			}
-
-			_directory = directory ?? throw new ArgumentNullException(nameof(directory));
-			_file = file ?? throw new ArgumentNullException(nameof(file));
-			_executingAssemblyPath = executingAssemblyPath;
-			_testEnvironmentSettings = testEnvironmentSettings ?? throw new ArgumentNullException(nameof(testEnvironmentSettings));
-
-			var basePath = this.BaseDirectoryPath;
-
-			if (string.IsNullOrWhiteSpace(basePath))
-			{
-				throw new InvalidOperationException(
-					"The automated test framework is unable to identify where the input files are stored.");
-			}
-
-			basePath = Path.GetFullPath(basePath);
-
-			if (!_directory.Exists(basePath))
-			{
-				throw new DirectoryNotFoundException(
-					$"The automated test framework does not have a valid directory path. Path=`{basePath}`");
-			}
-
-			Decompress(basePath);
+			Decompress(_rootDirectoryPath);
 		}
 
 		public void TearDown()
@@ -192,10 +127,9 @@
 
 			if (isDirectoryImplied)
 			{
-				var impliedDirectory = GraphOnToBaseDirectory(sourceDirectory).Replace(SourceCodeFileExtension, string.Empty);
+				var impliedDirectory = AppendToRootDirectory(sourceDirectory).Replace(SourceCodeFileExtension, string.Empty);
 				searchPaths.Add(impliedDirectory);
 				searchPaths.Add(impliedDirectory + CompressedFileTempDirectory);
-
 			}
 			else
 			{
@@ -213,63 +147,74 @@
 		}
 
 		/// <summary>
-		///  Determines the unit test's path relative to the project directory, and then appends the result to the provided <see cref="BaseDirectoryPath" />.
+		///  Determines the unit test's path relative to the project directory, and then appends the result to the provided <see cref="RootDirectoryPath" />.
 		/// </summary>
-		internal string GraphOnToBaseDirectory(string unitTestPath)
+		internal string AppendToRootDirectory(string subDirectoryPath)
 		{
-			if (string.IsNullOrWhiteSpace(unitTestPath))
+			if (string.IsNullOrWhiteSpace(subDirectoryPath))
 			{
-				throw new ArgumentException("Expected a valid directory path.", nameof(unitTestPath));
+				throw new ArgumentException("Expected a valid directory path.", nameof(subDirectoryPath));
 			}
 
-			var index = unitTestPath.LastIndexOfPrefix(_executingAssemblyPath);
-			var unitTestRelativePath = unitTestPath.Substring(index + 1);
+			var index = subDirectoryPath.LastIndexOfPrefix(_rootDirectoryPath);
+			var subDirectoryRelativePath = subDirectoryPath.Substring(index + 1);
 
-			return System.IO.Path.Combine(this.BaseDirectoryPath, unitTestRelativePath);
+			return System.IO.Path.Combine(this.RootDirectoryPath, subDirectoryRelativePath);
 		}
 
 		public string GetFileOrInferName(ITestNamingStrategy testNamingStrategy, string fileNameOrHint, string sourceDirectory)
 		{
-			var filePath = Path.Combine(sourceDirectory, fileNameOrHint);
+			var sourceFilePath = Path.Combine(sourceDirectory, fileNameOrHint);
 
-			// Can we find the requested file? No, then:
-			// ... 1. we have to infer the filename from the test's name, or
-			// ... 2. the specified file simply does not exist
-			if (!_file.Exists(filePath))
+			if (_file.Exists(sourceFilePath))
 			{
-				if (testNamingStrategy.TryGetFileName(fileNameOrHint, out var fileName))
+				// A real file name was provided. No further action requr
+			}
+			else
+			{
+				if (testNamingStrategy.TryGetFileName(fileNameOrHint, out var impliedFileName))
 				{
-					filePath = Path.Combine(sourceDirectory, fileName);
+					sourceFilePath = Path.Combine(sourceDirectory, impliedFileName);
 
-					// Are we looking for a file without an extension?
-					if (!_file.Exists(filePath))
+					if (_file.Exists(sourceFilePath))
+					{
+						// Naming strategy helped us find the source file
+						// ... which does not have a file extension.
+					}
+					else
 					{
 						var matchingFiles = _directory.GetFiles(
 							sourceDirectory,
-							$"{fileName}.*",
+							$"{impliedFileName}.*",
 							SearchOption.TopDirectoryOnly);
 
-						if (matchingFiles.Length == 0)
+						switch (matchingFiles.Length)
 						{
-							throw new FileNotFoundException(
-								$@"The implied file could not be found. DirectoryPath=`{sourceDirectory}\`, FileName=`{fileName}`",
-								filePath);
-						}
-						else
-						{
-							filePath = Path.Combine(sourceDirectory, matchingFiles[0].Name);
+							case 0:
+								throw new FileNotFoundException(
+									$@"The implied file could not be found. DirectoryPath=`{sourceDirectory}\`, ImpliedName=`{impliedFileName}`",
+									sourceFilePath);
+
+							case 1:
+								sourceFilePath = Path.Combine(sourceDirectory, matchingFiles[0].Name);
+								break;
+
+							default:
+								throw new FileNotFoundException(
+									$@"The implied file could not be found because multiple files have the same name. DirectoryPath=`{sourceDirectory}\`, ImpliedName=`{impliedFileName}.*`",
+									sourceFilePath);
 						}
 					}
 				}
 				else
 				{
 					throw new FileNotFoundException(
-						$@"The specified file could not be found. DirectoryPath=`{sourceDirectory}\`, FileName=`{fileNameOrHint}`",
-						filePath);
+						$@"Unable to determine the source file name. DirectoryPath=`{sourceDirectory}\`, FileNameOrHint=`{fileNameOrHint}`",
+						sourceFilePath);
 				}
 			}
 
-			return filePath;
+			return sourceFilePath;
 		}
 
 		public string GetFilePath(ITestNamingStrategy testNamingStrategy, string fileNameOrHint, string sourceDirectory)

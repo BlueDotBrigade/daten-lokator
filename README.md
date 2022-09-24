@@ -1,7 +1,7 @@
 
 | Package | Latest Release | Downloads |
 | --- | --- | --- |
-| BlueDotBrigade.Datenlokator | [![latest version](https://img.shields.io/nuget/v/BlueDotBrigade.Datenlokator)](https://www.nuget.org/packages/BlueDotBrigade.Datenlokator) | [![downloads](https://img.shields.io/nuget/dt/BlueDotBrigade.Datenlokator)](https://www.nuget.org/packages/BlueDotBrigade.Datenlokator) |
+| BlueDotBrigade.DatenLokator | [![latest version](https://img.shields.io/nuget/v/BlueDotBrigade.DatenLokator)](https://www.nuget.org/packages/BlueDotBrigade.DatenLokator) | [![downloads](https://img.shields.io/nuget/dt/BlueDotBrigade.DatenLokator)](https://www.nuget.org/packages/BlueDotBrigade.DatenLokator) |
 
 # For Developers
 

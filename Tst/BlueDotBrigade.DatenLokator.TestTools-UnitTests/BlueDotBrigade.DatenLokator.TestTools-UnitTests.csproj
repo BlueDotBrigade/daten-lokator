@@ -3,8 +3,8 @@
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<IsPackable>false</IsPackable>
-		<RootNamespace>BlueDotBrigade.Datenlokator.TestTools</RootNamespace>
-		<PackageId>BlueDotBrigade.Datenlokator.TestTools-UnitTests</PackageId>
+		<RootNamespace>BlueDotBrigade.DatenLokator.TestTools</RootNamespace>
+		<PackageId>BlueDotBrigade.DatenLokator.TestTools-UnitTests</PackageId>
 		<Version>2.0.0</Version>
 		<Authors>BlueDotBrigade;</Authors>
 		<Company>Blue Dot Brigade;</Company>
@@ -26,7 +26,7 @@
 		<PackageReference Include="coverlet.collector" Version="1.2.0" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\Src\BlueDotBrigade.Datenlokator.TestTools\BlueDotBrigade.Datenlokator.TestsTools.csproj" />
+		<ProjectReference Include="..\..\Src\BlueDotBrigade.DatenLokator.TestTools\BlueDotBrigade.DatenLokator.TestsTools.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<CodeAnalysisDictionary Include="..\..\DomainSpecificTerminology.xml">

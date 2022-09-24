@@ -1,4 +1,4 @@
-﻿namespace BlueDotBrigade.Datenlokator.TestTools
+﻿namespace BlueDotBrigade.DatenLokator.TestTools
 {
 	using System.Collections.Generic;
 	using System.IO;
@@ -11,14 +11,14 @@
 	[TestClass]
 	public class DatenTests
 	{
-		private FileManager _fileManager;
+		private Coordinator _fileManager;
 
 		[TestInitialize]
 		public void TestInitialize()
 		{
 			var noSettings = new Dictionary<string, object>();
 
-			_fileManager = new FileManager(new SubFolderThenGlobal(), new AssertActArrange());
+			_fileManager = new Coordinator(new SubFolderThenGlobal(), new AssertActArrange());
 			_fileManager.Setup(
 				new OsDirectory(),
 				new OsFile(),

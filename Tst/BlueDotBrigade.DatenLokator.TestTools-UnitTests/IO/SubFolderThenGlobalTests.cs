@@ -1,10 +1,21 @@
-﻿namespace BlueDotBrigade.Datenlokator.TestTools.IO
+﻿namespace BlueDotBrigade.DatenLokator.TestTools.IO
 {
+	using System;
+	using System.IO;
+	using BlueDotBrigade.DatenLokator.TestsTools.IO;
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 	[TestClass]
 	public class InputDataSelectorTest
 	{
+
+		[TestMethod]
+		public void Setup_NewGlobalDirectoryPath_ReturnsNewPath()
+		{
+			var fileManager = new SubFolderThenGlobal(new OsDirectory(), new OsFile());
+			fileManager.Setup(directoryPath);
+		}
+
 		//[TestMethod]
 		//public void Setup_NewGlobalDirectoryPath_ReturnsGlobalDirectoryPath()
 		//{

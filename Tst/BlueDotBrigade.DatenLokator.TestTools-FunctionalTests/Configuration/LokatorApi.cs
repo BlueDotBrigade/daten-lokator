@@ -1,4 +1,4 @@
-﻿namespace BlueDotBrigade.Datenlokator.TestTools.Configuration
+﻿namespace BlueDotBrigade.DatenLokator.TestTools.Configuration
 {
 	using BlueDotBrigade.DatenLokator.TestsTools.Configuration;
 	using BlueDotBrigade.DatenLokator.TestsTools.IO;
@@ -10,7 +10,7 @@
 	/// These methods are more about exploring the <see cref="Lokator"/> API, to ensure that the library can be extended.
 	/// </summary>
 	[TestClass]
-	internal class LokatorApi
+	public class LokatorApi
 	{
 		[TestMethod]
 		public void UsingFileManagementStrategy()

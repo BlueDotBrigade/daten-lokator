@@ -7,6 +7,15 @@
 	[TestClass]
 	public class XmlSerializerTests
 	{
+		/// <summary>
+		/// An example of a `traditional` unit test that includes
+		/// an embedded string value for comparison.
+		/// </summary>
+		/// <remarks>
+		/// Notice how the...
+		/// - incremental visual noise introduced by the multiline string value
+		/// - escape codes make the multiline string value harder to read
+		/// </remarks>
 		[TestMethod]
 		public void Serialize_AstromechDroid_StringsMatch()
 		{
@@ -33,6 +42,10 @@
 			Assert.AreEqual(expectedMessage, message);
 		}
 
+		/// <summary>
+		/// An example of DatenLokator automatically retrieving input data
+		/// from the `local` test case data.
+		/// </summary>
 		[TestMethod]
 		public void Serialize_ProtocolDroid_StringsMatch()
 		{
@@ -51,6 +64,10 @@
 			Assert.AreEqual(new Daten().AsString(), message);
 		}
 
+		/// <summary>
+		/// An example of how DatenLokator retrieving input data
+		/// using an explicit file name.
+		/// </summary>
 		[TestMethod]
 		public void Serialize_RudeProtocolDroid_StringsMatch()
 		{
@@ -69,6 +86,14 @@
 			Assert.AreEqual(new Daten().AsString("Bespin.xml"), message);
 		}
 
+		/// <summary>
+		/// An example of DatenLokator automatically retrieving input data
+		/// from the `global` test case data.
+		/// </summary>
+		/// <remarks>
+		/// This approach is useful when many automated tests rely on
+		/// the same input data.
+		/// </remarks>
 		[TestMethod]
 		public void Serialize_PitDroid_StringsMatch()
 		{

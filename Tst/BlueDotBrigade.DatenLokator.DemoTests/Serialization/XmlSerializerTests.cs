@@ -4,6 +4,10 @@
 	using BlueDotBrigade.DatenLokator.TestsTools;
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+	/// <summary>
+	/// The objective of this class is not to demonstrate how serialization should be unit tested, but rather,
+	/// to show how input data can be retreived using the DatenLokator library.
+	/// </summary>
 	[TestClass]
 	public class XmlSerializerTests
 	{
@@ -43,9 +47,19 @@
 		}
 
 		/// <summary>
-		/// An example of DatenLokator automatically retrieving input data
-		/// from the `local` test case data.
+		/// An example of DatenLokator automatically retrieving input data for a specific test case.
 		/// </summary>
+		/// <remarks>
+		/// By default, DatenLokator expects the input data to be stored in a directory structure
+		/// that mirrors the namespace. For example, in the case of:
+		///
+		/// \Serialization\XmlSerializerTests\ProtocolDroid.xml
+		///
+		/// Where
+		/// - Serialization : represents the namespace
+		/// - XmlSerializerTests : represents the MsTest class name
+		/// - ProtocolDroid.xml : represents the test case
+		/// </remarks>
 		[TestMethod]
 		public void Serialize_ProtocolDroid_StringsMatch()
 		{
@@ -65,8 +79,7 @@
 		}
 
 		/// <summary>
-		/// An example of how DatenLokator retrieving input data
-		/// using an explicit file name.
+		/// An example of DatenLokator retrieving input data using a specific file name.
 		/// </summary>
 		[TestMethod]
 		public void Serialize_RudeProtocolDroid_StringsMatch()
@@ -87,8 +100,8 @@
 		}
 
 		/// <summary>
-		/// An example of DatenLokator automatically retrieving input data
-		/// from the `global` test case data.
+		/// An example of DatenLokator automatically retrieving shared input data
+		/// from the `global` cache.
 		/// </summary>
 		/// <remarks>
 		/// This approach is useful when many automated tests rely on
@@ -110,6 +123,41 @@
 
 			// Assert
 			Assert.AreEqual(new Daten().AsString(), message);
+		}
+
+		/// <summary>
+		/// An example of DatenLokator automatically retrieving compressed input data
+		/// for a specific test case.
+		/// </summary>
+		/// <remarks>
+		/// DatenLokator expects the zip file to be stored within the directory that
+		/// matches the namespace.  In this case:
+		///
+		/// \Dat\Serialization\XmlSerializerTests\
+		/// \Dat\Serialization\XmlSerializerTests.zip
+		/// </remarks>
+		[TestMethod]
+		public void Serialize_SuperBattleDroid_StringsMatch()
+		{
+			// Arrange
+			var droid = new SuperBattleDroid()
+			{
+				SerialNo = "BA-4248964B3",
+				Manufacturer = "Baktoid Automata",
+				
+				// imagine a large data set where it would be useful
+				// to compress the input data
+				WeaponsActivationKey = new byte[8192],
+			};
+
+			// Act
+			var message = new XmlSerializer().ToXml(droid);
+
+			// Assert
+			Assert.AreEqual(
+				expected: new Daten().AsString(), 
+				actual: message, 
+				message:"Input data was not automatically decompressed.");
 		}
 	}
 }

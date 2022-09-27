@@ -10,6 +10,11 @@
 		[AssemblyInitialize]
 		public static void Setup(TestContext context)
 		{
+			// The default location of the input data can be easily changed
+			// by including the following key:
+			// 
+			// context.Properties["DatenLokatorRootPath"] = @"c:\RegressionTesting\UnitTestData";
+
 			Console.WriteLine("Test environment is being prepared...");
 			Lokator
 				.Get()

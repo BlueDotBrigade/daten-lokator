@@ -1,11 +1,11 @@
 ﻿namespace BlueDotBrigade.DatenLokator.TestsTools.IO
 {
 	using System;
-	using System.Collections;
 	using System.Collections.Generic;
 	using System.Globalization;
 	using System.IO;
 	using System.IO.Compression;
+	using System.Linq;
 	using BlueDotBrigade.DatenLokator.TestsTools.NamingConventions;
 
 	internal class SubFolderThenGlobal : IFileManagementStrategy
@@ -99,17 +99,16 @@
 					$"The provided root directory does not exist. Path={rootDirectoryPath}",
 					nameof(rootDirectoryPath));
 			}
+
+			Decompress(_rootDirectoryPath);
 		}
+
 		public void Setup(string rootDirectoryPath, IDictionary<string, object> testEnvironmentProperties)
 		{
-			var settings = testEnvironmentProperties ?? throw new ArgumentNullException(nameof(testEnvironmentProperties));
+			// The `testEnvironmentProperties` parameter is ignored because
+			// ... this class has no need for additional configuration values
 
-			Setup();
-		}
-
-		public void Setup()
-		{
-			Decompress(_rootDirectoryPath);
+			Setup(rootDirectoryPath);
 		}
 
 		public void TearDown()
@@ -168,40 +167,46 @@
 
 			if (_file.Exists(sourceFilePath))
 			{
-				// A real file name was provided. No further action requr
+				// A real file name was provided. No further action required.
 			}
 			else
 			{
-				if (testNamingStrategy.TryGetFileName(fileNameOrHint, out var impliedFileName))
+				// Try to find a file that matches the current test case name.
+				if (testNamingStrategy.TryGetFileName(fileNameOrHint, out var testCaseName))
 				{
-					sourceFilePath = Path.Combine(sourceDirectory, impliedFileName);
+					sourceFilePath = Path.Combine(sourceDirectory, testCaseName);
 
 					if (_file.Exists(sourceFilePath))
 					{
-						// Naming strategy helped us find the source file
-						// ... which does not have a file extension.
+						// Naming strategy helped us find an exact match.
+						// ... In this case, the file name does not include an extension.
 					}
 					else
 					{
-						var matchingFiles = _directory.GetFiles(
+						var matchingFileNames = _directory.GetFiles(
 							sourceDirectory,
-							$"{impliedFileName}.*",
+							$"{testCaseName}.*",
 							SearchOption.TopDirectoryOnly);
 
-						switch (matchingFiles.Length)
+						var nonCompressedMatches = matchingFileNames.Where(f => !f.Name.EndsWith(
+							".zip",
+							ignoreCase: true, 
+							CultureInfo.InvariantCulture));
+
+						switch (nonCompressedMatches.Count())
 						{
 							case 0:
 								throw new FileNotFoundException(
-									$@"The implied file could not be found. DirectoryPath=`{sourceDirectory}\`, ImpliedName=`{impliedFileName}`",
+									$@"A file for this test case could not be found. DirectoryPath=`{sourceDirectory}\`, ImpliedName=`{testCaseName}`",
 									sourceFilePath);
 
 							case 1:
-								sourceFilePath = Path.Combine(sourceDirectory, matchingFiles[0].Name);
+								sourceFilePath = Path.Combine(sourceDirectory, matchingFileNames[0].Name);
 								break;
 
 							default:
 								throw new FileNotFoundException(
-									$@"The implied file could not be found because multiple files have the same name. DirectoryPath=`{sourceDirectory}\`, ImpliedName=`{impliedFileName}.*`",
+									$@"Multiple files matching the test case have been found - too many results. DirectoryPath=`{sourceDirectory}\`, ImpliedName=`{testCaseName}.*`",
 									sourceFilePath);
 						}
 					}
@@ -267,7 +272,7 @@
 				}
 
 				throw new FileNotFoundException(
-					$@"The specified file could not be found. DirectoryPath=`{sourceDirectory}\`, FileName=`{fileNameOrHint}`{prioritizedSearchPaths}",
+					$@"The specified file could not be found. FileNameOrHint=`{fileNameOrHint}`{prioritizedSearchPaths}",
 					firstFilePath);
 			}
 

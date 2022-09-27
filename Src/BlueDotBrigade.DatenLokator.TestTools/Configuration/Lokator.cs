@@ -7,7 +7,6 @@
 	using BlueDotBrigade.DatenLokator.TestsTools.IO;
 	using BlueDotBrigade.DatenLokator.TestsTools.NamingConventions;
 	using BlueDotBrigade.DatenLokator.TestsTools.Reflection;
-	using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 	public sealed class Lokator
 	{

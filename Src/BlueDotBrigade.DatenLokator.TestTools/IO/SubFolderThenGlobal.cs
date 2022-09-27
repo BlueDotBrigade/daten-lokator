@@ -188,12 +188,7 @@
 							$"{testCaseName}.*",
 							SearchOption.TopDirectoryOnly);
 
-						var nonCompressedMatches = matchingFileNames.Where(f => !f.Name.EndsWith(
-							".zip",
-							ignoreCase: true, 
-							CultureInfo.InvariantCulture));
-
-						switch (nonCompressedMatches.Count())
+						switch (matchingFileNames.Count())
 						{
 							case 0:
 								throw new FileNotFoundException(

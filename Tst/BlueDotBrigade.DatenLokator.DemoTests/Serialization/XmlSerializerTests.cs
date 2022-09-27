@@ -5,9 +5,19 @@
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 	/// <summary>
-	/// The objective of this class is not to demonstrate how serialization should be unit tested, but rather,
-	/// to show how input data can be retreived using the DatenLokator library.
+	/// The intent of this class is to demonstrate how to retrieve input data using the DatenLokator library.
 	/// </summary>
+	/// <remarks>
+	/// The DatenLokator's default file management strategy assumes that the input data is stored within:
+	/// <code>\BlueDotBrigade.DatenLokator.DemoTests\Dat</code>
+	///
+	/// With respect to this class, the following search pattern is used
+	/// <list type="number">
+	/// <item>local directory: <code>\Dat\Serialization\XmlSerializerTests\</code></item>
+	/// <item>local compressed data: <code>\Dat\Serialization\XmlSerializerTests.zip</code></item>
+	/// <item>global directory: <code>\Dat\~Global\</code></item>
+	/// </list>
+	/// </remarks>
 	[TestClass]
 	public class XmlSerializerTests
 	{

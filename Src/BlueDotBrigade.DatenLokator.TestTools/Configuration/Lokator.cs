@@ -84,27 +84,26 @@
 	        return this;
         }
 
+		/// <summary>
+		/// Specifies the configuration parameters that should be used by the test environment.
+		/// </summary>
+		/// <param name="properties">A collection of configuration parameters.</param>
+		/// <remarks>
+		/// By default, DatenLokator assumes that the intput data is stored within the project's directory.
+		///
+		/// A new data directory can be specfied by adding the following key to the <see cref="TestContext"/>:
+		/// <example>
+		/// context.Properties["DatenLokatorRootPath"] = @"c:\New\Path\Goes\Here";
+		/// </example>
+		/// </remarks>
+		/// <seealso href="https://learn.microsoft.com/en-us/previous-versions/ms404699(v=vs.90)">MSDN: Using the TestContext</seealso>
+		/// <seealso href="https://blog.adilakhter.com/2008/05/04/more-on-unit-testing-testcontext/">More on Unit Testing: TestContext</seealso>
 		public Lokator UsingTestContext(IDictionary properties)
 		{
 			_configuration.TestEnvironmentProperties = properties as IDictionary<string, object>;
 
 			return this;
 		}
-
-		///// <summary>
-		///// Sets up the DatenLokator environment based on the parameters defined within MS Test&apos;s <see cref="TestContext"/>.
-		///// </summary>
-		///// <param name="properties">Represents the <see cref="TestContext"/> properties.
-		///// <example>
-		///// lokator.UsingTestContext(testContext.Properties as IDictionary&lt;string, object>);
-		///// </example>
-		///// </param>
-		//public Lokator UsingTestContext(IDictionary<string, object> properties)
-		//{
-		//	_configuration.TestEnvironmentProperties = properties;
-
-		//	return this;
-  //      }
 
 		private string GetProjectDirectoryPath()
 		{

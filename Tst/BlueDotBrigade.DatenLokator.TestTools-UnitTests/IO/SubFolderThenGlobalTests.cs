@@ -1,20 +1,81 @@
 ﻿namespace BlueDotBrigade.DatenLokator.TestTools.IO
 {
 	using System;
-	using System.IO;
 	using BlueDotBrigade.DatenLokator.TestsTools.IO;
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
+	using Moq;
 
 	[TestClass]
 	public class InputDataSelectorTest
 	{
+		[TestMethod]
+		public void RootDirectoryPath_SetupCalled_ReturnsCorrectPath()
+		{
+			var osFile = new Mock<IOsFile>();
+			var osDirectory = new Mock<IOsDirectory>();
+
+			osDirectory
+				.Setup(d => d.Exists(It.IsAny<string>()))
+				.Returns(true);
+
+			var fileManager = new SubFolderThenGlobal(osDirectory.Object, osFile.Object);
+			fileManager.Setup(@"C:\New\Root\Directory\Path");
+
+			Assert.AreEqual(
+				@"C:\New\Root\Directory\Path",
+				fileManager.RootDirectoryPath);
+		}
 
 		[TestMethod]
-		public void Setup_NewGlobalDirectoryPath_ReturnsNewPath()
+		public void GlobalDirectoryPath_SetupCalled_ReturnsCorrectPath()
 		{
-			var fileManager = new SubFolderThenGlobal(new OsDirectory(), new OsFile());
-			fileManager.Setup(directoryPath);
+			var osFile = new Mock<IOsFile>();
+			var osDirectory = new Mock<IOsDirectory>();
+
+			osDirectory
+				.Setup(d => d.Exists(It.IsAny<string>()))
+				.Returns(true);
+
+			var fileManager = new SubFolderThenGlobal(osDirectory.Object, osFile.Object);
+			fileManager.Setup(@"C:\New\Root\Directory\Path");
+			
+			Assert.AreEqual(
+				@"C:\New\Root\Directory\Path\~Global",
+				fileManager.GlobalDirectoryPath);
 		}
+
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentException))]
+		public void Setup_InvalidPath_Throws()
+		{
+			var osFile = new Mock<IOsFile>();
+			var osDirectory = new Mock<IOsDirectory>();
+
+			osDirectory
+				.Setup(d => d.Exists(It.IsAny<string>()))
+				.Returns(false);
+
+			var fileManager = new SubFolderThenGlobal(osDirectory.Object, osFile.Object);
+			fileManager.Setup(@"C:\This\Path\Does\Not\Exist");
+
+			Assert.Fail("Setup should have thrown an exception.");
+		}
+
+
+		[TestMethod]
+		public void GetFileOrInferName_FileNameProvided_ReturnsFilePath()
+		{
+			
+		}
+
+
+
+		//[TestMethod]
+		//public void Setup_NewGlobalDirectoryPath_ReturnsNewPath()
+		//{
+		//	var fileManager = new SubFolderThenGlobal(new OsDirectory(), new OsFile());
+		//	fileManager.Setup(directoryPath);
+		//}
 
 		//[TestMethod]
 		//public void Setup_NewGlobalDirectoryPath_ReturnsGlobalDirectoryPath()

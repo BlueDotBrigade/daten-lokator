@@ -28,7 +28,7 @@
 
 		public Daten()
 		{
-			Lokator lokator = Lokator.Get();
+			var lokator = Lokator.Get();
 
 			_osDirectory = lokator.OsDirectory;
 			_osFile = lokator.OsFile;
@@ -42,15 +42,6 @@
 			_osFile = lokator.OsFile;
 
 			_coordinator = lokator.Coordinator;
-		}
-
-		/// <summary>
-		/// Initializes an instance of the <see cref="Daten"/> class, to be used by automated testing.
-		/// </summary>
-		[Obsolete("Remove this constructor")]
-		internal Daten(Coordinator coordinator)
-		{
-			_coordinator = coordinator;
 		}
 
 		private  void ThrowIfFileMissing(string path)

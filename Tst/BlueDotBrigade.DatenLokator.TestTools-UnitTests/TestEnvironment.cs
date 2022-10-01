@@ -13,7 +13,7 @@
 			Console.WriteLine("Test environment is being prepared...");
 			Lokator
 				.Get()
-				.UsingTestContext(context)
+				.UsingTestContext(context.Properties)
 				.Setup();
 			Console.WriteLine("Test environment preparation is complete.");
 		}

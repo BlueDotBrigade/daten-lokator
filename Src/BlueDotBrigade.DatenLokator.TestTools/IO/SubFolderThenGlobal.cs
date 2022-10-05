@@ -161,7 +161,7 @@
 			return System.IO.Path.Combine(this.RootDirectoryPath, subDirectoryRelativePath);
 		}
 
-		public string GetFileOrInferName(ITestNamingStrategy testNamingStrategy, string fileNameOrHint, string sourceDirectory)
+		private string GetFileOrInferName(ITestNamingStrategy testNamingStrategy, string fileNameOrHint, string sourceDirectory)
 		{
 			var sourceFilePath = Path.Combine(sourceDirectory, fileNameOrHint);
 

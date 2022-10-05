@@ -2,48 +2,13 @@
 {
 	using System;
 	using BlueDotBrigade.DatenLokator.TestsTools.IO;
+	using BlueDotBrigade.DatenLokator.TestsTools.NamingConventions;
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
 	using Moq;
 
 	[TestClass]
-	public class InputDataSelectorTest
+	public class SubFolderThenGlobalTests
 	{
-		[TestMethod]
-		public void RootDirectoryPath_SetupCalled_ReturnsCorrectPath()
-		{
-			var osFile = new Mock<IOsFile>();
-			var osDirectory = new Mock<IOsDirectory>();
-
-			osDirectory
-				.Setup(d => d.Exists(It.IsAny<string>()))
-				.Returns(true);
-
-			var fileManager = new SubFolderThenGlobal(osDirectory.Object, osFile.Object);
-			fileManager.Setup(@"C:\New\Root\Directory\Path");
-
-			Assert.AreEqual(
-				@"C:\New\Root\Directory\Path",
-				fileManager.RootDirectoryPath);
-		}
-
-		[TestMethod]
-		public void GlobalDirectoryPath_SetupCalled_ReturnsCorrectPath()
-		{
-			var osFile = new Mock<IOsFile>();
-			var osDirectory = new Mock<IOsDirectory>();
-
-			osDirectory
-				.Setup(d => d.Exists(It.IsAny<string>()))
-				.Returns(true);
-
-			var fileManager = new SubFolderThenGlobal(osDirectory.Object, osFile.Object);
-			fileManager.Setup(@"C:\New\Root\Directory\Path");
-			
-			Assert.AreEqual(
-				@"C:\New\Root\Directory\Path\~Global",
-				fileManager.GlobalDirectoryPath);
-		}
-
 		[TestMethod]
 		[ExpectedException(typeof(ArgumentException))]
 		public void Setup_InvalidPath_Throws()
@@ -61,12 +26,67 @@
 			Assert.Fail("Setup should have thrown an exception.");
 		}
 
+		[TestMethod]
+		public void Setup_ValidPath_SetsRootDirectoryPath()
+		{
+			var osFile = new Mock<IOsFile>();
+			var osDirectory = new Mock<IOsDirectory>();
+
+			osDirectory
+				.Setup(d => d.Exists(It.IsAny<string>()))
+				.Returns(true);
+
+			var fileManager = new SubFolderThenGlobal(osDirectory.Object, osFile.Object);
+			fileManager.Setup(@"C:\New\Root\Directory\Path");
+
+			Assert.AreEqual(
+				@"C:\New\Root\Directory\Path",
+				fileManager.RootDirectoryPath);
+		}
 
 		[TestMethod]
-		public void GetFileOrInferName_FileNameProvided_ReturnsFilePath()
+		public void Setup_ValidPath_SetsGlobalDirectoryPath()
 		{
+			var osFile = new Mock<IOsFile>();
+			var osDirectory = new Mock<IOsDirectory>();
+
+			osDirectory
+				.Setup(d => d.Exists(It.IsAny<string>()))
+				.Returns(true);
+
+			var fileManager = new SubFolderThenGlobal(osDirectory.Object, osFile.Object);
+			fileManager.Setup(@"C:\New\Root\Directory\Path");
 			
+			Assert.AreEqual(
+				@"C:\New\Root\Directory\Path\~Global",
+				fileManager.GlobalDirectoryPath);
 		}
+
+		[TestMethod]
+		public void GetFileOrInferName_FullyQualifiedPathProvided_ReturnsFilePath()
+		{
+			var osFile = new Mock<IOsFile>();
+			osFile
+				.Setup(d => d.Exists(It.IsAny<string>()))
+				.Returns(true);
+
+			var osDirectory = new Mock<IOsDirectory>();
+			osDirectory
+				.Setup(d => d.Exists(It.IsAny<string>()))
+				.Returns(true);
+
+			var namingStrategy = new Mock<ITestNamingStrategy>();
+
+			var fileManager = new SubFolderThenGlobal(osDirectory.Object, osFile.Object);
+			fileManager.Setup(@"C:\SampleData\");
+
+			Assert.AreEqual(
+				@"C:\SampleData\IO\InputDataSelectorTests\FooBar.txt",
+				fileManager.GetFilePath(
+					namingStrategy.Object,
+					"FooBar.txt",
+					@"C:\SourceCode\SolutionDir\ProjectDir\IO\InputDataSelectorTests.cs"));
+		}// C:\SampleData\ourceCode\SolutionDir\ProjectDir\IO\InputDataSelectorTests\FooBar.txt>. 
 
 
 

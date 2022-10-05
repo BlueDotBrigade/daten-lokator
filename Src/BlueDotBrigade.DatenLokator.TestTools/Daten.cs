@@ -1,6 +1,5 @@
 ﻿namespace BlueDotBrigade.DatenLokator.TestsTools
 {
-	using System;
 	using System.Diagnostics.CodeAnalysis;
 	using System.Runtime.CompilerServices;
 	using BlueDotBrigade.DatenLokator.TestsTools.Configuration;
@@ -9,17 +8,7 @@
 
 	public class Daten
 	{
-		/// <summary>
-		/// Using the default value of <see cref="string.Empty"/> will result in DatenLokator using the <see cref="ITestNamingStrategy"/>
-		/// to determine the source file name.
-		/// </summary>
-		private const string UseNamingStrategy = "";
-
-		/// <summary>
-		/// Using the default value of <see cref="string.Empty"/> will result in DatenLokator receiving the calling method's path at runtime.
-		/// This path will then be added to the list of search directories.
-		/// </summary>
-		private const string UseCallersFilePath = "";
+		private const string DoNotSet = "";
 
 		private readonly IOsDirectory _osDirectory;
 		private readonly IOsFile _osFile;
@@ -59,123 +48,131 @@
         }
 
 		/// <summary>
-        ///     Retrieves the path to a file based on the provided parameters.
-        /// </summary>
-        /// <param name="fileNameOrHint">
-        ///     Explicitly specifies the file to open(filename + extension).
-        ///     When omitted, the file name will be implied from the calling method's name.
-        /// </param>
-        /// <param name="sourceDirectory">
-        ///     Expected to be a fully qualified path to the directory when the file is stored.
-        ///     If omitted, the directory path will be inferred from the caller's file path.
-        /// </param>
-        /// <returns>A fully qualified file path.</returns>
-        /// <remarks>
-        /// Directory search order:
-        /// 1. the given directory
-        /// 2. a compressed file that is similar to the given directory
-        /// 3. the global directory for shared files
-        /// </remarks>
-        [SuppressMessage("Microsoft.Design", "CA1026")] // default is required by `CallerFilePath`
+		///     Retrieves the path to a file based on the provided parameters.
+		/// </summary>
+		/// <param name="callingMethodName">
+		///     Do not provide a value.
+		///     The .NET runtime will automatically set this parameter to the name of the calling method.
+		///     The <see cref="ITestNamingStrategy"/> will then select an input file based on the current test.
+		/// </param>
+		/// <param name="callingClassPath">
+		///     Do not provide a value.
+		///     The .NET runtime will automatically set this parameter the calling class' file path.
+		///     The <see cref="IFileManagementStrategy"/> will then build a directory path based on the current test.
+		/// </param>
+		/// <returns>A fully qualified file path.</returns>
+		/// <remarks>
+		/// Directory search order:
+		/// 1. the given directory
+		/// 2. a compressed file that is similar to the given directory
+		/// 3. the global directory for shared files
+		/// </remarks>
+		[SuppressMessage("Microsoft.Design", "CA1026")] // default is required by `CallerFilePath`
         public string AsFilePath(
-	        [CallerMemberName] string fileNameOrHint = UseNamingStrategy,
-            [CallerFilePath] string sourceDirectory = UseCallersFilePath)
+	        [CallerMemberName] string callingMethodName = DoNotSet,
+            [CallerFilePath] string callingClassPath = DoNotSet)
         {
-	        var actualPath = _coordinator.GetFilePath(fileNameOrHint, sourceDirectory);
+	        var sourceFilePath = _coordinator.GetFilePath(callingMethodName, callingClassPath);
 
-            ThrowIfFileMissing(actualPath);
+            ThrowIfFileMissing(sourceFilePath);
 
-            return actualPath;
+            return sourceFilePath;
         }
 
-        /// <summary>
-        ///     Retrieves the content of a text file.
-        /// </summary>
-        /// <param name="fileNameOrHint">
-        ///     Explicitly specifies the file to open(filename + extension).
-        ///     When omitted, the file name will be implied from the calling method's name.
-        /// </param>
-        /// <param name="sourceDirectory">
-        ///     Expected to be a fully qualified path to the directory when the file is stored.
-        ///     If omitted, the directory path will be inferred from the caller's file path.
-        /// </param>
-        /// <returns>A fully qualified file path.</returns>
-        /// <remarks>
-        /// Directory search order:
-        /// 1. the given directory
-        /// 2. a compressed file that is similar to the given directory
-        /// 3. the global directory for shared files
-        /// </remarks>
-        [SuppressMessage("Microsoft.Design", "CA1026")] // default is required by `CallerFilePath`
+		/// <summary>
+		///     Retrieves the content of a text file.
+		/// </summary>
+		/// <param name="callingMethodName">
+		///     Do not provide a value.
+		///     The .NET runtime will automatically set this parameter to the name of the calling method.
+		///     The <see cref="ITestNamingStrategy"/> will then select an input file based on the current test.
+		/// </param>
+		/// <param name="callingClassPath">
+		///     Do not provide a value.
+		///     The .NET runtime will automatically set this parameter the calling class' file path.
+		///     The <see cref="IFileManagementStrategy"/> will then build a directory path based on the current test.
+		/// </param>
+		/// <returns>A fully qualified file path.</returns>
+		/// <remarks>
+		/// Directory search order:
+		/// 1. the given directory
+		/// 2. a compressed file that is similar to the given directory
+		/// 3. the global directory for shared files
+		/// </remarks>
+		[SuppressMessage("Microsoft.Design", "CA1026")] // default is required by `CallerFilePath`
         public string AsString(
-	        [CallerMemberName] string fileNameOrHint = "",
-            [CallerFilePath] string sourceDirectory = "")
+	        [CallerMemberName] string callingMethodName = DoNotSet,
+            [CallerFilePath] string callingClassPath = DoNotSet)
         {
-	        var actualPath = _coordinator.GetFilePath(fileNameOrHint, sourceDirectory);
+	        var sourceFilePath = _coordinator.GetFilePath(callingMethodName, callingClassPath);
 
-            ThrowIfFileMissing(actualPath);
+            ThrowIfFileMissing(sourceFilePath);
 
-            return _osFile.ReadAllText(actualPath);
+            return _osFile.ReadAllText(sourceFilePath);
         }
 
-        /// <summary>
-        ///     Retrieves the content of a text file.
-        /// </summary>
-        /// <param name="fileNameOrHint">
-        ///     Explicitly specifies the file to open(filename + extension).
-        ///     When omitted, the file name will be implied from the calling method's name.
-        /// </param>
-        /// <param name="sourceDirectory">
-        ///     Expected to be a fully qualified path to the directory when the file is stored.
-        ///     When omitted, the directory path will be inferred from the caller's file path.
-        /// </param>
-        /// <returns>A fully qualified file path.</returns>
-        /// <remarks>
-        /// Directory search order:
-        /// 1. the given directory
-        /// 2. a compressed file that is similar to the given directory
-        /// 3. the global directory for shared files
-        /// </remarks>
-        [SuppressMessage("Microsoft.Design", "CA1026")] // default is required by `CallerFilePath`
+		/// <summary>
+		///     Retrieves the content of a text file.
+		/// </summary>
+		/// <param name="callingMethodName">
+		///     Do not provide a value.
+		///     The .NET runtime will automatically set this parameter to the name of the calling method.
+		///     The <see cref="ITestNamingStrategy"/> will then select an input file based on the current test.
+		/// </param>
+		/// <param name="callingClassPath">
+		///     Do not provide a value.
+		///     The .NET runtime will automatically set this parameter the calling class' file path.
+		///     The <see cref="IFileManagementStrategy"/> will then build a directory path based on the current test.
+		/// </param>
+		/// <returns>A fully qualified file path.</returns>
+		/// <remarks>
+		/// Directory search order:
+		/// 1. the given directory
+		/// 2. a compressed file that is similar to the given directory
+		/// 3. the global directory for shared files
+		/// </remarks>
+		[SuppressMessage("Microsoft.Design", "CA1026")] // default is required by `CallerFilePath`
         public System.IO.Stream AsStream(
-	        [CallerMemberName] string fileNameOrHint = "",
-            [CallerFilePath] string sourceDirectory = "")
+	        [CallerMemberName] string callingMethodName = DoNotSet,
+            [CallerFilePath] string callingClassPath = DoNotSet)
         {
-	        var actualPath = _coordinator.GetFilePath(fileNameOrHint, sourceDirectory);
+	        var sourceFilePath = _coordinator.GetFilePath(callingMethodName, callingClassPath);
 
-			ThrowIfFileMissing(actualPath);
+			ThrowIfFileMissing(sourceFilePath);
 
-            return _osFile.OpenRead(actualPath);
+            return _osFile.OpenRead(sourceFilePath);
         }
 
-        /// <summary>
-        ///     Retrieves the content of a text file.
-        /// </summary>
-        /// <param name="fileNameOrHint">
-        ///     Explicitly specifies the file to open(filename + extension).
-        ///     When omitted, the file name will be implied from the calling method's name.
-        /// </param>
-        /// <param name="sourceDirectory">
-        ///     Expected to be a fully qualified path to the directory when the file is stored.
-        ///     When omitted, the directory path will be inferred from the caller's file path.
-        /// </param>
-        /// <returns>A fully qualified file path.</returns>
-        /// <remarks>
-        /// Directory search order:
-        /// 1. the given directory
-        /// 2. a compressed file that is similar to the given directory
-        /// 3. the global directory for shared files
-        /// </remarks>
-        [SuppressMessage("Microsoft.Design", "CA1026")] // default is required by `CallerFilePath`
+		/// <summary>
+		///     Retrieves the content of a text file.
+		/// </summary>
+		/// <param name="callingMethodName">
+		///     Do not provide a value.
+		///     The .NET runtime will automatically set this parameter to the name of the calling method.
+		///     The <see cref="ITestNamingStrategy"/> will then select an input file based on the current test.
+		/// </param>
+		/// <param name="callingClassPath">
+		///     Do not provide a value.
+		///     The .NET runtime will automatically set this parameter the calling class' file path.
+		///     The <see cref="IFileManagementStrategy"/> will then build a directory path based on the current test.
+		/// </param>
+		/// <returns>A fully qualified file path.</returns>
+		/// <remarks>
+		/// Directory search order:
+		/// 1. the given directory
+		/// 2. a compressed file that is similar to the given directory
+		/// 3. the global directory for shared files
+		/// </remarks>
+		[SuppressMessage("Microsoft.Design", "CA1026")] // default is required by `CallerFilePath`
         public System.IO.StreamReader AsStreamReader(
-	        [CallerMemberName] string fileNameOrHint = "",
-            [CallerFilePath] string sourceDirectory = "")
+	        [CallerMemberName] string callingMethodName = DoNotSet,
+            [CallerFilePath] string callingClassPath = DoNotSet)
         {
-	        var actualPath = _coordinator.GetFilePath(fileNameOrHint, sourceDirectory);
+	        var sourceFilePath = _coordinator.GetFilePath(callingMethodName, callingClassPath);
 
-			ThrowIfFileMissing(actualPath);
+			ThrowIfFileMissing(sourceFilePath);
 
-            return new System.IO.StreamReader(_osFile.OpenRead(actualPath));
+            return new System.IO.StreamReader(_osFile.OpenRead(sourceFilePath));
         }
     }
 }

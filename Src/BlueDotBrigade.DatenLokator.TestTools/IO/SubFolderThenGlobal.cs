@@ -11,12 +11,12 @@
 	internal class SubFolderThenGlobal : IFileManagementStrategy
 	{
 		/// <summary>
-		/// Represents the name of the directory that holds input data that is shared by several automated tests.
+		/// Represents the name of the directory where all of the shared input data is stored.
 		/// </summary>
 		/// <remarks>
-		/// This directory contains:
+		/// Typically this directory contains:
 		/// 1. very large input files
-		/// 2. data that is shared by a large numnber of tests
+		/// 2. data that is shared by several tests
 		/// </remarks>
 		public const string GlobalDirectoryName = "~Global";
 
@@ -36,8 +36,14 @@
 			_rootDirectoryPath = string.Empty;
 		}
 
+		/// <summary>
+		/// Path refers to the directory that holds data that is shared by multiple tests.
+		/// </summary>
 		public string GlobalDirectoryPath => Path.Combine(this.RootDirectoryPath, GlobalDirectoryName);
-		
+
+		/// <summary>
+		/// Path refers to the parent directory where all of the input data is stored.
+		/// </summary>
 		public string RootDirectoryPath => _rootDirectoryPath;
 
 		private void Decompress(string directoryPath)

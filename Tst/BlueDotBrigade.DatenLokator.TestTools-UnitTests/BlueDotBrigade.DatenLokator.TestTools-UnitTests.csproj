@@ -8,7 +8,7 @@
 		<Version>2.0.0</Version>
 		<Authors>BlueDotBrigade;</Authors>
 		<Company>Blue Dot Brigade;</Company>
-		<Description>Simplifies testing by automatically selecting the appropriate input data for a given test case.</Description>
+		<Description>Simplifies testing by automatically selecting the appropriate source data for a given test case.</Description>
 		<Copyright>© 2022 Blue Dot Brigade. All rights reserved.</Copyright>
 		<RepositoryUrl>https://dev.azure.com/BlueDotBrigade/OpenSource/_git</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>

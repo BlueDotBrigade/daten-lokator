@@ -46,7 +46,7 @@
 		//public void BasePath_AssumedLocalPath_ReturnsPathToProjectFolder()
 		//{
 		//    Assert.IsTrue(string.IsNullOrWhiteSpace(ConfigurationManager.AppSettings["InputDataPath"]),
-		//        $"This test requires that you do NOT define a `{nameof(new Daten(_coordinator).BaseDirectoryPath)}` for the input data. BaseDirectoryPath=`{new Daten(_coordinator).BaseDirectoryPath}`");
+		//        $"This test requires that you do NOT define a `{nameof(new Daten(_coordinator).BaseDirectoryPath)}` for the source data. BaseDirectoryPath=`{new Daten(_coordinator).BaseDirectoryPath}`");
 
 		//    Debug.WriteLine($"Base path is assumed to be: {new Daten(_coordinator).BaseDirectoryPath}");
 

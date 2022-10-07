@@ -1,9 +1,9 @@
 ﻿namespace BlueDotBrigade.DatenLokator.TestsTools.NamingConventions
 {
 	/// <summary>
-	///     In order to automatically retrieve input data, it is assumed
-	///     that the unit test will use the following naming convention:
-	///     MemberName_Scenario_ExpectedResult
+	/// In order to automatically retrieve the source data, it is assumed
+	/// that the unit test will use the following naming convention:
+	/// MemberName_Scenario_ExpectedResult
 	/// </summary>
 	/// <example>
 	///     <code>

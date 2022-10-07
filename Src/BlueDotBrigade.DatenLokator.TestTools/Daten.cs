@@ -61,7 +61,7 @@
 					path);
 			}
 
-			System.Console.WriteLine($"Input data has been selected. SourceFileName=`{System.IO.Path.GetFileName(path)}`");
+			System.Console.WriteLine($"Source data has been selected. FileName=`{System.IO.Path.GetFileName(path)}`");
 		}
 
 		private string GetRegisteredPath(Using usingStrategy)

@@ -8,14 +8,14 @@
 	/// The intent of this class is to demonstrate how to retrieve input data using the DatenLokator library.
 	/// </summary>
 	/// <remarks>
-	/// The DatenLokator's default file management strategy assumes that the input data is stored within:
-	/// <code>\BlueDotBrigade.DatenLokator.DemoTests\Dat</code>
+	/// The DatenLokator's default file management strategy assumes that the source files are stored within:
+	/// <code>\BlueDotBrigade.DatenLokator.DemoTests\.Daten</code>
 	///
 	/// With respect to this class, the following search pattern is used
 	/// <list type="number">
-	/// <item>local directory: <code>\Dat\Serialization\XmlSerializerTests\</code></item>
-	/// <item>local compressed data: <code>\Dat\Serialization\XmlSerializerTests.zip</code></item>
-	/// <item>global directory: <code>\Dat\~Global\</code></item>
+	/// <item>local directory: <code>\.Daten\Serialization\XmlSerializerTests\</code></item>
+	/// <item>local compressed data: <code>\.Daten\Serialization\XmlSerializerTests.zip</code></item>
+	/// <item>global directory: <code>\.Daten\~Global\</code></item>
 	/// </list>
 	/// </remarks>
 	[TestClass]

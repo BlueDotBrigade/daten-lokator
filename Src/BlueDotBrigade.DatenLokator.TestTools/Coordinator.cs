@@ -9,13 +9,18 @@
 	{
 		private readonly IFileManagementStrategy _fileManagementStrategy;
 		private readonly ITestNamingStrategy _testNamingStrategy;
+		private readonly string _defaultFilePath;
 
 		private bool _isIniitialized;
 
-		public Coordinator(IFileManagementStrategy fileManagementStrategy, ITestNamingStrategy testNamingStrategy)
+		public Coordinator(
+			IFileManagementStrategy fileManagementStrategy, 
+			ITestNamingStrategy testNamingStrategy,
+			string defaultFilePath)
 		{
 			_fileManagementStrategy = fileManagementStrategy;
 			_testNamingStrategy = testNamingStrategy;
+			_defaultFilePath = defaultFilePath ?? string.Empty;
 		}
 
 		public void Setup(string rootDirectoryPath)
@@ -40,6 +45,27 @@
 			if (_isIniitialized)
 			{
 				return _fileManagementStrategy.GetFilePath(_testNamingStrategy, fileName, sourceDirectory);
+			}
+			else
+			{
+				throw new InvalidOperationException(
+					$"The {nameof(Coordinator)} has not been initialized. Hint: Call Setup() method");
+			}
+		}
+
+		public string GetDefaultFilePath()
+		{
+			if (_isIniitialized)
+			{
+				if (string.IsNullOrEmpty(_defaultFilePath))
+				{
+					throw new InvalidOperationException(
+						"Unable to select the default file, because a default file path has not been specified.");
+				}
+				else
+				{
+					return _defaultFilePath;
+				}
 			}
 			else
 			{

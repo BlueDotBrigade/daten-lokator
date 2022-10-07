@@ -39,7 +39,8 @@
 
 			_coordinator = new Coordinator(
 				_configuration.FileManagementStrategy,
-				_configuration.TestNamingStrategy);
+				_configuration.TestNamingStrategy,
+				_configuration.DefaultFilePath);
 		}
 
 		public IOsDirectory OsDirectory => _osDirectory;
@@ -139,7 +140,8 @@
         {
 	        _coordinator = new Coordinator(
 		        _configuration.FileManagementStrategy,
-		        _configuration.TestNamingStrategy);
+		        _configuration.TestNamingStrategy,
+		        _configuration.DefaultFilePath);
 
 	        var rootDirectoryPath = GetRootPathFromTestContext();
 

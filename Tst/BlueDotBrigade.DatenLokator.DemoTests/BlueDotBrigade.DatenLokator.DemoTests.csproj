@@ -34,4 +34,11 @@
 			<Link>Properties\DomainSpecificTerminology.xml</Link>
 		</CodeAnalysisDictionary>
 	</ItemGroup>
+	<ItemGroup>
+	  <None Include=".Daten\Serialization\XmlSerializerTests.zip" />
+	  <None Include=".Daten\Serialization\XmlSerializerTests\Bespin.xml" />
+	  <None Include=".Daten\Serialization\XmlSerializerTests\ProtocolDroid.xml" />
+	  <None Include=".Daten\Serialization\XmlSerializerTests~ZIP\SuperBattleDroid.xml" />
+	  <None Include=".Daten\~Global\PitDroid.xml" />
+	</ItemGroup>
 </Project>

@@ -9,10 +9,10 @@
 	internal class LokatorConfiguration
     {
 		/// <summary>
-		/// Represents the name of the root directory that all input data is stored within.
+		/// Represents the name of the root directory where all of the input data is stored.
 		/// </summary>
 		/// <remarks>
-		/// By default, this directory is assumed to be in the same folder as `.csproj`.
+		/// By default, this folder is assumed to be within the .NET project (`.csproj`) directory.
 		/// </remarks>
 		public const string RootDirectoryName = ".Daten";
 

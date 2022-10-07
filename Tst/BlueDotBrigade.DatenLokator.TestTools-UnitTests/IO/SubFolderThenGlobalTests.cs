@@ -63,7 +63,7 @@
 		}
 
 		[TestMethod]
-		public void GetFileOrInferName_FullyQualifiedPathProvided_ReturnsFilePath()
+		public void GetFilePath_FullyQualifiedPathProvided_ReturnsFilePath()
 		{
 			var osFile = new Mock<IOsFile>();
 			osFile
@@ -86,7 +86,7 @@
 					namingStrategy.Object,
 					"FooBar.txt",
 					@"C:\SourceCode\SolutionDir\ProjectDir\IO\InputDataSelectorTests.cs"));
-		}// C:\SampleData\ourceCode\SolutionDir\ProjectDir\IO\InputDataSelectorTests\FooBar.txt>. 
+		}
 
 
 

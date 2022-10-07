@@ -34,11 +34,14 @@
 		</CodeAnalysisDictionary>
 	</ItemGroup>
 	<ItemGroup>
+	  <Content Include=".Daten\DatenTests\FileByConvention.txt" />
+	  <Content Include=".Daten\DatenTests\FileByName.txt" />
+	  <Content Include=".Daten\~Global\Default.txt" />
+	</ItemGroup>
+	<ItemGroup>
 	  <None Include=".Daten-Alternate\UnitTesting\InputDataTest\ExplictlyDefinedPath.txt" />
 	  <None Include=".Daten\Data\InputDataTest\NamespaceSimilarToBasePath.txt" />
 	  <None Include=".Daten\DatenTests\AssumedLocalPath.txt" />
-	  <None Include=".Daten\DatenTests\FileRequestedExplicitly.txt" />
-	  <None Include=".Daten\DatenTests\FileRequestedImplicitly" />
-	  <None Include=".Daten\DatenTests\FileRequestedImplicitlyHasExtension.txt" />
+	  <None Include=".Daten\DatenTests\MissingFileExtensionByConvention" />
 	</ItemGroup>
 </Project>

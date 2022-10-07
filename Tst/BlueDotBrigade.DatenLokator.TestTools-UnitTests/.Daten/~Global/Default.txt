@@ -1,0 +1,1 @@
+﻿Default source file shared by multiple tests.

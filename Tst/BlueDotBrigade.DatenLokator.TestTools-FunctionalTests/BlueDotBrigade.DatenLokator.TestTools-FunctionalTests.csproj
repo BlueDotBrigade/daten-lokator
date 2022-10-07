@@ -12,6 +12,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include=".Daten\DatenShould\ExplicitFileName.log" />
+    <None Include=".Daten\DatenShould\ImplicitFileName.txt" />
+    <None Include=".Daten\~Global\ExplicitFile.csv" />
+    <None Include=".Daten\~Global\ImplicitFile.tsv" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
     <PackageReference Include="Moq" Version="4.18.2" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.2.8" />

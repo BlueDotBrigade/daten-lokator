@@ -14,7 +14,7 @@
 		/// <remarks>
 		/// By default, this directory is assumed to be in the same folder as `.csproj`.
 		/// </remarks>
-		public const string RootDirectoryName = "Dat";
+		public const string RootDirectoryName = ".Daten";
 
 		private static readonly IDictionary<string, object> NoProperties = new Dictionary<string, object>();
 

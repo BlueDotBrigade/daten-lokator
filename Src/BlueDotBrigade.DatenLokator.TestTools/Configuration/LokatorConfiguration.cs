@@ -14,12 +14,14 @@
 		/// <remarks>
 		/// By default, this folder is assumed to be within the .NET project (`.csproj`) directory.
 		/// </remarks>
-		public const string RootDirectoryName = ".Daten";
+		public const string RootDirectoryNameDefault = ".Daten";
+
+		public const string DefaultFileNameDefault = "Default.txt";
 
 		private static readonly IDictionary<string, object> NoProperties = new Dictionary<string, object>();
 
 		private IDictionary<string, object> _testEnvironmentProperties;
-	    private string _defaultFilePath;
+	    private string _defaultFileName;
 
 	    private ITestNamingStrategy _testNamingStrategy;
 		private IFileManagementStrategy _fileManagementStrategy;
@@ -27,7 +29,7 @@
 		public LokatorConfiguration(ITestNamingStrategy testNamingStrategy, IFileManagementStrategy fileManagementStrategy)
 	    {
 		    _testEnvironmentProperties = NoProperties;
-			_defaultFilePath = string.Empty;
+			_defaultFileName = DefaultFileNameDefault;
 
 			_testNamingStrategy = testNamingStrategy;
 			_fileManagementStrategy = fileManagementStrategy;
@@ -57,21 +59,21 @@
 			}
 		}
 
-		internal string DefaultFilePath
+		internal string DefaultFileName
 	    {
 		    get
 		    {
-			    return _defaultFilePath;
+			    return _defaultFileName;
 		    }
 		    set
 		    {
 			    if (value == null)
 			    {
-				    throw new ArgumentNullException(nameof(this.DefaultFilePath));
+				    throw new ArgumentNullException(nameof(this.DefaultFileName));
 			    }
 			    else
 			    {
-				    _defaultFilePath = value;
+				    _defaultFileName = value;
 			    }
 		    }
 	    }

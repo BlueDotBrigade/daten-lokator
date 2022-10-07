@@ -15,5 +15,7 @@
 		void TearDown();
 
 		string GetFilePath(ITestNamingStrategy testNamingStrategy, string fileName, string sourceDirectory);
+
+		string GetDefaultFilePath(string defaultFileName);
 	}
 }

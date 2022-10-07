@@ -33,15 +33,17 @@
 			ITestNamingStrategy testNamingStrategy = new AssertActArrange();
 
 			IFileManagementStrategy fileManagementStrategy = new SubFolderThenGlobal(
-				_osDirectory, 
+				_osDirectory,
 				_osFile);
 
 			_configuration = new LokatorConfiguration(testNamingStrategy, fileManagementStrategy);
 
 			_coordinator = new Coordinator(
+				GetProjectDirectoryPath(),
+				_configuration.DefaultFileName,
+				_configuration.TestEnvironmentProperties,
 				_configuration.FileManagementStrategy,
-				_configuration.TestNamingStrategy,
-				_configuration.DefaultFilePath);
+				_configuration.TestNamingStrategy);
 		}
 
 		public IOsDirectory OsDirectory => _osDirectory;
@@ -70,23 +72,23 @@
 			return SharedInstance;
 		}
 
-        public Lokator UsingDefaultFile(string path)
-        {
-            _configuration.DefaultFilePath = path;
-            return this;
-        }
+		public Lokator UsingDefaultFileName(string fileName)
+		{
+			_configuration.DefaultFileName = fileName;
+			return this;
+		}
 
-        public Lokator UsingTestNamingStrategy(ITestNamingStrategy strategy)
-        {
-	        _configuration.TestNamingStrategy = strategy;
-	        return this;
-        }
+		public Lokator UsingTestNamingStrategy(ITestNamingStrategy strategy)
+		{
+			_configuration.TestNamingStrategy = strategy;
+			return this;
+		}
 
-        public Lokator UsingFileManagementStrategy(IFileManagementStrategy strategy)
-        {
-	        _configuration.FileManagementStrategy = strategy;
-	        return this;
-        }
+		public Lokator UsingFileManagementStrategy(IFileManagementStrategy strategy)
+		{
+			_configuration.FileManagementStrategy = strategy;
+			return this;
+		}
 
 		/// <summary>
 		/// Specifies the configuration parameters that should be used by the test environment.
@@ -114,7 +116,7 @@
 			var index = AssemblyHelper.ExecutingDirectory.LastIndexOf(@"\bin\");
 			var projectDirectoryPath = AssemblyHelper.ExecutingDirectory.Substring(0, index);
 
-			return Path.Combine(projectDirectoryPath, LokatorConfiguration.RootDirectoryName);
+			return Path.Combine(projectDirectoryPath, LokatorConfiguration.RootDirectoryNameDefault);
 		}
 
 		private string GetRootPathFromTestContext()
@@ -140,31 +142,33 @@
 		}
 
 		public Lokator Setup()
-        {
-	        _coordinator = new Coordinator(
-		        _configuration.FileManagementStrategy,
-		        _configuration.TestNamingStrategy,
-		        _configuration.DefaultFilePath);
+		{
+			var rootDirectoryPath = GetRootPathFromTestContext();
 
-	        var rootDirectoryPath = GetRootPathFromTestContext();
+			if (string.IsNullOrEmpty(rootDirectoryPath))
+			{
+				rootDirectoryPath = GetProjectDirectoryPath();
+			}
 
-	        if (string.IsNullOrEmpty(rootDirectoryPath))
-	        {
-		        rootDirectoryPath = GetProjectDirectoryPath();
-	        }
+			_coordinator = new Coordinator(
+					rootDirectoryPath,
+					_configuration.DefaultFileName,
+					_configuration.TestEnvironmentProperties,
+					_configuration.FileManagementStrategy,
+					_configuration.TestNamingStrategy);
 
-	        _coordinator.Setup(rootDirectoryPath);
+			_coordinator.Setup();
 
-	        _isSetup = true;
+			_isSetup = true;
 
 			return this;
-        }
+		}
 
 		public Lokator TearDown()
-        {
-	        _configuration.FileManagementStrategy.TearDown();
+		{
+			_configuration.FileManagementStrategy.TearDown();
 
-	        return this;
+			return this;
 		}
 	}
 }

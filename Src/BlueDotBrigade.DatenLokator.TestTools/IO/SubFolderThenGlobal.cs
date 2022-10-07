@@ -18,7 +18,7 @@
 		/// 1. very large input files
 		/// 2. data that is shared by several tests
 		/// </remarks>
-		public const string GlobalDirectoryName = "~Global";
+		private const string GlobalDirectoryName = "~Global";
 
 		public const string CompressedFileExtension = ".Zip";
 		public const string CompressedFileTempDirectory = "~ZIP";
@@ -278,6 +278,11 @@
 			}
 
 			return filePath;
+		}
+
+		public string GetDefaultFilePath(string defaultFileName)
+		{
+			return Path.Combine(this.GlobalDirectoryPath, defaultFileName);
 		}
 	}
 }

@@ -9,18 +9,25 @@
 	{
 		private readonly IFileManagementStrategy _fileManagementStrategy;
 		private readonly ITestNamingStrategy _testNamingStrategy;
-		private readonly string _defaultFilePath;
+		private readonly string _rootDirectoryPath;
+		private readonly IDictionary<string, object> _testEnvironmentSettings;
+
+		private readonly string _defaultFileName;
 
 		private bool _isSetup;
 
 		public Coordinator(
+			string rootDirectoryPath,
+			string defaultFileName,
+			IDictionary<string, object> testEnvironmentSettings,
 			IFileManagementStrategy fileManagementStrategy, 
-			ITestNamingStrategy testNamingStrategy,
-			string defaultFilePath)
+			ITestNamingStrategy testNamingStrategy)
 		{
 			_fileManagementStrategy = fileManagementStrategy;
 			_testNamingStrategy = testNamingStrategy;
-			_defaultFilePath = defaultFilePath ?? string.Empty;
+			_rootDirectoryPath = rootDirectoryPath;
+			_testEnvironmentSettings = testEnvironmentSettings;
+			_defaultFileName = defaultFileName ?? string.Empty;
 		}
 
 		public void Setup(string rootDirectoryPath)
@@ -29,9 +36,10 @@
 			_isSetup = true;
 		}
 
-		public void Setup(string rootDirectoryPath, IDictionary<string, object> testEnvironmentSettings)
+		public void Setup()
 		{
-			_fileManagementStrategy.Setup(rootDirectoryPath, testEnvironmentSettings);
+			_fileManagementStrategy.Setup(_rootDirectoryPath, _testEnvironmentSettings);
+			
 			_isSetup = true;
 		}
 
@@ -55,23 +63,7 @@
 
 		public string GetDefaultFilePath()
 		{
-			if (_isSetup)
-			{
-				if (string.IsNullOrEmpty(_defaultFilePath))
-				{
-					throw new InvalidOperationException(
-						"Unable to select the default file, because a default file path has not been specified.");
-				}
-				else
-				{
-					return _defaultFilePath;
-				}
-			}
-			else
-			{
-				throw new InvalidOperationException(
-					$"The {nameof(Coordinator)} has not been initialized. Hint: Call Setup() method");
-			}
+			return _fileManagementStrategy.GetDefaultFilePath(_defaultFileName);
 		}
 	}
 }

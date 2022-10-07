@@ -1,11 +1,9 @@
 ﻿namespace BlueDotBrigade.DatenLokator.TestsTools
 {
 	using System;
-	using System.Diagnostics.CodeAnalysis;
 	using System.Runtime.CompilerServices;
 	using BlueDotBrigade.DatenLokator.TestsTools.Configuration;
 	using BlueDotBrigade.DatenLokator.TestsTools.IO;
-	using BlueDotBrigade.DatenLokator.TestsTools.NamingConventions;
 
 	public class Daten
 	{
@@ -39,7 +37,12 @@
 			_callingMethodName = callingMethodName ?? throw new ArgumentNullException(nameof(callingMethodName));
 			_callingClassPath = callingClassPath ?? throw new ArgumentNullException(nameof(callingClassPath));
 
-			Lokator currentLokator = lokator;
+			Lokator currentLokator = lokator ?? throw new ArgumentNullException(nameof(lokator));
+
+			if (!lokator.IsSetup)
+			{
+				throw new InvalidOperationException("The test environment has not yet been initialized. Hint: Call Lokator.Setup().");
+			}
 
 			_osDirectory = currentLokator.OsDirectory;
 			_osFile = currentLokator.OsFile;

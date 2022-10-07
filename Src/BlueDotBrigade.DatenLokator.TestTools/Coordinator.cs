@@ -11,7 +11,7 @@
 		private readonly ITestNamingStrategy _testNamingStrategy;
 		private readonly string _defaultFilePath;
 
-		private bool _isIniitialized;
+		private bool _isSetup;
 
 		public Coordinator(
 			IFileManagementStrategy fileManagementStrategy, 
@@ -26,13 +26,13 @@
 		public void Setup(string rootDirectoryPath)
 		{
 			_fileManagementStrategy.Setup(rootDirectoryPath);
-			_isIniitialized = true;
+			_isSetup = true;
 		}
 
 		public void Setup(string rootDirectoryPath, IDictionary<string, object> testEnvironmentSettings)
 		{
 			_fileManagementStrategy.Setup(rootDirectoryPath, testEnvironmentSettings);
-			_isIniitialized = true;
+			_isSetup = true;
 		}
 
 		public void TearDown()
@@ -42,7 +42,7 @@
 
 		public string GetFilePath(string fileName, string sourceDirectory)
 		{
-			if (_isIniitialized)
+			if (_isSetup)
 			{
 				return _fileManagementStrategy.GetFilePath(_testNamingStrategy, fileName, sourceDirectory);
 			}
@@ -55,7 +55,7 @@
 
 		public string GetDefaultFilePath()
 		{
-			if (_isIniitialized)
+			if (_isSetup)
 			{
 				if (string.IsNullOrEmpty(_defaultFilePath))
 				{

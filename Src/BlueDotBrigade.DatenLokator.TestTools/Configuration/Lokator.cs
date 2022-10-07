@@ -18,8 +18,9 @@
 		private readonly IOsDirectory _osDirectory;
 		private readonly IOsFile _osFile;
 
-		internal Lokator()
-		:this(new OsDirectory(), new OsFile())
+		private bool _isSetup = false;
+
+		internal Lokator() : this(new OsDirectory(), new OsFile())
 		{
 			// nothing to do
 		}
@@ -46,6 +47,8 @@
 		public IOsDirectory OsDirectory => _osDirectory;
 
 		public IOsFile OsFile => _osFile;
+
+		public bool IsSetup => _isSetup;
 
 		internal Coordinator Coordinator
 		{
@@ -152,7 +155,9 @@
 
 	        _coordinator.Setup(rootDirectoryPath);
 
-	        return this;
+	        _isSetup = true;
+
+			return this;
         }
 
 		public Lokator TearDown()

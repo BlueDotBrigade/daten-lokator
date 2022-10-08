@@ -205,6 +205,65 @@
 		/// Retrieves the data that is appropriate for the test that is currently executing.
 		/// </summary>
 		/// <returns>
+		/// Returns a <see langword="byte"/> array which encapsulates source file as a sequence of bytes.
+		/// </returns>
+		/// <remarks>
+		/// Directory search order:
+		/// 1. the given directory
+		/// 2. a compressed file that is similar to the given directory
+		/// 3. the global directory for shared files
+		/// </remarks>
+		public byte[] AsBytes()
+		{
+			var sourceFilePath = _coordinator.GetFilePath(_callingMethodName, _callingClassPath);
+
+			ThrowIfFileMissing(sourceFilePath);
+
+			return _osFile.ReadAllBytes(sourceFilePath);
+		}
+
+		/// <summary>
+		/// Retrieves the data that is stored within the given <paramref name="fileName"/>.
+		/// </summary>
+		/// <returns>
+		/// Returns a <see langword="byte"/> array which encapsulates source file as a sequence of bytes.
+		/// </returns>
+		/// <remarks>
+		/// Directory search order:
+		/// 1. the given directory
+		/// 2. a compressed file that is similar to the given directory
+		/// 3. the global directory for shared files
+		/// </remarks>
+		public byte[] AsBytes(string fileName)
+		{
+			var sourceFilePath = _coordinator.GetFilePath(fileName, _callingClassPath);
+
+			ThrowIfFileMissing(sourceFilePath);
+
+			return _osFile.ReadAllBytes(sourceFilePath);
+		}
+
+		/// <summary>
+		/// Retrieves the data that was registered with <see cref="Lokator"/>.
+		/// </summary>
+		/// <param name="usingStrategy">Determines which registered file to retrieve.</param>
+		/// <returns>
+		/// Returns a <see langword="byte"/> array which encapsulates source file as a sequence of bytes.
+		/// </returns>
+		/// <exception cref="ArgumentOutOfRangeException"/>
+		public byte[] AsBytes(Using usingStrategy)
+		{
+			var sourceFilePath = GetRegisteredDefaultPath(usingStrategy);
+
+			ThrowIfFileMissing(sourceFilePath);
+
+			return _osFile.ReadAllBytes(sourceFilePath);
+		}
+
+		/// <summary>
+		/// Retrieves the data that is appropriate for the test that is currently executing.
+		/// </summary>
+		/// <returns>
 		/// Returns a <see cref="System.IO.Stream"/> which encapsulates source file as a sequence of bytes.
 		/// </returns>
 		/// <remarks>

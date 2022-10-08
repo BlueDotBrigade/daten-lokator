@@ -6,7 +6,7 @@
 
 ## Overview
 
-If your automated tests are verifying more than just value types (`string`, `integer`, `float`, etc), then consider using this *NuGet* package to automatically locate and load your test data (`*.log`, `*.xml`, `*.json`, `*.jpg`, etc). All you need to do is call:
+If your automated tests are verifying more than just value types (`string`, `int`, `float`, etc), then consider using this *NuGet* package to automatically locate and load your test data (`*.log`, `*.xml`, `*.json`, `*.jpg`, etc). All you need to do is call:
 
 - `new Daten().AsStream()`
 

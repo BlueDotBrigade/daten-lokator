@@ -64,7 +64,7 @@
 			System.Console.WriteLine($"Source data has been selected. FileName=`{System.IO.Path.GetFileName(path)}`");
 		}
 
-		private string GetRegisteredPath(Using usingStrategy)
+		private string GetRegisteredDefaultPath(Using usingStrategy)
 		{
 			var defaultFilePath = string.Empty;
 
@@ -135,7 +135,7 @@
 		/// <exception cref="ArgumentOutOfRangeException"/>
 		public string AsFilePath(Using usingStrategy)
 		{
-			var sourceFilePath = GetRegisteredPath(usingStrategy);
+			var sourceFilePath = GetRegisteredDefaultPath(usingStrategy);
 
 			ThrowIfFileMissing(sourceFilePath);
 
@@ -194,7 +194,7 @@
 		/// <exception cref="ArgumentOutOfRangeException"/>
 		public string AsString(Using usingStrategy)
 		{
-			var sourceFilePath = GetRegisteredPath(usingStrategy);
+			var sourceFilePath = GetRegisteredDefaultPath(usingStrategy);
 
 			ThrowIfFileMissing(sourceFilePath);
 
@@ -253,7 +253,7 @@
 		/// <exception cref="ArgumentOutOfRangeException"/>
 		public System.IO.Stream AsStream(Using usingStrategy)
 		{
-			var sourceFilePath = GetRegisteredPath(usingStrategy);
+			var sourceFilePath = GetRegisteredDefaultPath(usingStrategy);
 
 			ThrowIfFileMissing(sourceFilePath);
 
@@ -312,7 +312,7 @@
 		/// <exception cref="ArgumentOutOfRangeException"/>
 		public System.IO.StreamReader StreamReader(Using usingStrategy)
 		{
-			var sourceFilePath = GetRegisteredPath(usingStrategy);
+			var sourceFilePath = GetRegisteredDefaultPath(usingStrategy);
 
 			ThrowIfFileMissing(sourceFilePath);
 

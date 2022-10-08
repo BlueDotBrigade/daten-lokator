@@ -20,11 +20,10 @@
 			var osFile = new OsFile();
 
 			var coordinator = new Coordinator(
-				@"c:\Root\Directory\Path",
-				"Default.txt",
-				new Dictionary<string, object>(),
+				new AssertActArrange(),
 				new SubFolderThenGlobal(osDirectory, osFile),
-				new AssertActArrange()); // duplicate
+				new Dictionary<string, object>(),
+				"DefaultInput.txt"); 
 
 			_lokator = new Lokator(osDirectory, osFile);
 			_lokator.UsingDefaultFileName("Default.txt");// duplicate
@@ -46,6 +45,15 @@
 		}
 
 		[TestMethod]
+		public void AsFilePath_FileByConvention_ReturnsPath()
+		{
+			var path = new Daten(_lokator).AsFilePath();
+
+			Assert.IsTrue(File.Exists(path));
+		}
+
+
+		[TestMethod]
 		public void AsString_FileByName_ReturnsCorrectContent()
 		{
 			Assert.AreEqual(
@@ -59,14 +67,6 @@
 			Assert.AreEqual(
 				"Default source file shared by multiple tests.",
 				new Daten(_lokator).AsString(Using.DefaultFileName));
-		}
-
-		[TestMethod]
-		public void AsFilePath_FileByConvention_ReturnsPath()
-		{
-			var path = new Daten(_lokator).AsFilePath();
-
-			Assert.IsTrue(File.Exists(path));
 		}
 
 		[TestMethod]

@@ -4,6 +4,7 @@
 	using System.Collections.Generic;
 	using BlueDotBrigade.DatenLokator.TestsTools.IO;
 	using BlueDotBrigade.DatenLokator.TestsTools.NamingConventions;
+	using BlueDotBrigade.DatenLokator.TestsTools.Reflection;
 
 	internal class Coordinator
 	{
@@ -17,11 +18,25 @@
 		private bool _isSetup;
 
 		public Coordinator(
-			string rootDirectoryPath,
-			string defaultFileName,
+			ITestNamingStrategy testNamingStrategy,
+			IFileManagementStrategy fileManagementStrategy,
 			IDictionary<string, object> testEnvironmentSettings,
-			IFileManagementStrategy fileManagementStrategy, 
-			ITestNamingStrategy testNamingStrategy)
+			string defaultFileName) : this(
+				testNamingStrategy,
+				fileManagementStrategy,
+				testEnvironmentSettings,
+				defaultFileName,
+				AssemblyHelper.ProjectDirectoryPath)
+		{
+			// nothing to do
+		}
+
+		public Coordinator(
+			ITestNamingStrategy testNamingStrategy,
+			IFileManagementStrategy fileManagementStrategy,
+			IDictionary<string, object> testEnvironmentSettings,
+			string defaultFileName,
+			string rootDirectoryPath)
 		{
 			_fileManagementStrategy = fileManagementStrategy;
 			_testNamingStrategy = testNamingStrategy;

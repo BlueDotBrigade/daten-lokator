@@ -3,6 +3,7 @@
 	using System;
 	using System.Collections;
 	using System.Collections.Generic;
+	using System.Configuration;
 	using System.IO;
 	using BlueDotBrigade.DatenLokator.TestsTools.IO;
 	using BlueDotBrigade.DatenLokator.TestsTools.NamingConventions;
@@ -39,11 +40,10 @@
 			_configuration = new LokatorConfiguration(testNamingStrategy, fileManagementStrategy);
 
 			_coordinator = new Coordinator(
-				GetProjectDirectoryPath(),
-				_configuration.DefaultFileName,
-				_configuration.TestEnvironmentProperties,
+				_configuration.TestNamingStrategy,
 				_configuration.FileManagementStrategy,
-				_configuration.TestNamingStrategy);
+				_configuration.TestEnvironmentProperties,
+				_configuration.DefaultFileName);
 		}
 
 		public IOsDirectory OsDirectory => _osDirectory;
@@ -74,6 +74,11 @@
 
 		public Lokator UsingDefaultFileName(string fileName)
 		{
+			if (string.IsNullOrWhiteSpace(fileName))
+			{
+				throw new ArgumentNullException(nameof(fileName),"A valid filename was expected.");
+			}
+
 			_configuration.DefaultFileName = fileName;
 			return this;
 		}
@@ -111,14 +116,6 @@
 			return this;
 		}
 
-		private string GetProjectDirectoryPath()
-		{
-			var index = AssemblyHelper.ExecutingDirectory.LastIndexOf(@"\bin\");
-			var projectDirectoryPath = AssemblyHelper.ExecutingDirectory.Substring(0, index);
-
-			return Path.Combine(projectDirectoryPath, LokatorConfiguration.RootDirectoryNameDefault);
-		}
-
 		private string GetRootPathFromTestContext()
 		{
 			var result = string.Empty;
@@ -147,15 +144,15 @@
 
 			if (string.IsNullOrEmpty(rootDirectoryPath))
 			{
-				rootDirectoryPath = GetProjectDirectoryPath();
+				rootDirectoryPath = AssemblyHelper.ProjectDirectoryPath;
 			}
 
 			_coordinator = new Coordinator(
-					rootDirectoryPath,
-					_configuration.DefaultFileName,
-					_configuration.TestEnvironmentProperties,
-					_configuration.FileManagementStrategy,
-					_configuration.TestNamingStrategy);
+				_configuration.TestNamingStrategy,
+				_configuration.FileManagementStrategy,
+				_configuration.TestEnvironmentProperties,
+				_configuration.DefaultFileName,
+				rootDirectoryPath);
 
 			_coordinator.Setup();
 

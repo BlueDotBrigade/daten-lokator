@@ -7,28 +7,18 @@
 	/// <summary>
 	/// The intent of this class is to demonstrate how to retrieve input data using the DatenLokator library.
 	/// </summary>
-	/// <remarks>
-	/// The DatenLokator's default file management strategy assumes that the source files are stored within:
-	/// <code>\BlueDotBrigade.DatenLokator.DemoTests\.Daten</code>
-	///
-	/// With respect to this class, the following search pattern is used
-	/// <list type="number">
-	/// <item>local directory: <code>\.Daten\Serialization\XmlSerializerTests\</code></item>
-	/// <item>local compressed data: <code>\.Daten\Serialization\XmlSerializerTests.zip</code></item>
-	/// <item>global directory: <code>\.Daten\~Global\</code></item>
-	/// </list>
-	/// </remarks>
 	[TestClass]
 	public class XmlSerializerTests
 	{
 		/// <summary>
-		/// An example of a `traditional` unit test that includes
-		/// an embedded string value for comparison.
+		/// An example of a typical unit test that includes an embedded string value for comparison.
 		/// </summary>
 		/// <remarks>
-		/// Notice how the...
-		/// - incremental visual noise introduced by the multiline string value
-		/// - escape codes make the multiline string value harder to read
+		/// Notice...
+		///  <list type="number">
+		///		<item>the visual noise introduced by the multiline string value</item>
+		///		<item>how the escape codes make the multiline string value harder to read</item> 
+		/// </list>
 		/// </remarks>
 		[TestMethod]
 		public void Serialize_AstromechDroid_StringsMatch()
@@ -57,7 +47,7 @@
 		}
 
 		/// <summary>
-		/// An example of DatenLokator automatically retrieving input data for a specific test case.
+		/// An example of DatenLokator automatically retrieving the correct input data for the test case.
 		/// </summary>
 		/// <remarks>
 		/// By default, DatenLokator expects the input data to be stored in a directory structure
@@ -65,10 +55,12 @@
 		///
 		/// \Serialization\XmlSerializerTests\ProtocolDroid.xml
 		///
-		/// Where
-		/// - Serialization : represents the namespace
-		/// - XmlSerializerTests : represents the MsTest class name
-		/// - ProtocolDroid.xml : represents the test case
+		/// Where:
+		/// <list type="bullet">
+		///		<item>Serialization : represents the namespace</item>
+		///		<item>XmlSerializerTests : represents the MS Test class name</item>
+		///		<item>ProtocolDroid.xml : represents the test case</item>
+		/// </list>
 		/// </remarks>
 		[TestMethod]
 		public void Serialize_ProtocolDroid_StringsMatch()

@@ -40,6 +40,7 @@
 			_configuration = new LokatorConfiguration(testNamingStrategy, fileManagementStrategy);
 
 			_coordinator = new Coordinator(
+				_osFile,
 				_configuration.TestNamingStrategy,
 				_configuration.FileManagementStrategy,
 				_configuration.TestEnvironmentProperties,
@@ -49,8 +50,6 @@
 		public IOsDirectory OsDirectory => _osDirectory;
 
 		public IOsFile OsFile => _osFile;
-
-		public bool IsSetup => _isSetup;
 
 		internal Coordinator Coordinator
 		{
@@ -144,10 +143,11 @@
 
 			if (string.IsNullOrEmpty(rootDirectoryPath))
 			{
-				rootDirectoryPath = AssemblyHelper.ProjectDirectoryPath;
+				rootDirectoryPath = AssemblyHelper.DefaultInputFilePath;
 			}
 
 			_coordinator = new Coordinator(
+				_osFile,
 				_configuration.TestNamingStrategy,
 				_configuration.FileManagementStrategy,
 				_configuration.TestEnvironmentProperties,

@@ -8,6 +8,8 @@
 
 	internal class Coordinator
 	{
+		private readonly IOsFile _osFile;
+
 		private readonly IFileManagementStrategy _fileManagementStrategy;
 		private readonly ITestNamingStrategy _testNamingStrategy;
 		private readonly string _rootDirectoryPath;
@@ -18,32 +20,40 @@
 		private bool _isSetup;
 
 		public Coordinator(
+			IOsFile osFile,
 			ITestNamingStrategy testNamingStrategy,
 			IFileManagementStrategy fileManagementStrategy,
 			IDictionary<string, object> testEnvironmentSettings,
 			string defaultFileName) : this(
+				osFile,
 				testNamingStrategy,
 				fileManagementStrategy,
 				testEnvironmentSettings,
 				defaultFileName,
-				AssemblyHelper.ProjectDirectoryPath)
+				AssemblyHelper.DefaultInputFilePath)
 		{
 			// nothing to do
 		}
 
 		public Coordinator(
+			IOsFile osFile,
 			ITestNamingStrategy testNamingStrategy,
 			IFileManagementStrategy fileManagementStrategy,
 			IDictionary<string, object> testEnvironmentSettings,
 			string defaultFileName,
 			string rootDirectoryPath)
 		{
+			_osFile = osFile;
 			_fileManagementStrategy = fileManagementStrategy;
 			_testNamingStrategy = testNamingStrategy;
 			_rootDirectoryPath = rootDirectoryPath;
 			_testEnvironmentSettings = testEnvironmentSettings;
 			_defaultFileName = defaultFileName ?? string.Empty;
 		}
+
+		public bool IsSetup => _isSetup;
+
+		internal IOsFile OsFile => _osFile;
 
 		public void Setup(string rootDirectoryPath)
 		{

@@ -24,7 +24,7 @@
             }
         }
 
-		internal static string ProjectDirectoryPath
+		internal static string DefaultInputFilePath
 		{
 			get
 			{

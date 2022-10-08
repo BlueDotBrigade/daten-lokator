@@ -11,9 +11,6 @@
 		private readonly string _callingClassPath;
 		private const string DoNotSet = "";
 
-		private readonly IOsDirectory _osDirectory;
-		private readonly IOsFile _osFile;
-
 		private readonly Coordinator _coordinator;
 
 		/// <summary>
@@ -22,37 +19,36 @@
 		/// <param name="callingMethodName">Do not provide a value </param>
 		/// <param name="callingClassPath">Do not provide a value.</param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public Daten([CallerMemberName] string callingMethodName = DoNotSet,
+		public Daten(
+			[CallerMemberName] string callingMethodName = DoNotSet,
 			[CallerFilePath] string callingClassPath = DoNotSet)
-			: this(Lokator.Get(), callingMethodName, callingClassPath)
+			: this(
+				Lokator.Get().Coordinator,
+				callingMethodName, 
+				callingClassPath)
 		{
 			// nothing to do
 		}
 
 		internal Daten(
-			Lokator lokator,
+			Coordinator coordinator,
 			[CallerMemberName] string callingMethodName = DoNotSet,
 			[CallerFilePath] string callingClassPath = DoNotSet)
 		{
 			_callingMethodName = callingMethodName ?? throw new ArgumentNullException(nameof(callingMethodName));
 			_callingClassPath = callingClassPath ?? throw new ArgumentNullException(nameof(callingClassPath));
 
-			Lokator currentLokator = lokator ?? throw new ArgumentNullException(nameof(lokator));
+			_coordinator = coordinator ?? throw new ArgumentNullException(nameof(coordinator));
 
-			if (!lokator.IsSetup)
+			if (!_coordinator.IsSetup)
 			{
 				throw new InvalidOperationException("The test environment has not yet been initialized. Hint: Call Lokator.Setup().");
 			}
-
-			_osDirectory = currentLokator.OsDirectory;
-			_osFile = currentLokator.OsFile;
-
-			_coordinator = currentLokator.Coordinator;
 		}
 
 		private void ThrowIfFileMissing(string path)
 		{
-			if (!_osFile.Exists(path))
+			if (!_coordinator.OsFile.Exists(path))
 			{
 				var sourceFile = System.IO.Path.GetFileName(path);
 				var directoryPath = System.IO.Path.GetDirectoryName(path) + @"\";
@@ -160,7 +156,7 @@
 
 			ThrowIfFileMissing(sourceFilePath);
 
-			return _osFile.ReadAllText(sourceFilePath);
+			return _coordinator.OsFile.ReadAllText(sourceFilePath);
 		}
 
 		/// <summary>
@@ -181,7 +177,7 @@
 
 			ThrowIfFileMissing(sourceFilePath);
 
-			return _osFile.ReadAllText(sourceFilePath);
+			return _coordinator.OsFile.ReadAllText(sourceFilePath);
 		}
 
 		/// <summary>
@@ -198,7 +194,7 @@
 
 			ThrowIfFileMissing(sourceFilePath);
 
-			return _osFile.ReadAllText(sourceFilePath);
+			return _coordinator.OsFile.ReadAllText(sourceFilePath);
 		}
 
 		/// <summary>
@@ -219,7 +215,7 @@
 
 			ThrowIfFileMissing(sourceFilePath);
 
-			return _osFile.ReadAllBytes(sourceFilePath);
+			return _coordinator.OsFile.ReadAllBytes(sourceFilePath);
 		}
 
 		/// <summary>
@@ -240,7 +236,7 @@
 
 			ThrowIfFileMissing(sourceFilePath);
 
-			return _osFile.ReadAllBytes(sourceFilePath);
+			return _coordinator.OsFile.ReadAllBytes(sourceFilePath);
 		}
 
 		/// <summary>
@@ -257,7 +253,7 @@
 
 			ThrowIfFileMissing(sourceFilePath);
 
-			return _osFile.ReadAllBytes(sourceFilePath);
+			return _coordinator.OsFile.ReadAllBytes(sourceFilePath);
 		}
 
 		/// <summary>
@@ -278,7 +274,7 @@
 
 			ThrowIfFileMissing(sourceFilePath);
 
-			return _osFile.OpenRead(sourceFilePath);
+			return _coordinator.OsFile.OpenRead(sourceFilePath);
 		}
 
 		/// <summary>
@@ -299,7 +295,7 @@
 
 			ThrowIfFileMissing(sourceFilePath);
 
-			return _osFile.OpenRead(sourceFilePath);
+			return _coordinator.OsFile.OpenRead(sourceFilePath);
 		}
 
 		/// <summary>
@@ -316,7 +312,7 @@
 
 			ThrowIfFileMissing(sourceFilePath);
 
-			return _osFile.OpenRead(sourceFilePath);
+			return _coordinator.OsFile.OpenRead(sourceFilePath);
 		}
 
 		/// <summary>
@@ -337,7 +333,7 @@
 
 			ThrowIfFileMissing(sourceFilePath);
 
-			return new System.IO.StreamReader(_osFile.OpenRead(sourceFilePath));
+			return new System.IO.StreamReader(_coordinator.OsFile.OpenRead(sourceFilePath));
 		}
 
 		/// <summary>
@@ -358,7 +354,7 @@
 
 			ThrowIfFileMissing(sourceFilePath);
 
-			return new System.IO.StreamReader(_osFile.OpenRead(sourceFilePath));
+			return new System.IO.StreamReader(_coordinator.OsFile.OpenRead(sourceFilePath));
 		}
 
 		/// <summary>
@@ -375,7 +371,7 @@
 
 			ThrowIfFileMissing(sourceFilePath);
 
-			return new System.IO.StreamReader(_osFile.OpenRead(sourceFilePath));
+			return new System.IO.StreamReader(_coordinator.OsFile.OpenRead(sourceFilePath));
 		}
 	}
 }

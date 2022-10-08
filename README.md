@@ -35,7 +35,10 @@ Where the method name represents the target format:
 
 ## Examples
 
-The [sample application][DemoApp] includes unit tests which provide an [example][DemoTests] how to use the *Daten Lokator* library.
+The following [sample code][DemoTests] written for the a simple [application][DemoApp] demonstrates how:
+
+1. easy it is to use *Daten Lokator*, and 
+2. how the library reduces visual noise thus making the test easier to read
 
 [DemoApp]: https://github.com/BlueDotBrigade/daten-lokator/tree/Features/6-EasierToExtend/Src/BlueDotBrigade.DatenLokator.Demo
 [DemoTests]: https://github.com/BlueDotBrigade/daten-lokator/blob/Features/6-EasierToExtend/Tst/BlueDotBrigade.DatenLokator.DemoTests/Serialization/XmlSerializerTests.cs

@@ -20,7 +20,7 @@ Where the method name represents the target format:
 
 ## Features
 
-1. Automatic decompression of compressed (`*.zip`) files.
+1. Automatic decompression of `*.zip` files.
     -	Useful for saving disk space.
 2. Global cache support.
     - Useful when multiple rests require the same file as input.

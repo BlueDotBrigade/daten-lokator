@@ -29,7 +29,7 @@ Where the method name represents the target format:
 4. Extensible library.
     - Create [extension methods][ExtensionMethod] to support custom target formats (e.g. `AsRecord()`).
     - Implement the `ITestNamingStrategy` interface to support custom test naming conventions.
-    - Implement the `IFileManagementStrategy` interface for proprietary file management (e.g. cloud file storage).
+    - Implement the `IFileManagementStrategy` interface for proprietary file management (e.g. cloud based storage).
 
 [ExtensionMethod]: https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods
 

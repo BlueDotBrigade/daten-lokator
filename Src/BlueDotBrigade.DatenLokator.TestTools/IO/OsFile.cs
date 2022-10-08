@@ -10,7 +10,9 @@
 
         public virtual FileStream OpenRead(string path) => System.IO.File.OpenRead(path);
 
-        public virtual void Delete(string path) => System.IO.File.Delete(path);
+        public virtual byte[] ReadAllBytes(string path) => System.IO.File.ReadAllBytes(path);
+
+		public virtual void Delete(string path) => System.IO.File.Delete(path);
 
         public virtual void Copy(string sourceFileName, string destFileName) =>
             System.IO.File.Copy(sourceFileName, destFileName);

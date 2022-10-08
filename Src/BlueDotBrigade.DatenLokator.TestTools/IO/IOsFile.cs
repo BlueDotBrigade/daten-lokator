@@ -9,8 +9,12 @@
 	public interface IOsFile
     {
         bool Exists(string path);
+
         string ReadAllText(string path);
-        System.IO.FileStream OpenRead(string path);
+
+        byte[] ReadAllBytes(string path);
+
+		System.IO.FileStream OpenRead(string path);
 
         void Delete(string path);
 

@@ -1,54 +1,41 @@
+# Daten Lokator
 
-| Package | Latest Release | Downloads |
-| --- | --- | --- |
-| BlueDotBrigade.DatenLokator | [![latest version](https://img.shields.io/nuget/v/BlueDotBrigade.DatenLokator)](https://www.nuget.org/packages/BlueDotBrigade.DatenLokator) | [![downloads](https://img.shields.io/nuget/dt/BlueDotBrigade.DatenLokator)](https://www.nuget.org/packages/BlueDotBrigade.DatenLokator) |
+- [Daten Lokator Overview](#daten-lokator-overview)
+- [Features](#features)
+- [Examples](#examples)
 
-# For Developers
+## Daten Lokator Overview
 
-## Sample Usage
+If your automated tests are verifying more than just value types (`string`, `integer`, `float`, etc), then consider using this *NuGet* package to automatically locate and load your test data (`*.log`, `*.xml`, `*.json`, `*.jpg`, etc). All you need to do is call:
 
-Step 1: Initialize the framework once by calling `Setup()`.
+- `new Daten().AsStream()`
 
-```CSharp
-[TestClass]
-public class TestEnvironment
-{
-  [AssemblyInitialize]
-  public static void Setup(TestContext context)
-  {
-    // As part of the initialization process, 
-    // compressed input files (`*.zip`) will be decompressed.
-    InputData.Setup();
-  }
+Where the method name represents the target format:
 
-  [AssemblyCleanup]
-  public static void Teardown()
-  {
-    InputData.Teardown();
-  }
-}
-```
+-	`AsFile()`
+-	`AsString()`
+-	`AsStream()`
+-	`AsBytes()`
+-	etc.
 
-Step 2: Call `InputData.GetFilePath()` as needed.
+## Features
 
-```CSharp
-using BlueDotBrigade.Weevil;
+1. Automatic decompression of compressed (`*.zip`) files.
+    -	Useful for saving disk space.
+2. Global cache support.
+    - Useful when multiple rests require the same file as input.
+3. Run-time customization.
+    - Provide a root directory that is organization specific.
+4. Extensible library.
+    - Create [extension methods][ExtensionMethod] to support custom target formats (e.g. `AsRecord()`).
+    - Implement the `ITestNamingStrategy` interface to support custom test naming conventions.
+    - Implement the `IFileManagementStrategy` interface for proprietary file management (e.g. cloud file storage).
 
-[TestMethod]
-public void Clear_BeforeSelected_Returns200()
-{
-	// The input file associated with this test
-	// will be automatically located.
-	var engine = Engine
-		.UsingPath(InputData.GetFilePath())
-		.Open();
+[ExtensionMethod]: https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods
 
-	engine
-		.Selector
-		.Select(lineNumber: 56);
+## Examples
 
-	engine.Clear(ClearRecordsOperation.BeforeSelected);
+The [sample application][DemoApp] includes unit tests which provide an [example][DemoTests] how to use the *Daten Lokator* library.
 
-	Assert.AreEqual(200, engine.Records.Length);
-}
-```
+[DemoApp]: https://github.com/BlueDotBrigade/daten-lokator/tree/Features/6-EasierToExtend/Src/BlueDotBrigade.DatenLokator.Demo
+[DemoTests]: https://github.com/BlueDotBrigade/daten-lokator/blob/Features/6-EasierToExtend/Tst/BlueDotBrigade.DatenLokator.DemoTests/Serialization/XmlSerializerTests.cs

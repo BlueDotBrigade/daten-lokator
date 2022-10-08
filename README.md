@@ -35,7 +35,7 @@ Where the method name represents the target format:
 
 ## Examples
 
-The following [sample code][DemoTests] written for a trivial [application][DemoApp] demonstrates how:
+The following [sample code][DemoTests], written for a trivial [application][DemoApp], demonstrates how:
 
 1. easy it is to use *Daten Lokator*, and 
 2. how the library reduces visual noise thus making the test easier to read

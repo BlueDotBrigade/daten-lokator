@@ -78,7 +78,7 @@
 		/// </summary>
 		/// <remarks>
 		/// By default, DatenLokator expects the input data to be stored in a directory structure
-		/// that mirrors the namespace. For example, in the case of:
+		/// that mirrors the namespace. For example, in this case:
 		///
 		/// \Serialization\XmlSerializerTests\ProtocolDroid.xml
 		///

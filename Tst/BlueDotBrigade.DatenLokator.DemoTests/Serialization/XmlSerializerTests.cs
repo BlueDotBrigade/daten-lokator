@@ -28,7 +28,14 @@
 			{
 				SerialNo = "IA-16CFR2D2",
 				Manufacturer = "Industrial Automaton",
-				ComputerInterface = "SCOMP Link"
+				ProductLine = "R-Series",
+				Peripherals = new Peripheral[]
+				{
+					new Peripheral { Type = "Mark IV Locomotion System", SerialNumber = "IA-1A963F95"},
+					new Peripheral { Type = "SCOMP Link", SerialNumber = "IA-80C56868"},
+					new Peripheral { Type = "Fusioncutter", SerialNumber = "IA-6D9D071C"},
+					new Peripheral { Type = "Holoprojector", SerialNumber = "IA-12735813"},
+				}
 			};
 
 			// Act
@@ -40,9 +47,29 @@
 				@"<AstromechDroid xmlns:i=""http://www.w3.org/2001/XMLSchema-instance"" xmlns=""http://schemas.datacontract.org/2004/07/BlueDotBrigade.DatenLokator.Demo.Droids"">" + "\r\n" +
 				@"	<Manufacturer>Industrial Automaton</Manufacturer>" + "\r\n" +
 				@"	<SerialNo>IA-16CFR2D2</SerialNo>" + "\r\n" +
-				@"	<ComputerInterface>SCOMP Link</ComputerInterface>" + "\r\n" +
+				@"	<Peripherals>" + "\r\n" +
+				@"		<Peripheral>" + "\r\n" +
+				@"			<SerialNumber>IA-1A963F95</SerialNumber>" + "\r\n" +
+				@"			<Type>Mark IV Locomotion System</Type>" + "\r\n" +
+				@"		</Peripheral>" + "\r\n" +
+				@"		<Peripheral>" + "\r\n" +
+				@"			<SerialNumber>IA-80C56868</SerialNumber>" + "\r\n" +
+				@"			<Type>SCOMP Link</Type>" + "\r\n" +
+				@"		</Peripheral>" + "\r\n" +
+				@"		<Peripheral>" + "\r\n" +
+				@"			<SerialNumber>IA-6D9D071C</SerialNumber>" + "\r\n" +
+				@"			<Type>Fusioncutter</Type>" + "\r\n" +
+				@"		</Peripheral>" + "\r\n" +
+				@"		<Peripheral>" + "\r\n" +
+				@"			<SerialNumber>IA-12735813</SerialNumber>" + "\r\n" +
+				@"			<Type>Holoprojector</Type>" + "\r\n" +
+				@"		</Peripheral>" + "\r\n" +
+				@"	</Peripherals>" + "\r\n" +
+				@"	<ProductLine>R-Series</ProductLine>" + "\r\n" +
 				@"</AstromechDroid>";
 
+			// Not only does the preceding line make the test visually noisy,
+			// ... but also the string is error prone.
 			Assert.AreEqual(expectedMessage, message);
 		}
 

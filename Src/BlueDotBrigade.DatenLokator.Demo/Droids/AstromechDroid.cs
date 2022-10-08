@@ -2,6 +2,8 @@
 {
 	public class AstromechDroid : Droid
 	{
-		public string ComputerInterface { get; set; }
+		public string ProductLine { get; set; }
+
+		public Peripheral[] Peripherals { get; set; }
 	}
 }

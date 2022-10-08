@@ -20,7 +20,7 @@ Where the method name represents the target format:
 
 ## Features
 
-1. Automatic decompression of compressed (`*.zip`) files.
+1. Automatic decompression of `*.zip` files.
     -	Useful for saving disk space.
 2. Global cache support.
     - Useful when multiple rests require the same file as input.
@@ -29,13 +29,13 @@ Where the method name represents the target format:
 4. Extensible library.
     - Create [extension methods][ExtensionMethod] to support custom target formats (e.g. `AsRecord()`).
     - Implement the `ITestNamingStrategy` interface to support custom test naming conventions.
-    - Implement the `IFileManagementStrategy` interface for proprietary file management (e.g. cloud file storage).
+    - Implement the `IFileManagementStrategy` interface for proprietary file management (e.g. cloud based storage).
 
 [ExtensionMethod]: https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods
 
 ## Examples
 
-The following [sample code][DemoTests] written for a trivial [application][DemoApp] demonstrates how:
+The following [sample code][DemoTests], written for a trivial [application][DemoApp], demonstrates how:
 
 1. easy it is to use *Daten Lokator*, and 
 2. how the library reduces visual noise thus making the test easier to read

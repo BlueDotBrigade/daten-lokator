@@ -1,6 +1,6 @@
 # Daten Lokator
 
-- [Daten Lokator Overview](#daten-lokator-overview)
+- [Overview](#overview)
 - [Features](#features)
 - [Examples](#examples)
 

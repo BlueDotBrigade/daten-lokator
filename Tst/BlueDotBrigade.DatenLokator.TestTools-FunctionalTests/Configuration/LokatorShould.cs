@@ -16,7 +16,9 @@
 		[TestMethod]
 		public void UseDefaultRootDirectory()
 		{
-			
+			var path = new Daten().AsFilePath("FooBar.txt");
+
+			Assert.IsTrue(path.EndsWith(@"\.Daten\Configuration\LokatorShould\FooBar.txt"));
 		}
 
 		// Include tests that verify the search path

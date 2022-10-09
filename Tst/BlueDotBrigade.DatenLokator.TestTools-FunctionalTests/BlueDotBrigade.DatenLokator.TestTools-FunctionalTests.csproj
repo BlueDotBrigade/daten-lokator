@@ -12,6 +12,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include=".Daten\Configuration\LokatorShould\FooBar.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include=".Daten\DatenShould\ExplicitFileName.log" />
     <None Include=".Daten\DatenShould\ImplicitFileName.txt" />
     <None Include=".Daten\~Global\ExplicitFile.csv" />

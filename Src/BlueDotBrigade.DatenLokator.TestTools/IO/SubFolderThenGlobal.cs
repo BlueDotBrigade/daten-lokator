@@ -7,9 +7,12 @@
 	using System.IO.Compression;
 	using System.Linq;
 	using BlueDotBrigade.DatenLokator.TestsTools.NamingConventions;
+	using BlueDotBrigade.DatenLokator.TestsTools.Reflection;
 
 	internal class SubFolderThenGlobal : IFileManagementStrategy
 	{
+		private static readonly int ExtensionLength = ".cs".Length;
+
 		/// <summary>
 		/// Represents the name of the directory where all of the shared input data is stored.
 		/// </summary>
@@ -161,10 +164,12 @@
 				throw new ArgumentException("Expected a valid directory path.", nameof(subDirectoryPath));
 			}
 
-			var index = subDirectoryPath.LastIndexOfPrefix(_rootDirectoryPath);
-			var subDirectoryRelativePath = subDirectoryPath.Substring(index + 1);
+			var testDataSubDirectory = subDirectoryPath.Replace(AssemblyHelper.ProjectDirectoryPath, string.Empty);
+			testDataSubDirectory = testDataSubDirectory.Substring(1, testDataSubDirectory.Length - 1);
 
-			return System.IO.Path.Combine(this.RootDirectoryPath, subDirectoryRelativePath);
+			var testDataPath = System.IO.Path.Combine(this.RootDirectoryPath, testDataSubDirectory);
+
+			return testDataPath.Substring(0, testDataPath.Length - ExtensionLength);
 		}
 
 		private string GetFileOrInferName(ITestNamingStrategy testNamingStrategy, string fileNameOrHint, string sourceDirectory)

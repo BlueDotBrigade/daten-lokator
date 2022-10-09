@@ -30,7 +30,7 @@
 				fileManagementStrategy,
 				testEnvironmentSettings,
 				defaultFileName,
-				AssemblyHelper.DefaultInputFilePath)
+				AssemblyHelper.DefaultDatenDirectoryPath)
 		{
 			// nothing to do
 		}

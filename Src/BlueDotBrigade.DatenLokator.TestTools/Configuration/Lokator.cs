@@ -143,7 +143,7 @@
 
 			if (string.IsNullOrEmpty(rootDirectoryPath))
 			{
-				rootDirectoryPath = AssemblyHelper.DefaultInputFilePath;
+				rootDirectoryPath = AssemblyHelper.DefaultDatenDirectoryPath;
 			}
 
 			_coordinator = new Coordinator(

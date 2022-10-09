@@ -24,14 +24,29 @@
             }
         }
 
-		internal static string DefaultInputFilePath
+		internal static string ProjectDirectoryPath
 		{
 			get
 			{
-				var index = ExecutingDirectory.LastIndexOf(@"\bin\");
-				var projectDirectoryPath = AssemblyHelper.ExecutingDirectory.Substring(0, index);
+				var binIndex =  ExecutingDirectory.LastIndexOf(
+					@"\Bin\", 
+					StringComparison.InvariantCultureIgnoreCase);
 
-				return Path.Combine(projectDirectoryPath, LokatorConfiguration.RootDirectoryNameDefault);
+				var projectPath = ExecutingDirectory.Substring(
+					0,
+					binIndex);
+
+				return projectPath;
+			}
+		}
+
+		internal static string DefaultDatenDirectoryPath
+		{
+			get
+			{
+				return Path.Combine(
+					ProjectDirectoryPath, 
+					LokatorConfiguration.RootDirectoryNameDefault);
 			}
 		}
     }

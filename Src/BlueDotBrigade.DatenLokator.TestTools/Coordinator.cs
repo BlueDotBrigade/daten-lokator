@@ -55,12 +55,6 @@
 
 		internal IOsFile OsFile => _osFile;
 
-		public void Setup(string rootDirectoryPath)
-		{
-			_fileManagementStrategy.Setup(rootDirectoryPath);
-			_isSetup = true;
-		}
-
 		public void Setup()
 		{
 			_fileManagementStrategy.Setup(_rootDirectoryPath, _testEnvironmentSettings);

@@ -115,7 +115,7 @@
 			return this;
 		}
 
-		private string GetRootPathFromTestContext()
+		private string GetRootDirectoryPath()
 		{
 			var result = string.Empty;
 
@@ -139,7 +139,7 @@
 
 		public Lokator Setup()
 		{
-			var rootDirectoryPath = GetRootPathFromTestContext();
+			var rootDirectoryPath = GetRootDirectoryPath();
 
 			if (string.IsNullOrEmpty(rootDirectoryPath))
 			{

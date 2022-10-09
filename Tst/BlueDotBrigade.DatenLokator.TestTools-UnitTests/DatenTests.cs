@@ -28,7 +28,7 @@
 				new Dictionary<string, object>(),
 				DefaultFileName);
 
-			_coordinator.Setup(AssemblyHelper.DefaultInputFilePath);
+			_coordinator.Setup();
 		}
 
 		[TestCleanup]

@@ -3,6 +3,7 @@
 	using BlueDotBrigade.DatenLokator.TestsTools;
 	using BlueDotBrigade.DatenLokator.TestsTools.Configuration;
 	using BlueDotBrigade.DatenLokator.TestsTools.IO;
+	using BlueDotBrigade.DatenLokator.TestsTools.NamingConventions;
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
 	using Moq;
 
@@ -13,7 +14,7 @@
 	public class LokatorShould
 	{
 		[TestMethod]
-		public void UseDefaultInputDirectory()
+		public void UseDefaultRootDirectory()
 		{
 			
 		}
@@ -21,7 +22,7 @@
 		// Include tests that verify the search path
 
 		[TestMethod]
-		public void UseSpecificRootDirectory()
+		public void UseCustomRootDirectory()
 		{
 			const string CustomRootDirectory = @"Z:\InputData";
 
@@ -40,11 +41,17 @@
 				return path.StartsWith(CustomRootDirectory);
 			});
 
-			Lokator lokator = new Lokator(directory.Object, file.Object)
-				.UsingTestContext(properties)
-				.Setup();
+			var coordinator = new Coordinator(
+				file.Object,
+				new AssertActArrange(),
+				new SubFolderThenGlobal(directory.Object, file.Object),
+				new Dictionary<string, object>(),
+				"Default.txt",
+				CustomRootDirectory);
 
-			var sourceFilePath = new Daten(lokator).AsFilePath("MyFile.log");
+			coordinator.Setup();
+
+			var sourceFilePath = new Daten(coordinator).AsFilePath("MyFile.log");
 
 			Assert.IsTrue(sourceFilePath.StartsWith(CustomRootDirectory));
 		}

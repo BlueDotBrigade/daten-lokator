@@ -1,8 +1,10 @@
 ﻿namespace BlueDotBrigade.DatenLokator.TestTools.IO
 {
 	using System;
+	using System.IO;
 	using BlueDotBrigade.DatenLokator.TestsTools.IO;
 	using BlueDotBrigade.DatenLokator.TestsTools.NamingConventions;
+	using BlueDotBrigade.DatenLokator.TestsTools.Reflection;
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
 	using Moq;
 
@@ -63,8 +65,10 @@
 		}
 
 		[TestMethod]
-		public void GetFilePath_FullyQualifiedPathProvided_ReturnsFilePath()
+		public void GetFilePath_NewRootDirectory_ReturnsCorrectPath()
 		{
+			var thisClassPath = Path.Combine(AssemblyHelper.ProjectDirectoryPath, @"IO\SubFolderThenGlobalTests.cs");
+
 			var osFile = new Mock<IOsFile>();
 			osFile
 				.Setup(d => d.Exists(It.IsAny<string>()))
@@ -81,11 +85,11 @@
 			fileManager.Setup(@"C:\SampleData\");
 
 			Assert.AreEqual(
-				@"C:\SampleData\IO\InputDataSelectorTests\FooBar.txt",
+				@"C:\SampleData\IO\SubFolderThenGlobalTests\FooBar.txt",
 				fileManager.GetFilePath(
 					namingStrategy.Object,
 					"FooBar.txt",
-					@"C:\SourceCode\SolutionDir\ProjectDir\IO\InputDataSelectorTests.cs"));
+					thisClassPath));
 		}
 
 

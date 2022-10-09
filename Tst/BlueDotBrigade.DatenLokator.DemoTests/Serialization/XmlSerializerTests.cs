@@ -69,7 +69,7 @@
 				@"</AstromechDroid>";
 
 			// Not only does the preceding line make the test visually noisy,
-			// ... but also the string is error prone.
+			// ... but the string is also very error prone.
 			Assert.AreEqual(expectedMessage, message);
 		}
 

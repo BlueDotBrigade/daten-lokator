@@ -33,4 +33,8 @@
     <ProjectReference Include="..\..\Src\BlueDotBrigade.DatenLokator.TestTools\BlueDotBrigade.DatenLokator.TestsTools.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="NamingConventions\" />
+  </ItemGroup>
+
 </Project>

@@ -1,7 +1,7 @@
 ﻿namespace BlueDotBrigade.DatenLokator.TestsTools
 {
-	public enum Using
+	public enum From
 	{
-		DefaultFileName,
+		GlobalDefault,
 	}
 }

@@ -56,7 +56,7 @@
 		[TestMethod]
 		public void AsFilePath_FileByDefault_ReturnsPath()
 		{
-			var path = new Daten(_coordinator).AsFilePath(Using.DefaultFileName);
+			var path = new Daten(_coordinator).AsFilePath(From.GlobalDefault);
 
 			Assert.IsTrue(File.Exists(path));
 			Assert.IsTrue(path.EndsWith(DefaultFileName));
@@ -68,7 +68,7 @@
 		{
 			Assert.AreEqual(
 				"Default source file shared by multiple tests.",
-				new Daten(_coordinator).AsString(Using.DefaultFileName));
+				new Daten(_coordinator).AsString(From.GlobalDefault));
 		}
 
 		[TestMethod]

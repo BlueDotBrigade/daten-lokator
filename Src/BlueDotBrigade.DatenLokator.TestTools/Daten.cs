@@ -60,20 +60,20 @@
 			System.Console.WriteLine($"Source data has been selected. FileName=`{System.IO.Path.GetFileName(path)}`");
 		}
 
-		private string GetRegisteredDefaultPath(Using usingStrategy)
+		private string GetGlobalDefaultPath(From fromSource)
 		{
 			var defaultFilePath = string.Empty;
 
-			switch (usingStrategy)
+			switch (fromSource)
 			{
-				case Using.DefaultFileName:
+				case From.GlobalDefault:
 					defaultFilePath = _coordinator.GetDefaultFilePath();
 					break;
 
 				default:
 					throw new ArgumentOutOfRangeException(
-						nameof(usingStrategy),
-						$"This method expects the parameter to always be: {nameof(Using.DefaultFileName)}");
+						nameof(fromSource),
+						$"This method expects the parameter to always be: {nameof(From.GlobalDefault)}");
 			}
 
 			return defaultFilePath;
@@ -124,14 +124,14 @@
 		/// <summary>
 		/// Retrieves the data that was registered with <see cref="Lokator"/>.
 		/// </summary>
-		/// <param name="usingStrategy">Determines which registered file to retrieve.</param>
+		/// <param name="fromStrategy">Determines which registered file to retrieve.</param>
 		/// <returns>
 		/// Returns the source file as a fully qualified path.
 		/// </returns>
 		/// <exception cref="ArgumentOutOfRangeException"/>
-		public string AsFilePath(Using usingStrategy)
+		public string AsFilePath(From fromStrategy)
 		{
-			var sourceFilePath = GetRegisteredDefaultPath(usingStrategy);
+			var sourceFilePath = GetGlobalDefaultPath(fromStrategy);
 
 			ThrowIfFileMissing(sourceFilePath);
 
@@ -183,14 +183,14 @@
 		/// <summary>
 		/// Retrieves the data that was registered with <see cref="Lokator"/>.
 		/// </summary>
-		/// <param name="usingStrategy">Determines which registered file to retrieve.</param>
+		/// <param name="fromStrategy">Determines which registered file to retrieve.</param>
 		/// <returns>
 		/// Returns the source file as a .NET <see langword="string"/>.
 		/// </returns>
 		/// <exception cref="ArgumentOutOfRangeException"/>
-		public string AsString(Using usingStrategy)
+		public string AsString(From fromStrategy)
 		{
-			var sourceFilePath = GetRegisteredDefaultPath(usingStrategy);
+			var sourceFilePath = GetGlobalDefaultPath(fromStrategy);
 
 			ThrowIfFileMissing(sourceFilePath);
 
@@ -242,14 +242,14 @@
 		/// <summary>
 		/// Retrieves the data that was registered with <see cref="Lokator"/>.
 		/// </summary>
-		/// <param name="usingStrategy">Determines which registered file to retrieve.</param>
+		/// <param name="fromStrategy">Determines which registered file to retrieve.</param>
 		/// <returns>
 		/// Returns a <see langword="byte"/> array which encapsulates source file as a sequence of bytes.
 		/// </returns>
 		/// <exception cref="ArgumentOutOfRangeException"/>
-		public byte[] AsBytes(Using usingStrategy)
+		public byte[] AsBytes(From fromStrategy)
 		{
-			var sourceFilePath = GetRegisteredDefaultPath(usingStrategy);
+			var sourceFilePath = GetGlobalDefaultPath(fromStrategy);
 
 			ThrowIfFileMissing(sourceFilePath);
 
@@ -301,14 +301,14 @@
 		/// <summary>
 		/// Retrieves the data that was registered with <see cref="Lokator"/>.
 		/// </summary>
-		/// <param name="usingStrategy">Determines which registered file to retrieve.</param>
+		/// <param name="fromStrategy">Determines which registered file to retrieve.</param>
 		/// <returns>
 		/// Returns a <see cref="System.IO.Stream"/> which encapsulates source file as a sequence of bytes.
 		/// </returns>
 		/// <exception cref="ArgumentOutOfRangeException"/>
-		public System.IO.Stream AsStream(Using usingStrategy)
+		public System.IO.Stream AsStream(From fromStrategy)
 		{
-			var sourceFilePath = GetRegisteredDefaultPath(usingStrategy);
+			var sourceFilePath = GetGlobalDefaultPath(fromStrategy);
 
 			ThrowIfFileMissing(sourceFilePath);
 
@@ -360,14 +360,14 @@
 		/// <summary>
 		/// Retrieves the data that was registered with <see cref="Lokator"/>.
 		/// </summary>
-		/// <param name="usingStrategy">Determines which registered file to retrieve.</param>
+		/// <param name="fromStrategy">Determines which registered file to retrieve.</param>
 		/// <returns>
 		/// Returns a <see cref="System.IO.StreamReader"/> which encapsulates source file as a sequence of bytes.
 		/// </returns>
 		/// <exception cref="ArgumentOutOfRangeException"/>
-		public System.IO.StreamReader StreamReader(Using usingStrategy)
+		public System.IO.StreamReader StreamReader(From fromStrategy)
 		{
-			var sourceFilePath = GetRegisteredDefaultPath(usingStrategy);
+			var sourceFilePath = GetGlobalDefaultPath(fromStrategy);
 
 			ThrowIfFileMissing(sourceFilePath);
 

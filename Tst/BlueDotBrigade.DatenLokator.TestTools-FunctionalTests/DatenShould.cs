@@ -7,7 +7,7 @@
 	{
 		[TestMethod]
 		[ExpectedException(typeof(FileNotFoundException))]
-		public void AsString_ImplicitFileDoesNotExist_Throws()
+		public void AsString_ByConventionFileDoesNotExist_Throws()
 		{
 			var fileContent = new Daten().AsString();
 
@@ -16,7 +16,7 @@
 
 		[TestMethod]
 		[ExpectedException(typeof(FileNotFoundException))]
-		public void AsString_ExplicitFileDoesNotExist_Throws()
+		public void AsString_ByFileNameFileDoesNotExist_Throws()
 		{
 			var fileContent = new Daten().AsString("ThisFileDoesNotExist.txt");
 
@@ -24,42 +24,46 @@
 		}
 
 		[TestMethod]
-		public void AsString_ImplicitFileName_ReturnsLocalFileContent()
+		public void AsString_ByConvention_ReturnsLocalFileContent()
 		{
 			var fileContent = new Daten().AsString();
 
 			Assert.AreEqual(
-				@"Implicit filename used to retrieve local file content.",
+				@"The name of the test is used to determine the source file name.",
 				fileContent);
 		}
 
 		[TestMethod]
-		public void AsString_ExplicitFileName_ReturnsLocalFileContent()
+		public void AsString_ByFileName_ReturnsLocalFileContent()
 		{
-			var fileContent = new Daten().AsString(@"ExplicitFileName.log");
+			var fileContent = new Daten().AsString(@"ByFileName.log");
 
 			Assert.AreEqual(
-				@"Explicit filename used to retrieve local file content.",
+				@"DatenLokator is explicitly told the name of the source file.",
 				fileContent);
 		}
 
 		[TestMethod]
-		public void AsString_ImplicitFile_ReturnsGlobalFileContent()
+		public void AsString_ByConventionGlobalData_ReturnsGlobalFileContent()
 		{
 			var fileContent = new Daten().AsString();
 
+			var expected =
+				@"The name of the test is used to determine the source file name. " +
+				@"Since file does not exist locally, DatenLokator will check the global cache.";
+
 			Assert.AreEqual(
-				@"Implicit filename used to retrieve global file content.",
+				expected,
 				fileContent);
 		}
 
 		[TestMethod]
-		public void AsString_ExplicitFile_ReturnsGlobalFileContent()
+		public void AsString_ByFileNameGlobalData_ReturnsGlobalFileContent()
 		{
-			var fileContent = new Daten().AsString(@"ExplicitFile.csv");
+			var fileContent = new Daten().AsString(@"ByFileNameGlobalData.md");
 
 			Assert.AreEqual(
-				@"Explicit filename used to retrieve global file content.",
+				@"Provided file name could not be found locally, so DatenLokator will check the global cache.",
 				fileContent);
 		}
 	}

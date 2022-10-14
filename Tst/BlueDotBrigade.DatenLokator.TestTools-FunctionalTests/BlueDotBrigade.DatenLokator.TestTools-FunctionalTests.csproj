@@ -16,10 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include=".Daten\DatenShould\ExplicitFileName.log" />
-    <None Include=".Daten\DatenShould\ImplicitFileName.txt" />
-    <None Include=".Daten\~Global\ExplicitFile.csv" />
-    <None Include=".Daten\~Global\ImplicitFile.tsv" />
+    <None Include=".Daten\DatenShould\ByConvention.txt" />
+    <None Include=".Daten\DatenShould\ByFileName.log" />
+    <None Include=".Daten\~Global\ByFileNameGlobalData.md" />
+    <None Include=".Daten\~Global\ByConventionGlobalData.md" />
   </ItemGroup>
 
   <ItemGroup>

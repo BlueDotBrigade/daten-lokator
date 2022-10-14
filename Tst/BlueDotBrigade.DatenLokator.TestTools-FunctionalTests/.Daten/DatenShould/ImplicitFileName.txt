@@ -1,1 +1,0 @@
-﻿Implicit filename used to retrieve local file content.

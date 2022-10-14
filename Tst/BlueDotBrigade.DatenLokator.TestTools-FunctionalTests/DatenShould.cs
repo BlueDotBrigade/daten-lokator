@@ -24,6 +24,16 @@
 		}
 
 		[TestMethod]
+		public void AsString_ByDefault_ReturnsDefaultFileContent()
+		{
+			var fileContent = new Daten().AsString(From.GlobalDefault);
+
+			Assert.AreEqual(
+				@"DatenLokator will default to this filename.",
+				fileContent);
+		}
+
+		[TestMethod]
 		public void AsString_ByConvention_ReturnsLocalFileContent()
 		{
 			var fileContent = new Daten().AsString();

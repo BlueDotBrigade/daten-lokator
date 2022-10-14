@@ -14,6 +14,7 @@
 			Lokator
 				.Get()
 				.UsingTestContext(context.Properties)
+				.UsingDefaultFileName("DefaultInput.txt")
 				.Setup();
 			Console.WriteLine("Test environment has been prepared.");
 		}

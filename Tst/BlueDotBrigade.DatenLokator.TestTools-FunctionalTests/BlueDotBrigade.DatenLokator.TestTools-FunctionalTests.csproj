@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <Content Include=".Daten\Configuration\LokatorShould\FooBar.txt" />
+    <Content Include=".Daten\~Global\DefaultInput.txt" />
   </ItemGroup>
 
   <ItemGroup>

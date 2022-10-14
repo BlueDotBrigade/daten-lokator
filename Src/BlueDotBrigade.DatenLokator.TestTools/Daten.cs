@@ -3,7 +3,6 @@
 	using System;
 	using System.Runtime.CompilerServices;
 	using BlueDotBrigade.DatenLokator.TestsTools.Configuration;
-	using BlueDotBrigade.DatenLokator.TestsTools.IO;
 
 	public class Daten
 	{
@@ -124,14 +123,14 @@
 		/// <summary>
 		/// Retrieves the data that was registered with <see cref="Lokator"/>.
 		/// </summary>
-		/// <param name="fromStrategy">Determines which registered file to retrieve.</param>
+		/// <param name="fromSource">Determines which registered file to retrieve.</param>
 		/// <returns>
 		/// Returns the source file as a fully qualified path.
 		/// </returns>
 		/// <exception cref="ArgumentOutOfRangeException"/>
-		public string AsFilePath(From fromStrategy)
+		public string AsFilePath(From fromSource)
 		{
-			var sourceFilePath = GetGlobalDefaultPath(fromStrategy);
+			var sourceFilePath = GetGlobalDefaultPath(fromSource);
 
 			ThrowIfFileMissing(sourceFilePath);
 
@@ -183,14 +182,14 @@
 		/// <summary>
 		/// Retrieves the data that was registered with <see cref="Lokator"/>.
 		/// </summary>
-		/// <param name="fromStrategy">Determines which registered file to retrieve.</param>
+		/// <param name="fromSource">Determines which registered file to retrieve.</param>
 		/// <returns>
 		/// Returns the source file as a .NET <see langword="string"/>.
 		/// </returns>
 		/// <exception cref="ArgumentOutOfRangeException"/>
-		public string AsString(From fromStrategy)
+		public string AsString(From fromSource)
 		{
-			var sourceFilePath = GetGlobalDefaultPath(fromStrategy);
+			var sourceFilePath = GetGlobalDefaultPath(fromSource);
 
 			ThrowIfFileMissing(sourceFilePath);
 
@@ -242,14 +241,14 @@
 		/// <summary>
 		/// Retrieves the data that was registered with <see cref="Lokator"/>.
 		/// </summary>
-		/// <param name="fromStrategy">Determines which registered file to retrieve.</param>
+		/// <param name="fromSource">Determines which registered file to retrieve.</param>
 		/// <returns>
 		/// Returns a <see langword="byte"/> array which encapsulates source file as a sequence of bytes.
 		/// </returns>
 		/// <exception cref="ArgumentOutOfRangeException"/>
-		public byte[] AsBytes(From fromStrategy)
+		public byte[] AsBytes(From fromSource)
 		{
-			var sourceFilePath = GetGlobalDefaultPath(fromStrategy);
+			var sourceFilePath = GetGlobalDefaultPath(fromSource);
 
 			ThrowIfFileMissing(sourceFilePath);
 
@@ -301,14 +300,14 @@
 		/// <summary>
 		/// Retrieves the data that was registered with <see cref="Lokator"/>.
 		/// </summary>
-		/// <param name="fromStrategy">Determines which registered file to retrieve.</param>
+		/// <param name="fromSource">Determines which registered file to retrieve.</param>
 		/// <returns>
 		/// Returns a <see cref="System.IO.Stream"/> which encapsulates source file as a sequence of bytes.
 		/// </returns>
 		/// <exception cref="ArgumentOutOfRangeException"/>
-		public System.IO.Stream AsStream(From fromStrategy)
+		public System.IO.Stream AsStream(From fromSource)
 		{
-			var sourceFilePath = GetGlobalDefaultPath(fromStrategy);
+			var sourceFilePath = GetGlobalDefaultPath(fromSource);
 
 			ThrowIfFileMissing(sourceFilePath);
 
@@ -360,14 +359,14 @@
 		/// <summary>
 		/// Retrieves the data that was registered with <see cref="Lokator"/>.
 		/// </summary>
-		/// <param name="fromStrategy">Determines which registered file to retrieve.</param>
+		/// <param name="fromSource">Determines which registered file to retrieve.</param>
 		/// <returns>
 		/// Returns a <see cref="System.IO.StreamReader"/> which encapsulates source file as a sequence of bytes.
 		/// </returns>
 		/// <exception cref="ArgumentOutOfRangeException"/>
-		public System.IO.StreamReader StreamReader(From fromStrategy)
+		public System.IO.StreamReader AsStreamReader(From fromSource)
 		{
-			var sourceFilePath = GetGlobalDefaultPath(fromStrategy);
+			var sourceFilePath = GetGlobalDefaultPath(fromSource);
 
 			ThrowIfFileMissing(sourceFilePath);
 

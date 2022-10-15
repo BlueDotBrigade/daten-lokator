@@ -328,3 +328,7 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+
+# DatenLokator temporarily uses this directory 
+# to store decompressed files for automated tests.
+*~ZIP/

@@ -1,0 +1,59 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32519.379
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlueDotBrigade.DatenLokator.TestsTools", "Src\BlueDotBrigade.DatenLokator.TestTools\BlueDotBrigade.DatenLokator.TestsTools.csproj", "{45CCE4A3-EF0E-4D01-A036-EABC7CEA4E88}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlueDotBrigade.DatenLokator.TestTools-UnitTests", "Tst\BlueDotBrigade.DatenLokator.TestTools-UnitTests\BlueDotBrigade.DatenLokator.TestTools-UnitTests.csproj", "{65CF85B2-561B-4B89-92C4-22C8C4E0B113}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{757B7DBD-6139-476C-8813-764E5924F953}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		DomainSpecificTerminology.xml = DomainSpecificTerminology.xml
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlueDotBrigade.DatenLokator.TestTools-FunctionalTests", "Tst\BlueDotBrigade.DatenLokator.TestTools-FunctionalTests\BlueDotBrigade.DatenLokator.TestTools-FunctionalTests.csproj", "{66C5F609-7A61-408F-AAD3-1E9F9594FBCA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{AF7F9394-20A7-464F-8873-D9F02E8FA72D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlueDotBrigade.DatenLokator.DemoTests", "Tst\BlueDotBrigade.DatenLokator.DemoTests\BlueDotBrigade.DatenLokator.DemoTests.csproj", "{FAD7F913-0B28-46BD-A09A-CA9E283D63E4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlueDotBrigade.DatenLokator.Demo", "Src\BlueDotBrigade.DatenLokator.Demo\BlueDotBrigade.DatenLokator.Demo.csproj", "{8656A642-7C1A-4EB5-AA08-3A3BAF94863C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{45CCE4A3-EF0E-4D01-A036-EABC7CEA4E88}.Debug|x64.ActiveCfg = Debug|x64
+		{45CCE4A3-EF0E-4D01-A036-EABC7CEA4E88}.Debug|x64.Build.0 = Debug|x64
+		{45CCE4A3-EF0E-4D01-A036-EABC7CEA4E88}.Release|x64.ActiveCfg = Release|x64
+		{65CF85B2-561B-4B89-92C4-22C8C4E0B113}.Debug|x64.ActiveCfg = Debug|x64
+		{65CF85B2-561B-4B89-92C4-22C8C4E0B113}.Debug|x64.Build.0 = Debug|x64
+		{65CF85B2-561B-4B89-92C4-22C8C4E0B113}.Release|x64.ActiveCfg = Release|x64
+		{66C5F609-7A61-408F-AAD3-1E9F9594FBCA}.Debug|x64.ActiveCfg = Debug|x64
+		{66C5F609-7A61-408F-AAD3-1E9F9594FBCA}.Debug|x64.Build.0 = Debug|x64
+		{66C5F609-7A61-408F-AAD3-1E9F9594FBCA}.Release|x64.ActiveCfg = Release|x64
+		{66C5F609-7A61-408F-AAD3-1E9F9594FBCA}.Release|x64.Build.0 = Release|x64
+		{FAD7F913-0B28-46BD-A09A-CA9E283D63E4}.Debug|x64.ActiveCfg = Debug|x64
+		{FAD7F913-0B28-46BD-A09A-CA9E283D63E4}.Debug|x64.Build.0 = Debug|x64
+		{FAD7F913-0B28-46BD-A09A-CA9E283D63E4}.Release|x64.ActiveCfg = Release|x64
+		{FAD7F913-0B28-46BD-A09A-CA9E283D63E4}.Release|x64.Build.0 = Release|x64
+		{8656A642-7C1A-4EB5-AA08-3A3BAF94863C}.Debug|x64.ActiveCfg = Debug|x64
+		{8656A642-7C1A-4EB5-AA08-3A3BAF94863C}.Debug|x64.Build.0 = Debug|x64
+		{8656A642-7C1A-4EB5-AA08-3A3BAF94863C}.Release|x64.ActiveCfg = Release|x64
+		{8656A642-7C1A-4EB5-AA08-3A3BAF94863C}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FAD7F913-0B28-46BD-A09A-CA9E283D63E4} = {AF7F9394-20A7-464F-8873-D9F02E8FA72D}
+		{8656A642-7C1A-4EB5-AA08-3A3BAF94863C} = {AF7F9394-20A7-464F-8873-D9F02E8FA72D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {249500A1-9CB5-4264-BF91-FF171986A737}
+	EndGlobalSection
+EndGlobal

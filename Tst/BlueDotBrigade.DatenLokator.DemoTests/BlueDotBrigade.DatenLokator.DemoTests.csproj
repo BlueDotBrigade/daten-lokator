@@ -3,12 +3,12 @@
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<IsPackable>false</IsPackable>
-		<RootNamespace>BlueDotBrigade.DatenLokator.TestTools</RootNamespace>
-		<PackageId>BlueDotBrigade.DatenLokator.TestTools-UnitTests</PackageId>
+		<RootNamespace>BlueDotBrigade.DatenLokator.Demo</RootNamespace>
+		<PackageId>BlueDotBrigade.DatenLokator.DemoTests</PackageId>
 		<Version>2.0.0</Version>
 		<Authors>BlueDotBrigade;</Authors>
 		<Company>Blue Dot Brigade;</Company>
-		<Description>Simplifies testing by automatically selecting the appropriate source data for a given test case.</Description>
+		<Description>Simplifies testing by automatically selecting the appropriate input data for a given test case.</Description>
 		<Copyright>© 2022 Blue Dot Brigade. All rights reserved.</Copyright>
 		<RepositoryUrl>https://dev.azure.com/BlueDotBrigade/OpenSource/_git</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
@@ -25,6 +25,7 @@
 		<PackageReference Include="MSTest.TestFramework" Version="2.2.10" />
 	</ItemGroup>
 	<ItemGroup>
+		<ProjectReference Include="..\..\Src\BlueDotBrigade.DatenLokator.Demo\BlueDotBrigade.DatenLokator.Demo.csproj" />
 		<ProjectReference Include="..\..\Src\BlueDotBrigade.DatenLokator.TestTools\BlueDotBrigade.DatenLokator.TestsTools.csproj" />
 	</ItemGroup>
 	<ItemGroup>
@@ -33,14 +34,10 @@
 		</CodeAnalysisDictionary>
 	</ItemGroup>
 	<ItemGroup>
-	  <Content Include=".Daten\DatenTests\FileByConvention.txt" />
-	  <Content Include=".Daten\DatenTests\FileByName.txt" />
-	  <Content Include=".Daten\.Global\DefaultInput.txt" />
-	</ItemGroup>
-	<ItemGroup>
-	  <None Include=".Daten-Alternate\UnitTesting\InputDataTest\ExplictlyDefinedPath.txt" />
-	  <None Include=".Daten\Data\InputDataTest\NamespaceSimilarToBasePath.txt" />
-	  <None Include=".Daten\DatenTests\AssumedLocalPath.txt" />
-	  <None Include=".Daten\DatenTests\MissingFileExtensionByConvention" />
+	  <None Include=".Daten\Serialization\XmlSerializerTests.zip" />
+	  <None Include=".Daten\Serialization\XmlSerializerTests\Bespin.xml" />
+	  <None Include=".Daten\Serialization\XmlSerializerTests\ProtocolDroid.xml" />
+	  <None Include=".Daten\Serialization\XmlSerializerTests~ZIP\SuperBattleDroid.xml" />
+	  <None Include=".Daten\.Global\PitDroid.xml" />
 	</ItemGroup>
 </Project>

@@ -38,16 +38,24 @@ Where the method name represents the target format:
 ## How To Use
 
 1. Create a .NET automated test project.
-	- For example: Using _Visual Studio_ add a _MsTest Test Project_ to your solution.
+   - For example: Using _Visual Studio_ add a _MsTest Test Project_ to your solution.
 2. Add the latest _NuGet_ package to your test project:
-	- [BlueDotBrigade.DatenLokator][NuGetPackage]
+   - [BlueDotBrigade.DatenLokator][NuGetPackage]
 3. The _Daten Lokator_ library must be initialized only **once** when the automated tests start.
-	- Example: `Lokator.Setup()`
-	- If you are using _MsTest_ then consider doing this where the `AssemblyInitialize` attribute is used.
+   - Example: `Lokator.Setup()`
+   - If you are using _MsTest_ then consider doing this where the `AssemblyInitialize` attribute is used.
 4. Create an automated test.
-	- By default the _Daten Lokator_ library assumes that test method name follows the [Assert Act Arrange][AAA] naming convention.
-5. When an input file is needed, simply call the appropriate `Daten` method.
-	- For example: `new Daten().AsString()`
+   - By default the _Daten Lokator_ library assumes that test method name follows the [Assert Act Arrange][AAA] naming convention.
+5. Save the input data in a file directory structure that mirrors the namespace.
+   - For example:
+      - **Tests:** `BlueDotBrigade.DatenLokator.DemoTests/Serialization/XmlSerializerTests.cs`
+      - **Data:** `BlueDotBrigade.DatenLokator.DemoTests/.Daten/Serialization/*.*` 
+   - Where:
+      - `BlueDotBrigade.DatenLokator.DemoTests` is the directory where the project file (`*.csproj`) can be found.
+      - `.Daten` is _Daten Lokator_'s root directory.
+      - `Serialization` is the namespace where the `XmlSerializerTests.cs` automated tests can be found.
+6. When an input file is needed, simply call the appropriate `Daten` method.
+   - For example: `new Daten().AsString()`
 
 ### Sample Code
 

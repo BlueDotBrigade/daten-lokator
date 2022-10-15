@@ -42,7 +42,7 @@ Where the method name represents the target format:
 2. Add the latest _NuGet_ package to your test project:
    - [BlueDotBrigade.DatenLokator][NuGetPackage]
 3. The _Daten Lokator_ library must be initialized only **once** when the automated tests start.
-   - Example: `Lokator.Setup()`
+   - Example: `Lokator.Get().Setup()`
    - If you are using _MsTest_ then consider doing this where the `AssemblyInitialize` attribute is used.
 4. Create an automated test.
    - By default the _Daten Lokator_ library assumes that test method name follows the [Assert Act Arrange][AAA] naming convention.

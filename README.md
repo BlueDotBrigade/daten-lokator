@@ -39,6 +39,7 @@ Where the method name represents the target format:
 
 1. Create a .NET automated test project.
    - For example: Using _Visual Studio_ add a _MsTest Test Project_ to your solution.
+   - _Daten Lokator_ will work with: _MsTest_, _NUnit_, _XUnit_, etc.
 2. Add the latest _NuGet_ package to your test project:
    - [BlueDotBrigade.DatenLokator][NuGetPackage]
 3. The _Daten Lokator_ library must be initialized only **once** when the automated tests start.

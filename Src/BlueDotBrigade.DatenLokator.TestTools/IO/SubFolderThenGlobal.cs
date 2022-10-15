@@ -125,6 +125,18 @@
 			// nothing to do
 		}
 
+		/// <summary>
+		/// Creates a prioritized list of directory paths which are used to locate the <paramref name="fileName"/>.
+		/// </summary>
+		/// <remarks>
+		/// DatenLokator will search for <paramref name="fileName"/> in the following order:
+		/// <list type="number">
+		/// <item>.Daten\TestClass\</item>
+		/// <item>.Daten\TestClass~ZIP\</item>
+		/// <item>.Daten\~Global\fileName~ZIP\</item>
+		/// <item>.Daten\~Global\</item>
+		/// </list>
+		/// </remarks>
 		private string[] GetSearchPaths(string fileName, string sourceDirectory)
 		{
 			const string SourceCodeFileExtension = ".cs";

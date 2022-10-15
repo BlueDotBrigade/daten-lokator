@@ -76,5 +76,25 @@
 				@"Provided file name could not be found locally, so DatenLokator will check the global cache.",
 				fileContent);
 		}
+
+		[TestMethod]
+		public void AsString_CompressedFileIsLocal_ReturnsFileContent()
+		{
+			var fileContent = new Daten().AsString();
+			
+			Assert.AreEqual(
+				"File content stored in local *.zip file.",
+				fileContent);
+		}
+
+		[TestMethod]
+		public void AsString_CompressedFileIsGlobal_ReturnsFileContent()
+		{
+			var fileContent = new Daten().AsString("CompressedFileIsGlobal.txt");
+
+			Assert.AreEqual(
+				"File content stored in global cache *.zip file.",
+				fileContent);
+		}
 	}
 }

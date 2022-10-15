@@ -5,13 +5,14 @@
 
 - [Overview](#overview)
 - [Features](#features)
-- [Sample Code](#sample-code)
+- [How To Use](#how-to-use)
+	- [Sample Code](#sample-code)
 
 ## Overview
 
-If your automated tests are verifying more than just value types (`string`, `int`, `float`, etc), then consider using this *NuGet* package to automatically locate and load your test data (`*.log`, `*.xml`, `*.json`, `*.jpg`, etc). All you need to do is call:
+If your automated tests are verifying more than just value types (`string`, `int`, `float`, etc), then consider using this _NuGet_ package to automatically locate and load your test data (`*.log`, `*.xml`, `*.json`, `*.jpg`, etc). All you need to do is call:
 
-- `new Daten().AsStream()`
+- `new Daten().AsString()`
 
 Where the method name represents the target format:
 
@@ -34,14 +35,29 @@ Where the method name represents the target format:
     - Implement the `ITestNamingStrategy` interface to support custom test naming conventions.
     - Implement the `IFileManagementStrategy` interface for proprietary file management (e.g. cloud based storage).
 
-[ExtensionMethod]: https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods
+## How To Use
 
-## Sample Code
+1. Create a .NET automated test project.
+	- For example: Using _Visual Studio_ add a _MsTest Test Project_ to your solution.
+2. Add the latest _NuGet_ package to your test project:
+	- [BlueDotBrigade.DatenLokator][NuGetPackage]
+3. The _Daten Lokator_ library must be initialized only **once** when the automated tests start.
+	- Example: `Lokator.Setup()`
+	- If you are using _MsTest_ then consider doing this where the `AssemblyInitialize` attribute is used.
+4. Create an automated test.
+	- By default the _Daten Lokator_ library assumes that test method name follows the [Assert Act Arrange][AAA] naming convention.
+5. When an input file is needed, simply call the appropriate `Daten` method.
+	- For example: `new Daten().AsString()`
+
+### Sample Code
 
 The following [unit tests][DemoTests], written for a trivial [application][DemoApp], demonstrate how:
 
-1. easy it is to use *Daten Lokator*, and 
+1. easy it is to use _Daten Lokator_, and 
 2. how the library reduces visual noise thus making the test easier to read
 
 [DemoApp]: https://github.com/BlueDotBrigade/daten-lokator/tree/main/Src/BlueDotBrigade.DatenLokator.Demo
 [DemoTests]: https://github.com/BlueDotBrigade/daten-lokator/blob/main/Tst/BlueDotBrigade.DatenLokator.DemoTests/Serialization/XmlSerializerTests.cs
+[NuGetPackage]: https://www.nuget.org/packages/BlueDotBrigade.DatenLokator
+[AAA]: https://automationpanda.com/2020/07/07/arrange-act-assert-a-pattern-for-writing-good-tests/
+[ExtensionMethod]: https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods

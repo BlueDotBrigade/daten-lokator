@@ -75,7 +75,7 @@
 
 			Assert.IsTrue(File.Exists(path));
 			Assert.IsTrue(path.EndsWith(DefaultFileName));
-			Assert.IsTrue(path.IndexOf("~Global", StringComparison.Ordinal) > 0);
+			Assert.IsTrue(path.IndexOf(".Global", StringComparison.Ordinal) > 0);
 		}
 
 		#endregion

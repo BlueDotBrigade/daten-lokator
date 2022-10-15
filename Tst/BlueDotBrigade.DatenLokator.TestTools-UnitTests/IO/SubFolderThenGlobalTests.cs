@@ -60,7 +60,7 @@
 			fileManager.Setup(@"C:\New\Root\Directory\Path");
 			
 			Assert.AreEqual(
-				@"C:\New\Root\Directory\Path\~Global",
+				@"C:\New\Root\Directory\Path\.Global",
 				fileManager.GlobalDirectoryPath);
 		}
 

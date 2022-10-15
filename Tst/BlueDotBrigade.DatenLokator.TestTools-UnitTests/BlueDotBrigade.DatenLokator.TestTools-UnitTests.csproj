@@ -35,7 +35,7 @@
 	<ItemGroup>
 	  <Content Include=".Daten\DatenTests\FileByConvention.txt" />
 	  <Content Include=".Daten\DatenTests\FileByName.txt" />
-	  <Content Include=".Daten\~Global\DefaultInput.txt" />
+	  <Content Include=".Daten\.Global\DefaultInput.txt" />
 	</ItemGroup>
 	<ItemGroup>
 	  <None Include=".Daten-Alternate\UnitTesting\InputDataTest\ExplictlyDefinedPath.txt" />

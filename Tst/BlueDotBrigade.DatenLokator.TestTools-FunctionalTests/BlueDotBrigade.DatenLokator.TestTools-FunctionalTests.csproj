@@ -13,16 +13,16 @@
 
   <ItemGroup>
     <Content Include=".Daten\Configuration\LokatorShould\FooBar.txt" />
-    <Content Include=".Daten\~Global\DefaultInput.txt" />
+    <Content Include=".Daten\.Global\DefaultInput.txt" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include=".Daten\DatenShould.zip" />
     <None Include=".Daten\DatenShould\ByConvention.txt" />
     <None Include=".Daten\DatenShould\ByFileName.log" />
-    <None Include=".Daten\~Global\ByFileNameGlobalData.md" />
-    <None Include=".Daten\~Global\ByConventionGlobalData.md" />
-    <None Include=".Daten\~Global\CompressedFileIsGlobal.zip" />
+    <None Include=".Daten\.Global\ByFileNameGlobalData.md" />
+    <None Include=".Daten\.Global\ByConventionGlobalData.md" />
+    <None Include=".Daten\.Global\CompressedFileIsGlobal.zip" />
   </ItemGroup>
 
   <ItemGroup>

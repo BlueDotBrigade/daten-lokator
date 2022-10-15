@@ -32,8 +32,8 @@ Where the method name represents the target format:
     - Provide a root directory that is organization specific.
 4. Extensible library.
     - Create [extension methods][ExtensionMethod] to support custom target formats (e.g. `AsRecord()`).
-    - Implement the `ITestNamingStrategy` interface to support custom test naming conventions.
-    - Implement the `IFileManagementStrategy` interface for proprietary file management (e.g. cloud based storage).
+    - Implement the [ITestNamingStrategy][ITestNamingStrategy] interface to support custom test naming conventions.
+    - Implement the [IFileManagementStrategy][IFileManagementStrategy] interface for proprietary file management (e.g. cloud based storage).
 
 ## How To Use
 
@@ -61,3 +61,5 @@ The following [unit tests][DemoTests], written for a trivial [application][DemoA
 [NuGetPackage]: https://www.nuget.org/packages/BlueDotBrigade.DatenLokator
 [AAA]: https://automationpanda.com/2020/07/07/arrange-act-assert-a-pattern-for-writing-good-tests/
 [ExtensionMethod]: https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods
+[ITestNamingStrategy]: https://github.com/BlueDotBrigade/daten-lokator/blob/main/Src/BlueDotBrigade.DatenLokator.TestTools/NamingConventions/ITestNamingStrategy.cs
+[IFileManagementStrategy]: https://github.com/BlueDotBrigade/daten-lokator/blob/main/Src/BlueDotBrigade.DatenLokator.TestTools/IO/IFileManagementStrategy.cs

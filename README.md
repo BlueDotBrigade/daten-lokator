@@ -1,5 +1,8 @@
 # Daten Lokator
 
+[![.NET](https://github.com/BlueDotBrigade/daten-lokator/actions/workflows/dotnet.yml/badge.svg)](https://github.com/BlueDotBrigade/daten-lokator/actions/workflows/dotnet.yml)
+[![CodeQL](https://github.com/BlueDotBrigade/daten-lokator/actions/workflows/codeql.yml/badge.svg)](https://github.com/BlueDotBrigade/daten-lokator/actions/workflows/codeql.yml)
+
 - [Overview](#overview)
 - [Features](#features)
 - [Sample Code](#sample-code)

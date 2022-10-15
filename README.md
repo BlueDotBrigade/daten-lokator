@@ -16,10 +16,11 @@ If your automated tests are verifying more than just value types (`string`, `int
 
 Where the method name represents the target format:
 
+-	`AsBytes()`
 -	`AsFile()`
 -	`AsString()`
 -	`AsStream()`
--	`AsBytes()`
+-	`AsStreamReader()`
 -	etc.
 
 ## Features

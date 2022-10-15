@@ -43,5 +43,5 @@ The following [unit tests][DemoTests], written for a trivial [application][DemoA
 1. easy it is to use *Daten Lokator*, and 
 2. how the library reduces visual noise thus making the test easier to read
 
-[DemoApp]: https://github.com/BlueDotBrigade/daten-lokator/tree/Features/6-EasierToExtend/Src/BlueDotBrigade.DatenLokator.Demo
-[DemoTests]: https://github.com/BlueDotBrigade/daten-lokator/blob/Features/6-EasierToExtend/Tst/BlueDotBrigade.DatenLokator.DemoTests/Serialization/XmlSerializerTests.cs
+[DemoApp]: https://github.com/BlueDotBrigade/daten-lokator/tree/main/Src/BlueDotBrigade.DatenLokator.Demo
+[DemoTests]: https://github.com/BlueDotBrigade/daten-lokator/blob/main/Tst/BlueDotBrigade.DatenLokator.DemoTests/Serialization/XmlSerializerTests.cs

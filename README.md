@@ -2,7 +2,7 @@
 
 - [Overview](#overview)
 - [Features](#features)
-- [Examples](#examples)
+- [Sample Code](#sample-code)
 
 ## Overview
 
@@ -33,9 +33,9 @@ Where the method name represents the target format:
 
 [ExtensionMethod]: https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods
 
-## Examples
+## Sample Code
 
-The following [sample code][DemoTests], written for a trivial [application][DemoApp], demonstrates how:
+The following [unit tests][DemoTests], written for a trivial [application][DemoApp], demonstrate how:
 
 1. easy it is to use *Daten Lokator*, and 
 2. how the library reduces visual noise thus making the test easier to read

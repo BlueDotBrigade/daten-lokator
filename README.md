@@ -49,7 +49,6 @@ Setup:
    - Example: `Lokator.Get().Setup()`
    - If you are using _MsTest_ then consider doing this where the `AssemblyInitialize` attribute is used.
 4. Create a`.Daten` folder within the project (`*.csproj`) directory.
-   - This will be the root directory for all input data.  
    - Example: `BlueDotBrigade.DatenLokator.DemoTests/.Daten`
 
 Managing source files:
@@ -61,7 +60,7 @@ Managing source files:
       - **Tests:** `/Serialization/XmlSerializerTests.cs`
       - **Data:** `/.Daten/Serialization/XmlSerializerTests/*.*` 
    - Where:
-      - `BlueDotBrigade.DatenLokator.DemoTests` is the directory where the project file (`*.csproj`) can be found.
+      - `.Daten` is the root directory. 
       - `Serialization` is the namespace where the `XmlSerializerTests.cs` automated tests can be found.
 3. When an input file is needed, simply call the appropriate `Daten` method from your automated test.
    - For example: `new Daten().AsString()`

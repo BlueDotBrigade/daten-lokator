@@ -50,7 +50,7 @@ Setup:
    - If you are using _MsTest_ then consider doing this where the `AssemblyInitialize` attribute is used.
 4. Create an automated test.
    - By default it is assumed that test method name follows the [Assert Act Arrange][AAA] naming convention.
-5. Create a`.Daten` folder within the project (`.csproj`) directory.
+5. Create a`.Daten` folder within the project (`*.csproj`) directory.
    - Example: `BlueDotBrigade.DatenLokator.DemoTests/.Daten`
 
 Managing source files:

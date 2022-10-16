@@ -60,7 +60,7 @@ Managing source files:
       - **Tests:** `/Serialization/XmlSerializerTests.cs`
       - **Data:** `/.Daten/Serialization/XmlSerializerTests/*.*` 
    - Where:
-      - `.Daten` is the root directory. 
+      - `.Daten` _Daten Lokator_'s root directory. 
       - `Serialization` is the namespace where the `XmlSerializerTests.cs` automated tests can be found.
 3. When an input file is needed, simply call the appropriate `Daten` method from your automated test.
    - For example: `new Daten().AsString()`

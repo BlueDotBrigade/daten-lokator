@@ -50,6 +50,7 @@ Setup:
    - If you are using _MsTest_ then consider doing this where the `AssemblyInitialize` attribute is used.
 4. Create a`.Daten` folder within the project (`*.csproj`) directory.
    - Example: `BlueDotBrigade.DatenLokator.DemoTests/.Daten`
+   - Storing the input data within the project directory provides traceablilty, because now the input data can be committed to source control (e.g. GitHub).
 
 Managing source files:
 

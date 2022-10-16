@@ -49,9 +49,9 @@ Setup:
    - Example: `Lokator.Get().Setup()`
    - If you are using _MsTest_ then consider doing this where the `AssemblyInitialize` attribute is used.
 4. Create an automated test.
-   - By default the _Daten Lokator_ library assumes that test method name follows the [Assert Act Arrange][AAA] naming convention.
-5. Create a`.Daten` folder within your project directory.
-   - `BlueDotBrigade.DatenLokator.DemoTests/.Daten`
+   - By default it is assumed that test method name follows the [Assert Act Arrange][AAA] naming convention.
+5. Create a`.Daten` folder within the project (`.csproj`) directory.
+   - Example: `BlueDotBrigade.DatenLokator.DemoTests/.Daten`
 
 Managing source files:
 
@@ -62,7 +62,7 @@ Managing source files:
    - Where:
       - `BlueDotBrigade.DatenLokator.DemoTests` is the directory where the project file (`*.csproj`) can be found.
       - `Serialization` is the namespace where the `XmlSerializerTests.cs` automated tests can be found.
-2. When an input file is needed, simply call the appropriate `Daten` method.
+2. When an input file is needed, simply call the appropriate `Daten` method from your automated test.
    - For example: `new Daten().AsString()`
 
 ### Sample Code

@@ -51,7 +51,7 @@ Where the method name represents the target format:
 5. Save the input data in a file directory structure that mirrors the namespace.
    - For example:
       - **Tests:** `BlueDotBrigade.DatenLokator.DemoTests/Serialization/XmlSerializerTests.cs`
-      - **Data:** `BlueDotBrigade.DatenLokator.DemoTests/.Daten/Serialization/*.*` 
+      - **Data:** `BlueDotBrigade.DatenLokator.DemoTests/.Daten/Serialization/XmlSerializerTests/*.*` 
    - Where:
       - `BlueDotBrigade.DatenLokator.DemoTests` is the directory where the project file (`*.csproj`) can be found.
       - `.Daten` is _Daten Lokator_'s root directory.

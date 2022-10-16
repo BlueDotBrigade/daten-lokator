@@ -38,6 +38,8 @@ Where the method name represents the target format:
 
 ## How To Use
 
+Setup:
+
 1. Create a .NET automated test project.
    - For example: Using _Visual Studio_ add a _MsTest Test Project_ to your solution.
    - _Daten Lokator_ will work with: _MsTest_, _NUnit_, _XUnit_, etc.
@@ -48,15 +50,19 @@ Where the method name represents the target format:
    - If you are using _MsTest_ then consider doing this where the `AssemblyInitialize` attribute is used.
 4. Create an automated test.
    - By default the _Daten Lokator_ library assumes that test method name follows the [Assert Act Arrange][AAA] naming convention.
-5. Save the input data in a file directory structure that mirrors the namespace.
+5. Create a`.Daten` folder within your project directory.
+   - `BlueDotBrigade.DatenLokator.DemoTests/.Daten`
+
+Managing source files:
+
+1. Save the input data in a file directory structure that mirrors the namespace.
    - For example:
-      - **Tests:** `BlueDotBrigade.DatenLokator.DemoTests/Serialization/XmlSerializerTests.cs`
-      - **Data:** `BlueDotBrigade.DatenLokator.DemoTests/.Daten/Serialization/XmlSerializerTests/*.*` 
+      - **Tests:** `/Serialization/XmlSerializerTests.cs`
+      - **Data:** `/.Daten/Serialization/XmlSerializerTests/*.*` 
    - Where:
       - `BlueDotBrigade.DatenLokator.DemoTests` is the directory where the project file (`*.csproj`) can be found.
-      - `.Daten` is _Daten Lokator_'s root directory.
       - `Serialization` is the namespace where the `XmlSerializerTests.cs` automated tests can be found.
-6. When an input file is needed, simply call the appropriate `Daten` method.
+2. When an input file is needed, simply call the appropriate `Daten` method.
    - For example: `new Daten().AsString()`
 
 ### Sample Code

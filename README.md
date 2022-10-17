@@ -6,32 +6,29 @@
 - [Overview](#overview)
 - [Features](#features)
 - [How To Use](#how-to-use)
-	- [Sample Code](#sample-code)
+   - [Sample Code](#sample-code)
 
 ## Overview
 
-If your automated tests are verifying more than just value types (`string`, `int`, `float`, etc), then consider using the [BlueDotBrigade.DatenLokator][NuGetPackage]  _NuGet_ package to automatically locate and load your test data (`*.log`, `*.xml`, `*.json`, `*.jpg`, etc). All you need to do is call:
+If your automated tests are verifying more than just value types (`string`, `int`, `float`, etc), then consider using the [BlueDotBrigade.DatenLokator][NuGetPackage]  _NuGet_ package to automatically locate and load your test data (`*.log`, `*.xml`, `*.json`, `*.jpg`, etc). All you need to do is call one method:
 
 - `new Daten().AsString()`
 
-Where the method name represents the target format:
-
--	`AsBytes()`
--	`AsFile()`
--	`AsString()`
--	`AsStream()`
--	`AsStreamReader()`
--	etc.
-
 ## Features
 
-1. Automatic decompression of `*.zip` files.
+1. Retrieve data in different formats:
+   -	`AsBytes()`
+   -	`AsFile()`
+   -	`AsString()`
+   -	`AsStream()`
+   -	`AsStreamReader()`
+2. Automatic decompression of `*.zip` files.
     -	Useful for saving disk space.
-2. Global cache support.
+3. Global cache support.
     - Useful when multiple rests require the same file as input.
-3. Run-time customization.
+4. Run-time customization.
     - Provide a root directory that is organization specific.
-4. Extensible library.
+5. Extensible library.
     - Create [extension methods][ExtensionMethod] to support custom target formats (e.g. `AsRecord()`).
     - Implement the [ITestNamingStrategy][ITestNamingStrategy] interface to support custom test naming conventions.
     - Implement the [IFileManagementStrategy][IFileManagementStrategy] interface for proprietary file management (e.g. cloud based storage).
@@ -49,8 +46,8 @@ Setup:
    - Example: `Lokator.Get().Setup()`
    - If you are using _MsTest_ then consider doing this where the `AssemblyInitialize` attribute is used.
 4. Create a`.Daten` folder within the project (`*.csproj`) directory.
-   - Example: `BlueDotBrigade.DatenLokator.DemoTests/.Daten`
-   - Storing the input data within the project directory provides traceablilty, because now the input data can be committed to source control (e.g. GitHub).
+   - Example: `/DemoTests/.Daten`
+   - Storing the input data within the project directory provides traceability, because now the input data can be committed to source control (e.g. *GitHub*).
 
 Managing source files:
 
@@ -58,8 +55,8 @@ Managing source files:
    - By default it is assumed that test method name follows the [Assert Act Arrange][AAA] naming convention.
 2. Save the input data in a file directory structure that mirrors the namespace.
    - For example:
-      - **Tests:** `/Serialization/XmlSerializerTests.cs`
-      - **Data:** `/.Daten/Serialization/XmlSerializerTests/*.*` 
+      - **Unit Tests:** `/DemoTests/Serialization/XmlSerializerTests.cs`
+      - **Input Data:** `/DemoTests/.Daten/Serialization/XmlSerializerTests/*.*`
    - Where:
       - `.Daten` _Daten Lokator_'s root directory. 
       - `Serialization` is the namespace where the `XmlSerializerTests.cs` automated tests can be found.

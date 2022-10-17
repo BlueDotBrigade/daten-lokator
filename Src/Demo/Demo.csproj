@@ -2,18 +2,18 @@
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<Platforms>x64</Platforms>
-		<RootNamespace>BlueDotBrigade.DatenLokator.Demo</RootNamespace>
+		<RootNamespace>Demo</RootNamespace>
 		<Version>2.0.0</Version>
 		<Authors>BlueDotBrigade;</Authors>
 		<Copyright>© 2022 Blue Dot Brigade. All rights reserved.</Copyright>
 		<Owners>Blue Dot Brigade</Owners>
 		<PackageReleaseNotes>This library was created as part of a demo application for the DatenLokator framework.</PackageReleaseNotes>
-		<AssemblyName>BlueDotBrigade.DatenLokator.Demo</AssemblyName>
+		<AssemblyName>Demo</AssemblyName>
 		<Company>Blue Dot Brigade</Company>
 	</PropertyGroup>
 	<ItemGroup>
 		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-			<_Parameter1>BlueDotBrigade.DatenLokator.DemoTests</_Parameter1>
+			<_Parameter1>DemoTests</_Parameter1>
 		</AssemblyAttribute>
 	</ItemGroup>
 </Project>

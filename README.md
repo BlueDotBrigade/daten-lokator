@@ -70,9 +70,11 @@ The following [unit tests][DemoTests], written for a trivial [application][DemoA
 1. easy it is to use _Daten Lokator_, and 
 2. how the library reduces visual noise thus making the test easier to read
 
-[DemoApp]: https://github.com/BlueDotBrigade/daten-lokator/tree/main/Src/BlueDotBrigade.DatenLokator.Demo
-[DemoTests]: https://github.com/BlueDotBrigade/daten-lokator/blob/main/Tst/BlueDotBrigade.DatenLokator.DemoTests/Serialization/XmlSerializerTests.cs
+[DemoApp]: https://github.com/BlueDotBrigade/daten-lokator/tree/main/Src/Demo
+[DemoTests]: https://github.com/BlueDotBrigade/daten-lokator/blob/main/Tst/DemoTests/Serialization/XmlSerializerTests.cs
+
 [NuGetPackage]: https://www.nuget.org/packages/BlueDotBrigade.DatenLokator
+
 [AAA]: https://automationpanda.com/2020/07/07/arrange-act-assert-a-pattern-for-writing-good-tests/
 [ExtensionMethod]: https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods
 [ITestNamingStrategy]: https://github.com/BlueDotBrigade/daten-lokator/blob/main/Src/BlueDotBrigade.DatenLokator.TestTools/NamingConventions/ITestNamingStrategy.cs

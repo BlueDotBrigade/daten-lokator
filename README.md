@@ -5,7 +5,7 @@
 
 - [Overview](#overview)
 - [Features](#features)
-- [How To Use](#how-to-use)
+- [Getting Started](#getting-started)
    - [Sample Code](#sample-code)
 
 ## Overview
@@ -33,7 +33,7 @@ If your automated tests are verifying more than just value types (`string`, `int
     - Implement the [ITestNamingStrategy][ITestNamingStrategy] interface to support custom test naming conventions.
     - Implement the [IFileManagementStrategy][IFileManagementStrategy] interface for proprietary file management (e.g. cloud based storage).
 
-## How To Use
+## Getting Started
 
 Setup:
 

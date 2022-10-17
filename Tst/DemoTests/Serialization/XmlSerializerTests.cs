@@ -1,7 +1,7 @@
-﻿namespace BlueDotBrigade.DatenLokator.Demo.Serialization
+﻿namespace Demo.Serialization
 {
-	using BlueDotBrigade.DatenLokator.Demo.Droids;
 	using BlueDotBrigade.DatenLokator.TestsTools;
+	using Demo.Droids;
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 	/// <summary>
@@ -44,7 +44,7 @@
 			// Assert
 			var expectedMessage =
 				@"<?xml version=""1.0"" encoding=""utf-8""?>" + "\r\n" +
-				@"<AstromechDroid xmlns:i=""http://www.w3.org/2001/XMLSchema-instance"" xmlns=""http://schemas.datacontract.org/2004/07/BlueDotBrigade.DatenLokator.Demo.Droids"">" + "\r\n" +
+				@"<AstromechDroid xmlns:i=""http://www.w3.org/2001/XMLSchema-instance"" xmlns=""http://schemas.datacontract.org/2004/07/Demo.Droids"">" + "\r\n" +
 				@"	<Manufacturer>Industrial Automaton</Manufacturer>" + "\r\n" +
 				@"	<SerialNo>IA-16CFR2D2</SerialNo>" + "\r\n" +
 				@"	<Peripherals>" + "\r\n" +

@@ -1,4 +1,4 @@
-﻿namespace BlueDotBrigade.DatenLokator.Demo.Droids
+﻿namespace Demo.Droids
 {
 	public class Peripheral
 	{

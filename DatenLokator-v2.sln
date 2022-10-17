@@ -17,9 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlueDotBrigade.DatenLokator
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{AF7F9394-20A7-464F-8873-D9F02E8FA72D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlueDotBrigade.DatenLokator.DemoTests", "Tst\BlueDotBrigade.DatenLokator.DemoTests\BlueDotBrigade.DatenLokator.DemoTests.csproj", "{FAD7F913-0B28-46BD-A09A-CA9E283D63E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoTests", "Tst\DemoTests\DemoTests.csproj", "{FAD7F913-0B28-46BD-A09A-CA9E283D63E4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlueDotBrigade.DatenLokator.Demo", "Src\BlueDotBrigade.DatenLokator.Demo\BlueDotBrigade.DatenLokator.Demo.csproj", "{8656A642-7C1A-4EB5-AA08-3A3BAF94863C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo", "Src\Demo\Demo.csproj", "{8656A642-7C1A-4EB5-AA08-3A3BAF94863C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

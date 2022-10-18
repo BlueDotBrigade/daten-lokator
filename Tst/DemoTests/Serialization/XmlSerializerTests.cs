@@ -21,7 +21,7 @@
 		/// </list>
 		/// </remarks>
 		[TestMethod]
-		public void Serialize_AstromechDroid_StringsMatch()
+		public void ToXml_AstromechDroid_StringsMatch()
 		{
 			// Arrange
 			var droid = new AstromechDroid
@@ -90,7 +90,7 @@
 		/// </list>
 		/// </remarks>
 		[TestMethod]
-		public void Serialize_ProtocolDroid_StringsMatch()
+		public void ToXml_ProtocolDroid_StringsMatch()
 		{
 			// Arrange
 			var droid = new ProtocolDroid
@@ -111,7 +111,7 @@
 		/// An example of DatenLokator retrieving input data using a specific file name.
 		/// </summary>
 		[TestMethod]
-		public void Serialize_RudeProtocolDroid_StringsMatch()
+		public void ToXml_RudeProtocolDroid_StringsMatch()
 		{
 			// Arrange
 			var droid = new ProtocolDroid
@@ -137,7 +137,7 @@
 		/// the same input data.
 		/// </remarks>
 		[TestMethod]
-		public void Serialize_PitDroid_StringsMatch()
+		public void ToXml_PitDroid_StringsMatch()
 		{
 			// Arrange
 			var droid = new PitDroid
@@ -166,7 +166,7 @@
 		/// \.Daten\Serialization\XmlSerializerTests.zip
 		/// </remarks>
 		[TestMethod]
-		public void Serialize_SuperBattleDroid_StringsMatch()
+		public void ToXml_SuperBattleDroid_StringsMatch()
 		{
 			// Arrange
 			var droid = new SuperBattleDroid()

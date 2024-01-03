@@ -25,9 +25,9 @@ If your automated tests are verifying more than just value types (`string`, `int
 2. Automatic decompression of `*.zip` files.
     -	Useful for saving disk space.
 3. Global cache support.
-    - Useful when multiple rests require the same file as input.
+    - Useful when multiple tests consume the same file as input.
 4. Run-time customization.
-    - Provide a root directory that is organization specific.
+    - Can be used to specify where the input data will be stored.
 5. Extensible library.
     - Create [extension methods][ExtensionMethod] to support custom target formats (e.g. `AsRecord()`).
     - Implement the [ITestNamingStrategy][ITestNamingStrategy] interface to support custom test naming conventions.

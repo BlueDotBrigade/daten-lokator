@@ -3,12 +3,8 @@
 	using System;
 	using System.Collections.Generic;
 	using System.IO;
-	using System.Xml.Linq;
-	using BlueDotBrigade.DatenLokator.TestsTools;
-	using BlueDotBrigade.DatenLokator.TestsTools.IO;
-	using BlueDotBrigade.DatenLokator.TestsTools.NamingConventions;
-	using BlueDotBrigade.DatenLokator.TestsTools.Reflection;
-	using Microsoft.VisualStudio.TestPlatform.ObjectModel.DataCollection;
+	using BlueDotBrigade.DatenLokator.TestTools.IO;
+	using BlueDotBrigade.DatenLokator.TestTools.NamingConventions;
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 	[TestClass]
@@ -213,6 +209,35 @@
 
 		[TestMethod]
 		public void AsStreamReader_FileByConvention_ReturnsCorrectContent()
+		{
+			var expected = "Unit test name was used to select a source file.";
+			StreamReader actual = new Daten(_coordinator).AsStreamReader();
+
+			Assert.AreEqual(expected, actual.ReadToEnd());
+		}
+		#endregion
+
+		#region AsStreamReader
+		[TestMethod]
+		public void AsBmp_FileByDefault_ReturnsCorrectContent()
+		{
+			var expected = "Default source file shared by multiple tests.";
+			StreamReader actual = new Daten(_coordinator).AsStreamReader(From.GlobalDefault);
+
+			Assert.AreEqual(expected, actual.ReadToEnd());
+		}
+
+		[TestMethod]
+		public void AsBmp_FileByName_ReturnsCorrectContent()
+		{
+			var expected = "Requested input using specfic file name.";
+			StreamReader actual = new Daten(_coordinator).AsStreamReader("ImageBmp.Bmp");
+
+			Assert.AreEqual(expected, actual.ReadToEnd());
+		}
+
+		[TestMethod]
+		public void AsBmp_FileByConvention_ReturnsCorrectContent()
 		{
 			var expected = "Unit test name was used to select a source file.";
 			StreamReader actual = new Daten(_coordinator).AsStreamReader();

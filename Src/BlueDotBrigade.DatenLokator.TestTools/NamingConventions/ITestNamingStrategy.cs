@@ -1,4 +1,4 @@
-﻿namespace BlueDotBrigade.DatenLokator.TestsTools.NamingConventions
+﻿namespace BlueDotBrigade.DatenLokator.TestTools.NamingConventions
 {
 	/// <summary>
 	/// Uses the method name to determine what the input file is expected to be called.

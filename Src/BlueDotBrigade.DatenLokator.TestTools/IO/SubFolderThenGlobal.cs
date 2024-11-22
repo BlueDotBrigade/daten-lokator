@@ -1,4 +1,4 @@
-﻿namespace BlueDotBrigade.DatenLokator.TestsTools.IO
+﻿namespace BlueDotBrigade.DatenLokator.TestTools.IO
 {
 	using System;
 	using System.Collections.Generic;
@@ -6,8 +6,8 @@
 	using System.IO;
 	using System.IO.Compression;
 	using System.Linq;
-	using BlueDotBrigade.DatenLokator.TestsTools.NamingConventions;
-	using BlueDotBrigade.DatenLokator.TestsTools.Reflection;
+	using BlueDotBrigade.DatenLokator.TestTools.NamingConventions;
+	using BlueDotBrigade.DatenLokator.TestTools.Reflection;
 
 	internal class SubFolderThenGlobal : IFileManagementStrategy
 	{

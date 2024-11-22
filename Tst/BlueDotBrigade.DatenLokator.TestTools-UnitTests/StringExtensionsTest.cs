@@ -1,7 +1,7 @@
 ﻿namespace BlueDotBrigade.DatenLokator.TestTools
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using BlueDotBrigade.DatenLokator.TestsTools;
+    using BlueDotBrigade.DatenLokator.TestTools;
 
     [TestClass]
     public class StringExtensionsTest

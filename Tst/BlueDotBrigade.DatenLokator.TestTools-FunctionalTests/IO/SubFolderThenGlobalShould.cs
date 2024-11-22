@@ -1,10 +1,5 @@
 ﻿namespace BlueDotBrigade.DatenLokator.TestTools.IO
 {
-	using BlueDotBrigade.DatenLokator.TestsTools.IO;
-	using BlueDotBrigade.DatenLokator.TestsTools.NamingConventions;
-	using Microsoft.VisualStudio.TestPlatform.PlatformAbstractions;
-	using Moq;
-
 	[TestClass]
 	public class SubFolderThenGlobalShould
 	{

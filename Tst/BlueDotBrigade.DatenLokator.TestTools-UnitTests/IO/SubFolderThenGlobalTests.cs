@@ -2,9 +2,9 @@
 {
 	using System;
 	using System.IO;
-	using BlueDotBrigade.DatenLokator.TestsTools.IO;
-	using BlueDotBrigade.DatenLokator.TestsTools.NamingConventions;
-	using BlueDotBrigade.DatenLokator.TestsTools.Reflection;
+	using BlueDotBrigade.DatenLokator.TestTools.IO;
+	using BlueDotBrigade.DatenLokator.TestTools.NamingConventions;
+	using BlueDotBrigade.DatenLokator.TestTools.Reflection;
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
 	using Moq;
 

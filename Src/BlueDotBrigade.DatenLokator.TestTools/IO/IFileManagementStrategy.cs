@@ -1,7 +1,7 @@
-﻿namespace BlueDotBrigade.DatenLokator.TestsTools.IO
+﻿namespace BlueDotBrigade.DatenLokator.TestTools.IO
 {
 	using System.Collections.Generic;
-	using BlueDotBrigade.DatenLokator.TestsTools.NamingConventions;
+	using BlueDotBrigade.DatenLokator.TestTools.NamingConventions;
 
 	/// <summary>
 	/// Responsible for locating a file on disk.

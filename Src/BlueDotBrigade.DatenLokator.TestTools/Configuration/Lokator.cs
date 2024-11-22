@@ -1,13 +1,11 @@
-﻿namespace BlueDotBrigade.DatenLokator.TestsTools.Configuration
+﻿namespace BlueDotBrigade.DatenLokator.TestTools.Configuration
 {
 	using System;
 	using System.Collections;
 	using System.Collections.Generic;
-	using System.Configuration;
-	using System.IO;
-	using BlueDotBrigade.DatenLokator.TestsTools.IO;
-	using BlueDotBrigade.DatenLokator.TestsTools.NamingConventions;
-	using BlueDotBrigade.DatenLokator.TestsTools.Reflection;
+	using BlueDotBrigade.DatenLokator.TestTools.IO;
+	using BlueDotBrigade.DatenLokator.TestTools.NamingConventions;
+	using BlueDotBrigade.DatenLokator.TestTools.Reflection;
 
 	public sealed class Lokator
 	{

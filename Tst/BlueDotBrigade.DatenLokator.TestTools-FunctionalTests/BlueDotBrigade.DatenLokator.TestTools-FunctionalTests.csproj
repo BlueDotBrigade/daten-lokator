@@ -33,11 +33,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Src\BlueDotBrigade.DatenLokator.TestTools\BlueDotBrigade.DatenLokator.TestsTools.csproj" />
+    <Folder Include="NamingConventions\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="NamingConventions\" />
+    <ProjectReference Include="..\..\Src\BlueDotBrigade.DatenLokator.TestTools\BlueDotBrigade.DatenLokator.TestsTools.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,9 +1,9 @@
-﻿namespace BlueDotBrigade.DatenLokator.TestsTools.Configuration
+﻿namespace BlueDotBrigade.DatenLokator.TestTools.Configuration
 {
 	using System;
 	using System.Collections.Generic;
-	using BlueDotBrigade.DatenLokator.TestsTools.IO;
-	using BlueDotBrigade.DatenLokator.TestsTools.NamingConventions;
+	using BlueDotBrigade.DatenLokator.TestTools.IO;
+	using BlueDotBrigade.DatenLokator.TestTools.NamingConventions;
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 	internal class LokatorConfiguration

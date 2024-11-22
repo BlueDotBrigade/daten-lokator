@@ -1,4 +1,4 @@
-﻿namespace BlueDotBrigade.DatenLokator.TestsTools
+﻿namespace BlueDotBrigade.DatenLokator.TestTools
 {
 	public enum From
 	{

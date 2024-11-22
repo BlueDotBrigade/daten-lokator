@@ -1,10 +1,10 @@
-﻿namespace BlueDotBrigade.DatenLokator.TestsTools
+﻿namespace BlueDotBrigade.DatenLokator.TestTools
 {
 	using System;
 	using System.Collections.Generic;
-	using BlueDotBrigade.DatenLokator.TestsTools.IO;
-	using BlueDotBrigade.DatenLokator.TestsTools.NamingConventions;
-	using BlueDotBrigade.DatenLokator.TestsTools.Reflection;
+	using BlueDotBrigade.DatenLokator.TestTools.IO;
+	using BlueDotBrigade.DatenLokator.TestTools.NamingConventions;
+	using BlueDotBrigade.DatenLokator.TestTools.Reflection;
 
 	internal class Coordinator
 	{

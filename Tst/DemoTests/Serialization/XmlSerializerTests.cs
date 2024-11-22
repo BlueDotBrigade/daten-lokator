@@ -1,6 +1,6 @@
 ﻿namespace Demo.Serialization
 {
-	using BlueDotBrigade.DatenLokator.TestsTools;
+	using BlueDotBrigade.DatenLokator.TestTools;
 	using Demo.Droids;
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
 

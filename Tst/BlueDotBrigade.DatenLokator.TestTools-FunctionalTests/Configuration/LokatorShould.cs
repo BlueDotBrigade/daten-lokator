@@ -1,9 +1,7 @@
 ﻿namespace BlueDotBrigade.DatenLokator.TestTools.Configuration
 {
-	using BlueDotBrigade.DatenLokator.TestsTools;
-	using BlueDotBrigade.DatenLokator.TestsTools.Configuration;
-	using BlueDotBrigade.DatenLokator.TestsTools.IO;
-	using BlueDotBrigade.DatenLokator.TestsTools.NamingConventions;
+	using BlueDotBrigade.DatenLokator.TestTools.IO;
+	using BlueDotBrigade.DatenLokator.TestTools.NamingConventions;
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
 	using Moq;
 

@@ -1,4 +1,4 @@
-﻿namespace BlueDotBrigade.DatenLokator.TestsTools.NamingConventions
+﻿namespace BlueDotBrigade.DatenLokator.TestTools.NamingConventions
 {
 	internal class AssertActArrange : ITestNamingStrategy
 	{

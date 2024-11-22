@@ -21,7 +21,7 @@
 		/// </list>
 		/// </remarks>
 		[TestMethod]
-		public void Serialize_AstromechDroid_StringsMatch()
+		public void ToXml_AstromechDroid_StringsMatch()
 		{
 			// Arrange
 			var droid = new AstromechDroid
@@ -80,7 +80,7 @@
 		/// By default, DatenLokator expects the input data to be stored in a directory structure
 		/// that mirrors the namespace. For example, in this case:
 		///
-		/// \Serialization\XmlSerializerTests\ProtocolDroid.xml
+		/// \.Daten\Serialization\XmlSerializerTests\ProtocolDroid.xml
 		///
 		/// Where:
 		/// <list type="bullet">
@@ -90,7 +90,7 @@
 		/// </list>
 		/// </remarks>
 		[TestMethod]
-		public void Serialize_ProtocolDroid_StringsMatch()
+		public void ToXml_ProtocolDroid_StringsMatch()
 		{
 			// Arrange
 			var droid = new ProtocolDroid
@@ -111,7 +111,7 @@
 		/// An example of DatenLokator retrieving input data using a specific file name.
 		/// </summary>
 		[TestMethod]
-		public void Serialize_RudeProtocolDroid_StringsMatch()
+		public void ToXml_RudeProtocolDroid_StringsMatch()
 		{
 			// Arrange
 			var droid = new ProtocolDroid
@@ -129,15 +129,15 @@
 		}
 
 		/// <summary>
-		/// An example of DatenLokator automatically retrieving shared input data
-		/// from the `global` cache.
+		/// An example of DatenLokator automatically retrieving shared data
+		/// from the `\.Daten\.Global` cache.
 		/// </summary>
 		/// <remarks>
 		/// This approach is useful when many automated tests rely on
 		/// the same input data.
 		/// </remarks>
 		[TestMethod]
-		public void Serialize_PitDroid_StringsMatch()
+		public void ToXml_PitDroid_StringsMatch()
 		{
 			// Arrange
 			var droid = new PitDroid
@@ -162,11 +162,11 @@
 		/// DatenLokator expects the zip file to be stored within the directory that
 		/// matches the namespace.  In this case:
 		///
-		/// \Dat\Serialization\XmlSerializerTests\
-		/// \Dat\Serialization\XmlSerializerTests.zip
+		/// \.Daten\Serialization\XmlSerializerTests\
+		/// \.Daten\Serialization\XmlSerializerTests.zip
 		/// </remarks>
 		[TestMethod]
-		public void Serialize_SuperBattleDroid_StringsMatch()
+		public void ToXml_SuperBattleDroid_StringsMatch()
 		{
 			// Arrange
 			var droid = new SuperBattleDroid()
@@ -174,8 +174,8 @@
 				SerialNo = "BA-4248964B3",
 				Manufacturer = "Baktoid Automata",
 				
-				// imagine a large data set where it would be useful
-				// to compress the input data
+				// Imagine a large data set where it would be useful
+				// to compress the input data.
 				WeaponsActivationKey = new byte[8192],
 			};
 

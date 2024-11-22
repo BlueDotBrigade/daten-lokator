@@ -5,7 +5,7 @@
 
 - [Overview](#overview)
 - [Features](#features)
-- [How To Use](#how-to-use)
+- [Getting Started](#getting-started)
    - [Sample Code](#sample-code)
 
 ## Overview
@@ -25,15 +25,15 @@ If your automated tests are verifying more than just value types (`string`, `int
 2. Automatic decompression of `*.zip` files.
     -	Useful for saving disk space.
 3. Global cache support.
-    - Useful when multiple rests require the same file as input.
+    - Useful when multiple tests consume the same file as input.
 4. Run-time customization.
-    - Provide a root directory that is organization specific.
+    - Can be used to specify where the input data will be stored.
 5. Extensible library.
     - Create [extension methods][ExtensionMethod] to support custom target formats (e.g. `AsRecord()`).
     - Implement the [ITestNamingStrategy][ITestNamingStrategy] interface to support custom test naming conventions.
     - Implement the [IFileManagementStrategy][IFileManagementStrategy] interface for proprietary file management (e.g. cloud based storage).
 
-## How To Use
+## Getting Started
 
 Setup:
 
@@ -58,7 +58,7 @@ Managing source files:
       - **Unit Tests:** `/DemoTests/Serialization/XmlSerializerTests.cs`
       - **Input Data:** `/DemoTests/.Daten/Serialization/XmlSerializerTests/*.*`
    - Where:
-      - `.Daten` _Daten Lokator_'s root directory. 
+      - `.Daten` is _Daten Lokator_'s root directory for all input files.
       - `Serialization` is the namespace where the `XmlSerializerTests.cs` automated tests can be found.
 3. When an input file is needed, simply call the appropriate `Daten` method from your automated test.
    - For example: `new Daten().AsString()`
@@ -70,9 +70,11 @@ The following [unit tests][DemoTests], written for a trivial [application][DemoA
 1. easy it is to use _Daten Lokator_, and 
 2. how the library reduces visual noise thus making the test easier to read
 
-[DemoApp]: https://github.com/BlueDotBrigade/daten-lokator/tree/main/Src/BlueDotBrigade.DatenLokator.Demo
-[DemoTests]: https://github.com/BlueDotBrigade/daten-lokator/blob/main/Tst/BlueDotBrigade.DatenLokator.DemoTests/Serialization/XmlSerializerTests.cs
+[DemoApp]: https://github.com/BlueDotBrigade/daten-lokator/tree/main/Src/Demo
+[DemoTests]: https://github.com/BlueDotBrigade/daten-lokator/blob/main/Tst/DemoTests/Serialization/XmlSerializerTests.cs
+
 [NuGetPackage]: https://www.nuget.org/packages/BlueDotBrigade.DatenLokator
+
 [AAA]: https://automationpanda.com/2020/07/07/arrange-act-assert-a-pattern-for-writing-good-tests/
 [ExtensionMethod]: https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods
 [ITestNamingStrategy]: https://github.com/BlueDotBrigade/daten-lokator/blob/main/Src/BlueDotBrigade.DatenLokator.TestTools/NamingConventions/ITestNamingStrategy.cs

@@ -1,7 +1,7 @@
 ﻿namespace BlueDotBrigade.DatenLokator.TestTools
 {
 	using System;
-	using BlueDotBrigade.DatenLokator.TestsTools.Configuration;
+	using BlueDotBrigade.DatenLokator.TestTools.Configuration;
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 	[TestClass]

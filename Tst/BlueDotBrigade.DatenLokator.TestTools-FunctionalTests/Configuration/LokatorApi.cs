@@ -1,10 +1,9 @@
 ﻿namespace BlueDotBrigade.DatenLokator.TestTools.Configuration
 {
-	using BlueDotBrigade.DatenLokator.TestsTools.Configuration;
-	using BlueDotBrigade.DatenLokator.TestsTools.IO;
-	using BlueDotBrigade.DatenLokator.TestsTools.NamingConventions;
+	using BlueDotBrigade.DatenLokator.TestTools.IO;
+	using BlueDotBrigade.DatenLokator.TestTools.NamingConventions;
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
-	using Moq;
+	using NSubstitute;
 
 	/// <summary>
 	/// These methods are more about exploring the <see cref="Lokator"/> API, to ensure that the library can be extended.
@@ -15,14 +14,15 @@
 		[TestMethod]
 		public void UsingFileManagementStrategy()
 		{
-			var fakeFileManagementStrategy = new Mock<IFileManagementStrategy>().Object;
+			var fakeFileManagementStrategy = Substitute.For<IFileManagementStrategy>();
 
 			new Lokator().UsingFileManagementStrategy(fakeFileManagementStrategy);
 		}
 
+		[TestMethod]
 		public void UsingTestNamingStrategy()
 		{
-			var fakeTestNamingStrategy = new Mock<ITestNamingStrategy>().Object;
+			var fakeTestNamingStrategy = Substitute.For<ITestNamingStrategy>();
 
 			new Lokator().UsingTestNamingStrategy(fakeTestNamingStrategy);
 		}

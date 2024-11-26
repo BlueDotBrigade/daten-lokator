@@ -1,6 +1,5 @@
 ﻿namespace BlueDotBrigade.DatenLokator.TestTools.NamingConventions
 {
-	using BlueDotBrigade.DatenLokator.TestsTools.NamingConventions;
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 	[TestClass]

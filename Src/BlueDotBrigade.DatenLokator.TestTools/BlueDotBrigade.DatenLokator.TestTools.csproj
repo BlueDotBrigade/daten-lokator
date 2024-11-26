@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<PackageId>BlueDotBrigade.DatenLokator</PackageId>
+		<Version>2.1.0</Version>
+		<Authors>BlueDotBrigade;</Authors>
+		<Copyright>© 2024 Blue Dot Brigade. All rights reserved.</Copyright>
+		<Owners>Blue Dot Brigade</Owners>
+		<Title>DatenLokator</Title>
+		<Summary>Project summary.</Summary>
+		<Description>Simplifies testing by automatically selecting the appropriate input data for a given test case.</Description>
+		<IsPackable>true</IsPackable>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageReleaseNotes>This libary is currently a work in progress (WIP). As a result, backwards compatibility is not guaranteed.</PackageReleaseNotes>
+		<PackageTags>BlueDotBrigade;Framework;TDD;Test;TestFramework;Test;Testing;UnitTest;</PackageTags>
+		<PackageProjectUrl>https://github.com/BlueDotBrigade/daten-lokator</PackageProjectUrl>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+		<RepositoryType>git</RepositoryType>
+		<RepositoryUrl>https://github.com/BlueDotBrigade/daten-lokator</RepositoryUrl>
+		<Platforms>x64</Platforms>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Company>Blue Dot Brigade</Company>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="MSTest.TestFramework" Version="3.6.3" />
+		<PackageReference Include="System.Collections.Immutable" Version="9.0.0" />
+		<PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\\README.md" Pack="true" PackagePath="\"/>
+	</ItemGroup>
+	<ItemGroup>
+		<CodeAnalysisDictionary Include="..\..\DomainSpecificTerminology.xml">
+			<Link>Properties\DomainSpecificTerminology.xml</Link>
+		</CodeAnalysisDictionary>
+	</ItemGroup>
+</Project>

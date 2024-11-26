@@ -1,7 +1,5 @@
 ﻿namespace BlueDotBrigade.DatenLokator.TestTools
 {
-	using BlueDotBrigade.DatenLokator.TestsTools;
-
 	[TestClass]
 	public class DatenShould
 	{

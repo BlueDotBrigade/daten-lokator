@@ -3,12 +3,8 @@
 	using System;
 	using System.Collections.Generic;
 	using System.IO;
-	using System.Xml.Linq;
-	using BlueDotBrigade.DatenLokator.TestsTools;
-	using BlueDotBrigade.DatenLokator.TestsTools.IO;
-	using BlueDotBrigade.DatenLokator.TestsTools.NamingConventions;
-	using BlueDotBrigade.DatenLokator.TestsTools.Reflection;
-	using Microsoft.VisualStudio.TestPlatform.ObjectModel.DataCollection;
+	using BlueDotBrigade.DatenLokator.TestTools.IO;
+	using BlueDotBrigade.DatenLokator.TestTools.NamingConventions;
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 	[TestClass]
@@ -25,7 +21,7 @@
 
 			_coordinator = new Coordinator(
 				osFile,
-				new AssertActArrange(),
+				new MemberCaseResultNamingStrategy(),
 				new SubFolderThenGlobal(osDirectory, osFile),
 				new Dictionary<string, object>(),
 				DefaultFileName);
@@ -85,7 +81,7 @@
 		[TestMethod]
 		public void AsString_FileByDefault_ReturnsCorrectContent()
 		{
-			var expected = "Default source file shared by multiple tests.";
+			var expected = "Default source file shared by multiple tests globally.";
 			var actual = new Daten(_coordinator).AsString(From.GlobalDefault);
 
 			Assert.AreEqual(expected, actual);
@@ -95,7 +91,7 @@
 		public void AsString_FileByName_ReturnsCorrectContent()
 		{
 			Assert.AreEqual(
-				"Requested input using specfic file name.",
+				"Requested input using specific file name.",
 				new Daten(_coordinator).AsString("FileByName.txt"));
 		}
 
@@ -129,7 +125,7 @@
 		[TestMethod]
 		public void AsBytes_FileByDefault_ReturnsCorrectContent()
 		{
-			var expected = GetBytes("Default source file shared by multiple tests.");
+			var expected = GetBytes("Default source file shared by multiple tests globally.");
 			var actual = new Daten(_coordinator).AsBytes(From.GlobalDefault);
 
 			CollectionAssert.AreEqual(expected, actual);
@@ -138,7 +134,7 @@
 		[TestMethod]
 		public void AsBytes_FileByName_ReturnsCorrectContent()
 		{
-			var expected = GetBytes("Requested input using specfic file name.");
+			var expected = GetBytes("Requested input using specific file name.");
 			var actual = new Daten(_coordinator).AsBytes("FileByName.txt");
 
 			CollectionAssert.AreEqual(expected, actual);
@@ -158,7 +154,7 @@
 		[TestMethod]
 		public void AsStream_FileByDefault_ReturnsCorrectContent()
 		{
-			var expected = "Default source file shared by multiple tests.";
+			var expected = "Default source file shared by multiple tests globally.";
 			Stream actualStream = new Daten(_coordinator).AsStream(From.GlobalDefault);
 
 			using (var reader = new StreamReader(actualStream))
@@ -170,7 +166,7 @@
 		[TestMethod]
 		public void AsStream_FileByName_ReturnsCorrectContent()
 		{
-			var expected = "Requested input using specfic file name.";
+			var expected = "Requested input using specific file name.";
 			Stream actualStream = new Daten(_coordinator).AsStream("FileByName.txt");
 
 			using (var reader = new StreamReader(actualStream))
@@ -196,7 +192,7 @@
 		[TestMethod]
 		public void AsStreamReader_FileByDefault_ReturnsCorrectContent()
 		{
-			var expected = "Default source file shared by multiple tests.";
+			var expected = "Default source file shared by multiple tests globally.";
 			StreamReader actual = new Daten(_coordinator).AsStreamReader(From.GlobalDefault);
 
 			Assert.AreEqual(expected, actual.ReadToEnd());
@@ -205,7 +201,7 @@
 		[TestMethod]
 		public void AsStreamReader_FileByName_ReturnsCorrectContent()
 		{
-			var expected = "Requested input using specfic file name.";
+			var expected = "Requested input using specific file name.";
 			StreamReader actual = new Daten(_coordinator).AsStreamReader("FileByName.txt");
 
 			Assert.AreEqual(expected, actual.ReadToEnd());

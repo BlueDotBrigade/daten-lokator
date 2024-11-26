@@ -1,8 +1,9 @@
-﻿namespace BlueDotBrigade.DatenLokator.TestsTools
+﻿namespace BlueDotBrigade.DatenLokator.TestTools
 {
 	using System;
 	using System.Runtime.CompilerServices;
-	using BlueDotBrigade.DatenLokator.TestsTools.Configuration;
+	using System.Text.Json;
+	using BlueDotBrigade.DatenLokator.TestTools.Configuration;
 
 	public class Daten
 	{
@@ -371,6 +372,68 @@
 			ThrowIfFileMissing(sourceFilePath);
 
 			return new System.IO.StreamReader(_coordinator.OsFile.OpenRead(sourceFilePath));
+		}
+
+		/// <summary>
+		/// Retrieves the data that is appropriate for the test that is currently executing.
+		/// </summary>
+		/// <returns>
+		/// Returns the source file as an instance of <typeparamref name="T"/>.
+		/// </returns>
+		/// <remarks>
+		/// Directory search order:
+		/// 1. the given directory
+		/// 2. a compressed file that is similar to the given directory
+		/// 3. the global directory for shared files
+		/// </remarks>
+		public T AsJson<T>()
+		{
+			var sourceFilePath = _coordinator.GetFilePath(_callingMethodName, _callingClassPath);
+
+			ThrowIfFileMissing(sourceFilePath);
+
+			var jsonContent = _coordinator.OsFile.ReadAllText(sourceFilePath);
+			return JsonSerializer.Deserialize<T>(jsonContent);
+		}
+
+		/// <summary>
+		/// Retrieves the data that is stored within the given <paramref name="fileName"/>.
+		/// </summary>
+		/// <returns>
+		/// Returns the source file as an instance of <typeparamref name="T"/>.
+		/// </returns>
+		/// <remarks>
+		/// Directory search order:
+		/// 1. the given directory
+		/// 2. a compressed file that is similar to the given directory
+		/// 3. the global directory for shared files
+		/// </remarks>
+		public T AsJson<T>(string fileName)
+		{
+			var sourceFilePath = _coordinator.GetFilePath(fileName, _callingClassPath);
+
+			ThrowIfFileMissing(sourceFilePath);
+
+			var jsonContent = _coordinator.OsFile.ReadAllText(sourceFilePath);
+			return JsonSerializer.Deserialize<T>(jsonContent);
+		}
+
+		/// <summary>
+		/// Retrieves the data that was registered with <see cref="Lokator"/>.
+		/// </summary>
+		/// <param name="fromSource">Determines which registered file to retrieve.</param>
+		/// <returns>
+		/// Returns the source file as an instance of <typeparamref name="T"/>.
+		/// </returns>
+		/// <exception cref="ArgumentOutOfRangeException"/>
+		public T AsJson<T>(From fromSource)
+		{
+			var sourceFilePath = GetGlobalDefaultPath(fromSource);
+
+			ThrowIfFileMissing(sourceFilePath);
+
+			var jsonContent = _coordinator.OsFile.ReadAllText(sourceFilePath);
+			return JsonSerializer.Deserialize<T>(jsonContent);
 		}
 	}
 }

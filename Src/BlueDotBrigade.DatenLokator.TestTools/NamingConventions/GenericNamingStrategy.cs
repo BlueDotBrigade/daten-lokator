@@ -1,4 +1,4 @@
-﻿namespace BlueDotBrigade.DatenLokator.TestsTools.NamingConventions
+﻿namespace BlueDotBrigade.DatenLokator.TestTools.NamingConventions
 {
 	public class GenericNamingStrategy : ITestNamingStrategy
 	{

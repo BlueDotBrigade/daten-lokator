@@ -1,4 +1,4 @@
-﻿namespace BlueDotBrigade.DatenLokator.TestsTools.IO
+﻿namespace BlueDotBrigade.DatenLokator.TestTools.IO
 {
     using System.IO;
 

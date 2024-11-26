@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<Platforms>x64</Platforms>
+		<RootNamespace>Demo</RootNamespace>
+		<Version>2.1.0</Version>
+		<Authors>BlueDotBrigade;</Authors>
+		<Copyright>© 2024 Blue Dot Brigade. All rights reserved.</Copyright>
+		<Owners>Blue Dot Brigade</Owners>
+		<PackageReleaseNotes>This library was created as part of a demo application for the DatenLokator framework.</PackageReleaseNotes>
+		<AssemblyName>Demo</AssemblyName>
+		<Company>Blue Dot Brigade</Company>
+	</PropertyGroup>
+	<ItemGroup>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+			<_Parameter1>DemoTests</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>
+</Project>

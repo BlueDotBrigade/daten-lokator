@@ -1,7 +1,7 @@
-﻿namespace BlueDotBrigade.DatenLokator.TestsTools.Reflection
+﻿namespace BlueDotBrigade.DatenLokator.TestTools.Reflection
 {
     using System;
-	using BlueDotBrigade.DatenLokator.TestsTools.Configuration;
+	using BlueDotBrigade.DatenLokator.TestTools.Configuration;
 	using System.IO;
 
     internal static class AssemblyHelper

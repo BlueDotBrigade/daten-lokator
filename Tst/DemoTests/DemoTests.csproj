@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<IsPackable>false</IsPackable>
+		<RootNamespace>Demo</RootNamespace>
+		<PackageId>BlueDotBrigade.DatenLokator.DemoTests</PackageId>
+		<Version>2.1.0</Version>
+		<Authors>BlueDotBrigade;</Authors>
+		<Company>Blue Dot Brigade;</Company>
+		<Description>Simplifies testing by automatically selecting the appropriate input data for a given test case.</Description>
+		<Copyright>© 2024 Blue Dot Brigade. All rights reserved.</Copyright>
+		<RepositoryUrl>https://dev.azure.com/BlueDotBrigade/OpenSource/_git</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>BlueDotBrigade</PackageTags>
+		<PackageReleaseNotes>Release notes from the C#project.</PackageReleaseNotes>
+		<PackageProjectUrl>https://dev.azure.com/BlueDotBrigade/OpenSource/_git/daten-lokator?path=README.md</PackageProjectUrl>
+		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+		<Platforms>x64</Platforms>
+		<AssemblyName>DemoTests</AssemblyName>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+		<PackageReference Include="MSTest.TestAdapter" Version="3.6.3" />
+		<PackageReference Include="MSTest.TestFramework" Version="3.6.3" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\Src\BlueDotBrigade.DatenLokator.TestTools\BlueDotBrigade.DatenLokator.TestTools.csproj" />
+		<ProjectReference Include="..\..\Src\Demo\Demo.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<CodeAnalysisDictionary Include="..\..\DomainSpecificTerminology.xml">
+			<Link>Properties\DomainSpecificTerminology.xml</Link>
+		</CodeAnalysisDictionary>
+	</ItemGroup>
+	<ItemGroup>
+	  <None Include=".Daten\Serialization\XmlSerializerTests.zip" />
+	  <None Include=".Daten\Serialization\XmlSerializerTests\Bespin.xml" />
+	  <None Include=".Daten\Serialization\XmlSerializerTests\ProtocolDroid.xml" />
+	  <None Include=".Daten\Serialization\XmlSerializerTests~ZIP\SuperBattleDroid.xml" />
+	  <None Include=".Daten\.Global\PitDroid.xml" />
+	</ItemGroup>
+</Project>

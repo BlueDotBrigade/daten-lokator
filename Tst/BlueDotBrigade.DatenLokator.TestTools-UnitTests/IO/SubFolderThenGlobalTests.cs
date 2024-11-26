@@ -2,11 +2,10 @@
 {
 	using System;
 	using System.IO;
-	using BlueDotBrigade.DatenLokator.TestsTools.IO;
-	using BlueDotBrigade.DatenLokator.TestsTools.NamingConventions;
-	using BlueDotBrigade.DatenLokator.TestsTools.Reflection;
+	using BlueDotBrigade.DatenLokator.TestTools.NamingConventions;
+	using BlueDotBrigade.DatenLokator.TestTools.Reflection;
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
-	using Moq;
+	using NSubstitute;
 
 	[TestClass]
 	public class SubFolderThenGlobalTests
@@ -15,14 +14,14 @@
 		[ExpectedException(typeof(ArgumentException))]
 		public void Setup_InvalidPath_Throws()
 		{
-			var osFile = new Mock<IOsFile>();
-			var osDirectory = new Mock<IOsDirectory>();
+			var osFile = Substitute.For<IOsFile>();
+			var osDirectory = Substitute.For<IOsDirectory>();
 
 			osDirectory
-				.Setup(d => d.Exists(It.IsAny<string>()))
+				.Exists(Arg.Any<string>())
 				.Returns(false);
 
-			var fileManager = new SubFolderThenGlobal(osDirectory.Object, osFile.Object);
+			var fileManager = new SubFolderThenGlobal(osDirectory, osFile);
 			fileManager.Setup(@"C:\This\Path\Does\Not\Exist");
 
 			Assert.Fail("Setup should have thrown an exception.");
@@ -31,14 +30,14 @@
 		[TestMethod]
 		public void Setup_ValidPath_SetsRootDirectoryPath()
 		{
-			var osFile = new Mock<IOsFile>();
-			var osDirectory = new Mock<IOsDirectory>();
+			var osFile = Substitute.For<IOsFile>();
+			var osDirectory = Substitute.For<IOsDirectory>();
 
 			osDirectory
-				.Setup(d => d.Exists(It.IsAny<string>()))
+				.Exists(Arg.Any<string>())
 				.Returns(true);
 
-			var fileManager = new SubFolderThenGlobal(osDirectory.Object, osFile.Object);
+			var fileManager = new SubFolderThenGlobal(osDirectory, osFile);
 			fileManager.Setup(@"C:\New\Root\Directory\Path");
 
 			Assert.AreEqual(
@@ -49,16 +48,16 @@
 		[TestMethod]
 		public void Setup_ValidPath_SetsGlobalDirectoryPath()
 		{
-			var osFile = new Mock<IOsFile>();
-			var osDirectory = new Mock<IOsDirectory>();
+			var osFile = Substitute.For<IOsFile>();
+			var osDirectory = Substitute.For<IOsDirectory>();
 
 			osDirectory
-				.Setup(d => d.Exists(It.IsAny<string>()))
+				.Exists(Arg.Any<string>())
 				.Returns(true);
 
-			var fileManager = new SubFolderThenGlobal(osDirectory.Object, osFile.Object);
+			var fileManager = new SubFolderThenGlobal(osDirectory, osFile);
 			fileManager.Setup(@"C:\New\Root\Directory\Path");
-			
+
 			Assert.AreEqual(
 				@"C:\New\Root\Directory\Path\.Global",
 				fileManager.GlobalDirectoryPath);
@@ -69,25 +68,25 @@
 		{
 			var thisClassPath = Path.Combine(AssemblyHelper.ProjectDirectoryPath, @"IO\SubFolderThenGlobalTests.cs");
 
-			var osFile = new Mock<IOsFile>();
+			var osFile = Substitute.For<IOsFile>();
 			osFile
-				.Setup(d => d.Exists(It.IsAny<string>()))
+				.Exists(Arg.Any<string>())
 				.Returns(true);
 
-			var osDirectory = new Mock<IOsDirectory>();
+			var osDirectory = Substitute.For<IOsDirectory>();
 			osDirectory
-				.Setup(d => d.Exists(It.IsAny<string>()))
+				.Exists(Arg.Any<string>())
 				.Returns(true);
 
-			var namingStrategy = new Mock<ITestNamingStrategy>();
+			var namingStrategy = Substitute.For<ITestNamingStrategy>();
 
-			var fileManager = new SubFolderThenGlobal(osDirectory.Object, osFile.Object);
+			var fileManager = new SubFolderThenGlobal(osDirectory, osFile);
 			fileManager.Setup(@"C:\SampleData\");
 
 			Assert.AreEqual(
 				@"C:\SampleData\IO\SubFolderThenGlobalTests\FooBar.txt",
 				fileManager.GetFilePath(
-					namingStrategy.Object,
+					namingStrategy,
 					"FooBar.txt",
 					thisClassPath));
 		}

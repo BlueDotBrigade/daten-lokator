@@ -24,7 +24,7 @@
 	<ItemGroup>
 		<PackageReference Include="MSTest.TestFramework" Version="3.6.3" />
 		<PackageReference Include="System.Collections.Immutable" Version="9.0.0" />
-		<PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.1" />
+		<PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.0" />
 	</ItemGroup>
 	<ItemGroup>
 		<CodeAnalysisDictionary Include="..\..\DomainSpecificTerminology.xml">

@@ -3,7 +3,8 @@
 	using BlueDotBrigade.DatenLokator.TestTools.IO;
 	using BlueDotBrigade.DatenLokator.TestTools.NamingConventions;
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
-	using Moq;
+	using NSubstitute;
+	using System.Collections.Generic;
 
 	/// <summary>
 	/// These test methods are more about exploring the <see cref="Lokator"/> API, to ensure that the library can be extended.
@@ -32,19 +33,20 @@
 				{ LokatorConfiguration.RootDirectoryKey, CustomRootDirectory }
 			};
 
-			var directory = new Mock<IOsDirectory>();
-			directory.Setup(x => x.Exists(It.IsAny<string>())).Returns(true);
+			var directory = Substitute.For<IOsDirectory>();
+			directory.Exists(Arg.Any<string>()).Returns(true);
 
-			var file = new Mock<IOsFile>();
-			file.Setup(x => x.Exists(It.IsAny<string>())).Returns((string path) =>
+			var file = Substitute.For<IOsFile>();
+			file.Exists(Arg.Any<string>()).Returns((callInfo) =>
 			{
+				var path = callInfo.Arg<string>();
 				return path.StartsWith(CustomRootDirectory);
 			});
 
 			var coordinator = new Coordinator(
-				file.Object,
+				file,
 				new MemberCaseResultNamingStrategy(),
-				new SubFolderThenGlobal(directory.Object, file.Object),
+				new SubFolderThenGlobal(directory, file),
 				new Dictionary<string, object>(),
 				"Default.txt",
 				CustomRootDirectory);

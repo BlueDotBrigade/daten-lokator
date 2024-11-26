@@ -8,27 +8,27 @@
 	/// <example>
 	///     <code>
 	///     [TestMethod]
-	///     public void Withdraw_FromInvalidAccount_Throws()
+	///     public void Withdraw_TooMuchMoney_Throws()
 	///     {
 	///         // body of unit test
 	///     }
 	/// </code>
 	/// </example>
-	public enum AssertActArrangeParts
+	internal enum MemberCaseResultType
 	{
 		/// <summary>
 		/// Represents the property or method that is being tested.
 		/// </summary>
-		SystemUnderTest = 0,
+		Member = 0,
 
 		/// <summary>
-		/// Represents the scenario (i.e. use case) that is being tested.
+		/// Represents the use case that is being tested.
 		/// </summary>
-		Scenario = 1,
+		Case = 1,
 
 		/// <summary>
 		/// Represents the expected outcome of the test.
 		/// </summary>
-		ExpectedResult = 2,
+		Result = 2,
 	}
 }

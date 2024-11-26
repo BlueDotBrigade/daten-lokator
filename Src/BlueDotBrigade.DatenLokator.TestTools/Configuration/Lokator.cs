@@ -29,7 +29,7 @@
 			_osDirectory = osOsDirectory;
 			_osFile = osOsFile;
 
-			ITestNamingStrategy testNamingStrategy = new AssertActArrange();
+			ITestNamingStrategy testNamingStrategy = new MemberCaseResultNamingStrategy();
 
 			IFileManagementStrategy fileManagementStrategy = new SubFolderThenGlobal(
 				_osDirectory,

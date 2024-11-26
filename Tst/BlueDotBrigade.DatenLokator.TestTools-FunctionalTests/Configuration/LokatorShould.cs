@@ -43,7 +43,7 @@
 
 			var coordinator = new Coordinator(
 				file.Object,
-				new AssertActArrange(),
+				new MemberCaseResultNamingStrategy(),
 				new SubFolderThenGlobal(directory.Object, file.Object),
 				new Dictionary<string, object>(),
 				"Default.txt",

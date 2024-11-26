@@ -216,34 +216,5 @@
 			Assert.AreEqual(expected, actual.ReadToEnd());
 		}
 		#endregion
-
-		#region AsStreamReader
-		[TestMethod]
-		public void AsBmp_FileByDefault_ReturnsCorrectContent()
-		{
-			var expected = "Default source file shared by multiple tests.";
-			StreamReader actual = new Daten(_coordinator).AsStreamReader(From.GlobalDefault);
-
-			Assert.AreEqual(expected, actual.ReadToEnd());
 		}
-
-		[TestMethod]
-		public void AsBmp_FileByName_ReturnsCorrectContent()
-		{
-			var expected = "Requested input using specfic file name.";
-			StreamReader actual = new Daten(_coordinator).AsStreamReader("ImageBmp.Bmp");
-
-			Assert.AreEqual(expected, actual.ReadToEnd());
 		}
-
-		[TestMethod]
-		public void AsBmp_FileByConvention_ReturnsCorrectContent()
-		{
-			var expected = "Unit test name was used to select a source file.";
-			StreamReader actual = new Daten(_coordinator).AsStreamReader();
-
-			Assert.AreEqual(expected, actual.ReadToEnd());
-		}
-		#endregion
-	}
-}

@@ -17,8 +17,7 @@ on:
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [ "main" ]
-  # Allows manual triggering
-  workflow_dispatch:
+  workflow_dispatch: # Allows manual triggering
   schedule:
     - cron: '34 16 * * 6'
 

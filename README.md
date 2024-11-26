@@ -22,6 +22,7 @@ If your automated tests are verifying more than just value types (`string`, `int
    -	`AsString()`
    -	`AsStream()`
    -	`AsStreamReader()`
+   -	`AsJson()`
 2. Automatic decompression of `*.zip` files.
     -	Useful for saving disk space.
 3. Global cache support.

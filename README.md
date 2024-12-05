@@ -15,12 +15,12 @@
 ## Features
 
 1. Retrieve data in different formats:
-   -	`new Daten().AsBytes()`
-   -	`new Daten().AsFile()`
-   -	`new Daten().AsString()`
-   -	`new Daten().AsStream()`
-   -	`new Daten().AsStreamReader()`
-   -	`new Daten().AsJson()`
+   -	`AsBytes()`
+   -	`AsFile()`
+   -	`AsString()`
+   -	`AsStream()`
+   -	`AsStreamReader()`
+   -	`AsJson()`
 2. Automatic decompression of `*.zip` files.
     -	Useful for saving disk space.
 3. Global cache support.

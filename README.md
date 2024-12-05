@@ -10,17 +10,17 @@
 
 ## Overview
 
-Datenlokator is a [BlueDotBrigade.DatenLokator][NuGetPackage] .NET _NuGet_ package that streamlines automated testing by allowing you to load input data with a single line of code, reducing visual noise and improving test comprehension. It supports multiple data formats, automatic decompression, global caching, and run-time customization.
+[BlueDotBrigade.DatenLokator][NuGetPackage] is a .NET _NuGet_ package that streamlines automated testing by allowing you to load input data with a single line of code, reducing visual noise and improving test comprehension. It supports multiple data formats, automatic decompression, global caching, and run-time customization.
 
 ## Features
 
 1. Retrieve data in different formats:
-   -	`AsBytes()`
-   -	`AsFile()`
-   -	`AsString()`
-   -	`AsStream()`
-   -	`AsStreamReader()`
-   -	`AsJson()`
+   -	`new Daten().AsBytes()`
+   -	`new Daten().AsFile()`
+   -	`new Daten().AsString()`
+   -	`new Daten().AsStream()`
+   -	`new Daten().AsStreamReader()`
+   -	`new Daten().AsJson()`
 2. Automatic decompression of `*.zip` files.
     -	Useful for saving disk space.
 3. Global cache support.

@@ -10,9 +10,7 @@
 
 ## Overview
 
-If your automated tests are verifying more than just value types (`string`, `int`, `float`, etc), then consider using the [BlueDotBrigade.DatenLokator][NuGetPackage]  _NuGet_ package to automatically locate and load your test data (`*.log`, `*.xml`, `*.json`, `*.jpg`, etc). All you need to do is call one method:
-
-- `new Daten().AsString()`
+Datenlokator is a [BlueDotBrigade.DatenLokator][NuGetPackage] .NET _NuGet_ package that streamlines automated testing by allowing you to load input data with a single line of code, reducing visual noise and improving test comprehension. It supports multiple data formats, automatic decompression, global caching, and run-time customization.
 
 ## Features
 

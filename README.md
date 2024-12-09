@@ -10,7 +10,7 @@
 
 ## Overview
 
-[BlueDotBrigade.DatenLokator][NuGetPackage] is a .NET _NuGet_ package that streamlines automated testing by allowing you to load input data with a single line of code, thus reducing visual noise and improving test comprehension. It supports multiple data formats, automatic decompression, global caching, and run-time customization.
+[BlueDotBrigade.DatenLokator][NuGetPackage] is a .NET _NuGet_ package that streamlines automated testing by allowing you to load input data with a single line of code, thus reducing visual noise and improving test comprehension. This library supports multiple data formats, automatic decompression, global caching, and run-time customization.
 
 ## Features
 

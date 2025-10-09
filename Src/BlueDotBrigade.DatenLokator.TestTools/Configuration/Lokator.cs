@@ -6,6 +6,7 @@
 	using BlueDotBrigade.DatenLokator.TestTools.IO;
 	using BlueDotBrigade.DatenLokator.TestTools.NamingConventions;
 	using BlueDotBrigade.DatenLokator.TestTools.Reflection;
+	using BlueDotBrigade.DatenLokator.TestTools.Uri;
 
 	public sealed class Lokator
 	{
@@ -164,6 +165,44 @@
 			_configuration.FileManagementStrategy.TearDown();
 
 			return this;
+		}
+
+		/// <summary>
+		/// Registers a URI to serve static content via an in-process HTTP listener.
+		/// </summary>
+		/// <param name="uri">The URI to register (must be absolute HTTP/HTTPS).</param>
+		/// <param name="content">The content to serve (string, byte[], Stream, or any serializable object).</param>
+		/// <param name="contentType">Optional content type. If not provided, will be inferred from content.</param>
+		/// <returns>An IDisposable that stops the listener when disposed.</returns>
+		/// <exception cref="ArgumentNullException">If uri or content is null.</exception>
+		/// <exception cref="ArgumentException">If uri is not absolute or not HTTP/HTTPS.</exception>
+		/// <exception cref="InvalidOperationException">If the HTTP listener cannot be started.</exception>
+		public static IDisposable Register(System.Uri uri, object content, string contentType = null)
+		{
+			return new UrlRegistration(uri, content, contentType);
+		}
+
+		/// <summary>
+		/// Registers a URI to serve content resolved by a Daten instance.
+		/// </summary>
+		/// <param name="uri">The URI to register (must be absolute HTTP/HTTPS).</param>
+		/// <param name="daten">The Daten instance to resolve content from.</param>
+		/// <param name="contentType">Optional content type. If not provided, will be inferred from content.</param>
+		/// <returns>An IDisposable that stops the listener when disposed.</returns>
+		/// <exception cref="ArgumentNullException">If uri or daten is null.</exception>
+		/// <exception cref="ArgumentException">If uri is not absolute or not HTTP/HTTPS.</exception>
+		/// <exception cref="InvalidOperationException">If the HTTP listener cannot be started.</exception>
+		public static IDisposable Register(System.Uri uri, Daten daten, string contentType = null)
+		{
+			if (daten == null)
+			{
+				throw new ArgumentNullException(nameof(daten));
+			}
+
+			// Get the content from Daten
+			var content = daten.AsString();
+			
+			return new UrlRegistration(uri, content, contentType);
 		}
 	}
 }

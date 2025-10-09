@@ -6,74 +6,80 @@ using BlueDotBrigade.DatenLokator.TestTools.Configuration;
 
 /// <summary>
 /// Demonstrates real-world usage of Lokator.Register for testing web applications.
-/// This example shows how to test a data pipeline that fetches user data from a REST API.
+/// This example shows how to test a droid inventory system that fetches droid data from a REST API.
 /// </summary>
-public class DataPipelineExample
+public class DroidInventoryExample
 {
-    // Example data pipeline class that would normally call a real API
-    public class DataPipeline
+    // Example droid inventory pipeline class that would normally call a real API
+    public class DroidInventoryPipeline
     {
         private readonly string _apiUrl;
 
-        public DataPipeline(string apiUrl)
+        public DroidInventoryPipeline(string apiUrl)
         {
             _apiUrl = apiUrl;
         }
 
-        public async Task<User[]> FetchUsersAsync()
+        public async Task<AstromechDroid[]> FetchDroidsAsync()
         {
             using var client = new HttpClient();
             var json = await client.GetStringAsync(_apiUrl);
-            return JsonSerializer.Deserialize<User[]>(json);
+            return JsonSerializer.Deserialize<AstromechDroid[]>(json);
         }
     }
 
-    public class User
+    public class AstromechDroid
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
+        public string SerialNo { get; set; }
+        public string Manufacturer { get; set; }
+        public string ProductLine { get; set; }
+    }
+
+    public class Peripheral
+    {
+        public string Type { get; set; }
+        public string SerialNumber { get; set; }
     }
 
     /// <summary>
-    /// Example test: Testing the data pipeline without a real API server.
+    /// Example test: Testing the droid inventory pipeline without a real API server.
     /// </summary>
     public static async Task TestDataPipelineWithMockApi()
     {
-        Console.WriteLine("=== Testing Data Pipeline with Lokator.Register ===\n");
+        Console.WriteLine("=== Testing Droid Inventory Pipeline with Lokator.Register ===\n");
 
-        // Define test data
-        var testUsers = new[]
+        // Define test data - Famous astromech droids
+        var testDroids = new[]
         {
-            new User { Id = 1, Name = "Alice Johnson", Email = "alice@example.com" },
-            new User { Id = 2, Name = "Bob Smith", Email = "bob@example.com" },
-            new User { Id = 3, Name = "Charlie Brown", Email = "charlie@example.com" }
+            new AstromechDroid { SerialNo = "R2-D2", Manufacturer = "Industrial Automaton", ProductLine = "R2-series" },
+            new AstromechDroid { SerialNo = "R2-KT", Manufacturer = "Industrial Automaton", ProductLine = "R2-series" },
+            new AstromechDroid { SerialNo = "BB-8", Manufacturer = "Industrial Automaton", ProductLine = "BB-series" }
         };
 
         // Register a mock API endpoint
-        var apiUri = new Uri("http://localhost:8080/api/users");
+        var apiUri = new Uri("http://localhost:8080/api/droids");
         
-        using (Lokator.Register(apiUri, testUsers))
+        using (Lokator.Register(apiUri, testDroids))
         {
-            Console.WriteLine($"✓ Registered mock API at {apiUri}");
+            Console.WriteLine($"✓ Registered mock droid inventory API at {apiUri}");
             
             // Give the listener a moment to start
             await Task.Delay(200);
 
-            // Create and test the data pipeline
-            var pipeline = new DataPipeline(apiUri.ToString());
-            var users = await pipeline.FetchUsersAsync();
+            // Create and test the droid inventory pipeline
+            var pipeline = new DroidInventoryPipeline(apiUri.ToString());
+            var droids = await pipeline.FetchDroidsAsync();
 
-            Console.WriteLine($"\n✓ Pipeline fetched {users.Length} users:");
-            foreach (var user in users)
+            Console.WriteLine($"\n✓ Pipeline fetched {droids.Length} astromech droids:");
+            foreach (var droid in droids)
             {
-                Console.WriteLine($"  - {user.Name} ({user.Email})");
+                Console.WriteLine($"  - {droid.SerialNo} ({droid.Manufacturer}, {droid.ProductLine})");
             }
 
             // Verify results
-            if (users.Length == 3 && users[0].Name == "Alice Johnson")
+            if (droids.Length == 3 && droids[0].SerialNo == "R2-D2")
             {
-                Console.WriteLine("\n✓ Test PASSED: Pipeline correctly fetched and parsed mock data");
+                Console.WriteLine("\n✓ Test PASSED: Pipeline correctly fetched and parsed mock droid data");
             }
             else
             {
@@ -91,14 +97,14 @@ public class DataPipelineExample
     {
         Console.WriteLine("=== Testing 404 Not Found Handling ===\n");
 
-        var apiUri = new Uri("http://localhost:8081/api/users");
+        var apiUri = new Uri("http://localhost:8081/api/droids");
         
-        using (Lokator.Register(apiUri, new[] { new User { Id = 1, Name = "Test" } }))
+        using (Lokator.Register(apiUri, new[] { new AstromechDroid { SerialNo = "R5-D4", Manufacturer = "Industrial Automaton", ProductLine = "R5-series" } }))
         {
             await Task.Delay(200);
 
             // Try to access a different path - should get 404
-            var wrongUri = new Uri("http://localhost:8081/api/products");
+            var wrongUri = new Uri("http://localhost:8081/api/starships");
             
             using var client = new HttpClient();
             var response = await client.GetAsync(wrongUri);
@@ -121,30 +127,30 @@ public class DataPipelineExample
     {
         Console.WriteLine("=== Testing Multiple Concurrent Endpoints ===\n");
 
-        var usersUri = new Uri("http://localhost:8082/api/users");
-        var productsUri = new Uri("http://localhost:8083/api/products");
-        var statusUri = new Uri("http://localhost:8084/api/status");
+        var droidsUri = new Uri("http://localhost:8082/api/droids");
+        var peripheralsUri = new Uri("http://localhost:8083/api/peripherals");
+        var hangarUri = new Uri("http://localhost:8084/api/hangar-status");
 
-        var users = new[] { new { Id = 1, Name = "Alice" } };
-        var products = new[] { new { Id = 100, Name = "Widget" } };
-        var status = new { Healthy = true, Version = "1.0.0" };
+        var droids = new[] { new { SerialNo = "C-3PO", Type = "Protocol Droid" } };
+        var peripherals = new[] { new { Type = "Holographic Projector", SerialNumber = "HP-2187" } };
+        var hangarStatus = new { Operational = true, BayNumber = "327" };
 
-        using (Lokator.Register(usersUri, users))
-        using (Lokator.Register(productsUri, products))
-        using (Lokator.Register(statusUri, status))
+        using (Lokator.Register(droidsUri, droids))
+        using (Lokator.Register(peripheralsUri, peripherals))
+        using (Lokator.Register(hangarUri, hangarStatus))
         {
             Console.WriteLine("✓ Registered 3 mock endpoints");
             await Task.Delay(300);
 
             using var client = new HttpClient();
 
-            var usersResponse = await client.GetStringAsync(usersUri);
-            var productsResponse = await client.GetStringAsync(productsUri);
-            var statusResponse = await client.GetStringAsync(statusUri);
+            var droidsResponse = await client.GetStringAsync(droidsUri);
+            var peripheralsResponse = await client.GetStringAsync(peripheralsUri);
+            var hangarResponse = await client.GetStringAsync(hangarUri);
 
-            Console.WriteLine($"✓ Users endpoint: {usersResponse}");
-            Console.WriteLine($"✓ Products endpoint: {productsResponse}");
-            Console.WriteLine($"✓ Status endpoint: {statusResponse}");
+            Console.WriteLine($"✓ Droids endpoint: {droidsResponse}");
+            Console.WriteLine($"✓ Peripherals endpoint: {peripheralsResponse}");
+            Console.WriteLine($"✓ Hangar status endpoint: {hangarResponse}");
 
             Console.WriteLine("\n✓ Test PASSED: All endpoints served their respective content\n");
         }
@@ -157,11 +163,11 @@ public class DataPipelineExample
     {
         Console.WriteLine("=== Testing Port Reuse After Disposal ===\n");
 
-        var uri = new Uri("http://localhost:8085/api/data");
+        var uri = new Uri("http://localhost:8085/api/droid-info");
 
         // First registration
         Console.WriteLine("First registration:");
-        using (var first = Lokator.Register(uri, "First content"))
+        using (var first = Lokator.Register(uri, "R2-D2 diagnostic data"))
         {
             await Task.Delay(200);
             using var client = new HttpClient();
@@ -176,7 +182,7 @@ public class DataPipelineExample
 
         // Second registration on same port
         Console.WriteLine("\nSecond registration (same port):");
-        using (Lokator.Register(uri, "Second content"))
+        using (Lokator.Register(uri, "BB-8 diagnostic data"))
         {
             await Task.Delay(200);
             using var client = new HttpClient();
@@ -191,7 +197,7 @@ public class DataPipelineExample
     public static async Task Main(string[] args)
     {
         Console.WriteLine("╔═══════════════════════════════════════════════════════╗");
-        Console.WriteLine("║  Lokator.Register - Real-World Usage Examples        ║");
+        Console.WriteLine("║  Lokator.Register - Droid Inventory Demo Examples    ║");
         Console.WriteLine("╚═══════════════════════════════════════════════════════╝\n");
 
         try
@@ -202,7 +208,7 @@ public class DataPipelineExample
             await TestPortReuse();
 
             Console.WriteLine("╔═══════════════════════════════════════════════════════╗");
-            Console.WriteLine("║  All Examples Completed Successfully!                 ║");
+            Console.WriteLine("║  All Droid Inventory Examples Completed Successfully! ║");
             Console.WriteLine("╚═══════════════════════════════════════════════════════╝");
         }
         catch (Exception ex)

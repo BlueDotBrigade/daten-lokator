@@ -1,8 +1,11 @@
 using System;
 using System.Net.Http;
-using System.Text.Json;
 using System.Threading.Tasks;
+
 using BlueDotBrigade.DatenLokator.TestTools.Configuration;
+
+using Demo;
+using Demo.Droids;
 
 /// <summary>
 /// Demonstrates real-world usage of Lokator.Register for testing web applications.
@@ -10,36 +13,6 @@ using BlueDotBrigade.DatenLokator.TestTools.Configuration;
 /// </summary>
 public class DroidInventoryExample
 {
-    // Example droid inventory pipeline class that would normally call a real API
-    public class DroidInventoryPipeline
-    {
-        private readonly string _apiUrl;
-
-        public DroidInventoryPipeline(string apiUrl)
-        {
-            _apiUrl = apiUrl;
-        }
-
-        public async Task<AstromechDroid[]> FetchDroidsAsync()
-        {
-            using var client = new HttpClient();
-            var json = await client.GetStringAsync(_apiUrl);
-            return JsonSerializer.Deserialize<AstromechDroid[]>(json);
-        }
-    }
-
-    public class AstromechDroid
-    {
-        public string SerialNo { get; set; }
-        public string Manufacturer { get; set; }
-        public string ProductLine { get; set; }
-    }
-
-    public class Peripheral
-    {
-        public string Type { get; set; }
-        public string SerialNumber { get; set; }
-    }
 
     /// <summary>
     /// Example test: Testing the droid inventory pipeline without a real API server.

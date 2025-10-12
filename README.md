@@ -48,6 +48,10 @@ Setup:
    - Example: `/DemoTests/.Daten`
    - Storing the input data within the project directory provides traceability, because now the input data can be committed to source control (e.g. *GitHub*).
 
+Test data sources and mock endpoints:
+- Instances of `Daten` can be used to load deterministic input fixtures from disk.
+- `Lokator.Register()` can be used to setup lightweight sockets that serve static content — useful for testing HTTP clients without an external server.
+
 Managing source files:
 
 1. Create an automated test.

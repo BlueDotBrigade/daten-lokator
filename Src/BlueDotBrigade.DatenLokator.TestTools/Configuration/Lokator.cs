@@ -81,12 +81,18 @@
 			return this;
 		}
 
+		/// <summary>
+		/// Specifies the naming convention that will be used for the test methods.
+		/// </summary>
 		public Lokator UsingTestNamingStrategy(ITestNamingStrategy strategy)
 		{
 			_configuration.TestNamingStrategy = strategy;
 			return this;
 		}
 
+		/// <summary>
+		/// Specifies the file management strategy that will be used to locate input data files.
+		/// </summary>
 		public Lokator UsingFileManagementStrategy(IFileManagementStrategy strategy)
 		{
 			_configuration.FileManagementStrategy = strategy;
@@ -136,6 +142,12 @@
 			return result;
 		}
 
+		/// <summary>
+		/// Initialize the test environmnent.
+		/// </summary>
+		/// <remarks>
+		/// Post-initialization, <see cref="Daten"/> instances will be able to locate files required for testing.
+		/// </remarks>
 		public Lokator Setup()
 		{
 			var rootDirectoryPath = GetRootDirectoryPath();
@@ -160,6 +172,13 @@
 			return this;
 		}
 
+		/// <summary>
+		/// Clean up the test environment.
+		/// </summary>
+		/// <remarks>
+		/// Delegates teardown work to the configured <see cref="IFileManagementStrategy"/>. Use this to
+		/// remove temporary test directories or other artifacts created by the strategy.
+		/// </remarks>
 		public Lokator TearDown()
 		{
 			_configuration.FileManagementStrategy.TearDown();

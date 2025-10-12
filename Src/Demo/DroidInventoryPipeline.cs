@@ -5,7 +5,6 @@
 	using System.Threading.Tasks;
 	using Demo.Droids;
 
-	// Example droid inventory pipeline class that would normally call a real API
 	public class DroidInventoryPipeline
 	{
 		private readonly string _apiUrl;

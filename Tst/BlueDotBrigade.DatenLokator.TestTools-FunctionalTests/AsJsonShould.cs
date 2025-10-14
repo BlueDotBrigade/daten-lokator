@@ -16,13 +16,13 @@
 		}
 
 		[TestMethod]
-		public void AsJson_ByConvention_ReturnsLocalFileContent()
+		public void FromJson_ByConvention_ReturnsLocalFileContent()
 		{
 			// Arrange
 			var expectedData = new TestData { Id = 1, Name = "Sample" };
 
 			// Act
-			var actualData = new Daten().AsJson<TestData>();
+			var actualData = new Daten().FromJson<TestData>();
 
 
 			// Assert

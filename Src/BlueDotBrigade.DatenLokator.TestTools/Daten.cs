@@ -375,18 +375,17 @@
 		}
 
 		/// <summary>
-		/// Retrieves the data that is appropriate for the test that is currently executing.
+		/// Finds and reads the JSON file for the currently running test, and deserializes it into <typeparamref name="T" />.
 		/// </summary>
-		/// <returns>
-		/// Returns the source file as an instance of <typeparamref name="T"/>.
-		/// </returns>
+		/// <typeparam name="T">Target type for the JSON content.</typeparam>
+		/// <returns>The deserialized object of type <typeparamref name="T" />.</returns>
 		/// <remarks>
-		/// Directory search order:
-		/// 1. the given directory
-		/// 2. a compressed file that is similar to the given directory
-		/// 3. the global directory for shared files
+		/// The file is looked up in this order:
+		/// 1. the test’s specific directory  
+		/// 2. a compressed file matching that directory  
+		/// 3. a shared global directory  
 		/// </remarks>
-		public T AsJson<T>()
+		public T FromJson<T>()
 		{
 			var sourceFilePath = _coordinator.GetFilePath(_callingMethodName, _callingClassPath);
 
@@ -397,18 +396,18 @@
 		}
 
 		/// <summary>
-		/// Retrieves the data that is stored within the given <paramref name="fileName"/>.
+		/// Finds and reads the JSON file for the currently running test, and deserializes it into <typeparamref name="T" />.
 		/// </summary>
-		/// <returns>
-		/// Returns the source file as an instance of <typeparamref name="T"/>.
-		/// </returns>
+		/// <typeparam name="T">Target type for the JSON content.</typeparam>
+		/// <param name="fileName">The name of the JSON file to read.</param>
+		/// <returns>The deserialized object of type <typeparamref name="T" />.</returns>
 		/// <remarks>
-		/// Directory search order:
-		/// 1. the given directory
-		/// 2. a compressed file that is similar to the given directory
-		/// 3. the global directory for shared files
+		/// The file is looked up in this order:
+		/// 1. the test’s specific directory  
+		/// 2. a compressed file matching that directory  
+		/// 3. a shared global directory  
 		/// </remarks>
-		public T AsJson<T>(string fileName)
+		public T FromJson<T>(string fileName)
 		{
 			var sourceFilePath = _coordinator.GetFilePath(fileName, _callingClassPath);
 
@@ -418,15 +417,20 @@
 			return JsonSerializer.Deserialize<T>(jsonContent);
 		}
 
+
 		/// <summary>
-		/// Retrieves the data that was registered with <see cref="Lokator"/>.
+		/// Finds and reads the JSON file for the currently running test, and deserializes it into <typeparamref name="T" />.
 		/// </summary>
-		/// <param name="fromSource">Determines which registered file to retrieve.</param>
-		/// <returns>
-		/// Returns the source file as an instance of <typeparamref name="T"/>.
-		/// </returns>
-		/// <exception cref="ArgumentOutOfRangeException"/>
-		public T AsJson<T>(From fromSource)
+		/// <typeparam name="T">Target type for the JSON content.</typeparam>
+		/// <param name="fromSource">Forces the global default file to be returned.</param>
+		/// <returns>The deserialized object of type <typeparamref name="T" />.</returns>
+		/// <remarks>
+		/// The file is looked up in this order:
+		/// 1. the test’s specific directory  
+		/// 2. a compressed file matching that directory  
+		/// 3. a shared global directory  
+		/// </remarks>
+		public T FromJson<T>(From fromSource)
 		{
 			var sourceFilePath = GetGlobalDefaultPath(fromSource);
 

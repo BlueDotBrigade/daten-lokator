@@ -6,6 +6,7 @@
 	using BlueDotBrigade.DatenLokator.TestTools.IO;
 	using BlueDotBrigade.DatenLokator.TestTools.NamingConventions;
 	using BlueDotBrigade.DatenLokator.TestTools.Reflection;
+	using BlueDotBrigade.DatenLokator.TestTools.Uri;
 
 	public sealed class Lokator
 	{
@@ -16,8 +17,6 @@
 		private Coordinator _coordinator = null;
 		private readonly IOsDirectory _osDirectory;
 		private readonly IOsFile _osFile;
-
-		private bool _isSetup = false;
 
 		internal Lokator() : this(new OsDirectory(), new OsFile())
 		{
@@ -80,12 +79,18 @@
 			return this;
 		}
 
+		/// <summary>
+		/// Specifies the naming convention that will be used for the test methods.
+		/// </summary>
 		public Lokator UsingTestNamingStrategy(ITestNamingStrategy strategy)
 		{
 			_configuration.TestNamingStrategy = strategy;
 			return this;
 		}
 
+		/// <summary>
+		/// Specifies the file management strategy that will be used to locate input data files.
+		/// </summary>
 		public Lokator UsingFileManagementStrategy(IFileManagementStrategy strategy)
 		{
 			_configuration.FileManagementStrategy = strategy;
@@ -106,9 +111,19 @@
 		/// </remarks>
 		/// <seealso href="https://learn.microsoft.com/en-us/previous-versions/ms404699(v=vs.90)">MSDN: Using the TestContext</seealso>
 		/// <seealso href="https://blog.adilakhter.com/2008/05/04/more-on-unit-testing-testcontext/">More on Unit Testing: TestContext</seealso>
-		public Lokator UsingTestContext(IDictionary properties)
+		public Lokator UsingTestContext(IDictionary<string, object?> properties)
 		{
-			_configuration.TestEnvironmentProperties = properties as IDictionary<string, object>;
+			// Convert nullable MS Test v4 dictionary values to non-nullable values.
+			var normalized = new Dictionary<string, object>(StringComparer.Ordinal);
+			foreach ((string key, object value) in properties)
+			{
+				if (value is not null)
+				{
+					normalized[key] = value;
+				}
+			}
+
+			_configuration.TestEnvironmentProperties = normalized;
 
 			return this;
 		}
@@ -135,6 +150,12 @@
 			return result;
 		}
 
+		/// <summary>
+		/// Initialize the test environmnent.
+		/// </summary>
+		/// <remarks>
+		/// Post-initialization, <see cref="Daten"/> instances will be able to locate files required for testing.
+		/// </remarks>
 		public Lokator Setup()
 		{
 			var rootDirectoryPath = GetRootDirectoryPath();
@@ -154,16 +175,59 @@
 
 			_coordinator.Setup();
 
-			_isSetup = true;
-
 			return this;
 		}
 
+		/// <summary>
+		/// Clean up the test environment.
+		/// </summary>
+		/// <remarks>
+		/// Delegates teardown work to the configured <see cref="IFileManagementStrategy"/>. Use this to
+		/// remove temporary test directories or other artifacts created by the strategy.
+		/// </remarks>
 		public Lokator TearDown()
 		{
 			_configuration.FileManagementStrategy.TearDown();
 
 			return this;
+		}
+
+		/// <summary>
+		/// Registers a URI to serve static content via an in-process HTTP listener.
+		/// </summary>
+		/// <param name="uri">The URI to register (must be absolute HTTP/HTTPS).</param>
+		/// <param name="content">The content to serve (string, byte[], Stream, or any serializable object).</param>
+		/// <param name="contentType">Optional content type. If not provided, will be inferred from content.</param>
+		/// <returns>An IDisposable that stops the listener when disposed.</returns>
+		/// <exception cref="ArgumentNullException">If uri or content is null.</exception>
+		/// <exception cref="ArgumentException">If uri is not absolute or not HTTP/HTTPS.</exception>
+		/// <exception cref="InvalidOperationException">If the HTTP listener cannot be started.</exception>
+		public static IDisposable Register(System.Uri uri, object content, string contentType = null)
+		{
+			return new UrlRegistration(uri, content, contentType);
+		}
+
+		/// <summary>
+		/// Registers a URI to serve content resolved by a Daten instance.
+		/// </summary>
+		/// <param name="uri">The URI to register (must be absolute HTTP/HTTPS).</param>
+		/// <param name="daten">The Daten instance to resolve content from.</param>
+		/// <param name="contentType">Optional content type. If not provided, will be inferred from content.</param>
+		/// <returns>An IDisposable that stops the listener when disposed.</returns>
+		/// <exception cref="ArgumentNullException">If uri or daten is null.</exception>
+		/// <exception cref="ArgumentException">If uri is not absolute or not HTTP/HTTPS.</exception>
+		/// <exception cref="InvalidOperationException">If the HTTP listener cannot be started.</exception>
+		public static IDisposable Register(System.Uri uri, Daten daten, string contentType = null)
+		{
+			if (daten == null)
+			{
+				throw new ArgumentNullException(nameof(daten));
+			}
+
+			// Get the content from Daten
+			var content = daten.AsString();
+			
+			return new UrlRegistration(uri, content, contentType);
 		}
 	}
 }

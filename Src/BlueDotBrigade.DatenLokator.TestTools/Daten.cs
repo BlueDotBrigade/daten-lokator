@@ -375,65 +375,69 @@
 		}
 
 		/// <summary>
-		/// Retrieves the data that is appropriate for the test that is currently executing.
+		/// Reads the JSON file for the current test, and deserializes it into <typeparamref name="TResponse" />.
 		/// </summary>
-		/// <returns>
-		/// Returns the source file as an instance of <typeparamref name="T"/>.
-		/// </returns>
+		/// <typeparam name="TResponse">Indicates what the JSON data will be derserialized as.</typeparam>
+		/// <returns>The deserialized object of type <typeparamref name="TResponse" />.</returns>
 		/// <remarks>
-		/// Directory search order:
-		/// 1. the given directory
-		/// 2. a compressed file that is similar to the given directory
-		/// 3. the global directory for shared files
+		/// The file is looked up in this order:
+		/// 1. the test’s specific directory  
+		/// 2. a compressed file matching that directory  
+		/// 3. a shared global directory  
 		/// </remarks>
-		public T AsJson<T>()
+		public TResponse FromJson<TResponse>()
 		{
 			var sourceFilePath = _coordinator.GetFilePath(_callingMethodName, _callingClassPath);
 
 			ThrowIfFileMissing(sourceFilePath);
 
 			var jsonContent = _coordinator.OsFile.ReadAllText(sourceFilePath);
-			return JsonSerializer.Deserialize<T>(jsonContent);
+			return JsonSerializer.Deserialize<TResponse>(jsonContent);
 		}
 
 		/// <summary>
-		/// Retrieves the data that is stored within the given <paramref name="fileName"/>.
+		/// Reads the JSON file for the current test, and deserializes it into <typeparamref name="TResponse" />.
 		/// </summary>
-		/// <returns>
-		/// Returns the source file as an instance of <typeparamref name="T"/>.
-		/// </returns>
+		/// <typeparam name="TResponse">Indicates what the JSON data will be derserialized as.</typeparam>
+		/// <param name="fileName">The name of the JSON file to read.</param>
+		/// <returns>The deserialized object of type <typeparamref name="TResponse" />.</returns>
 		/// <remarks>
-		/// Directory search order:
-		/// 1. the given directory
-		/// 2. a compressed file that is similar to the given directory
-		/// 3. the global directory for shared files
+		/// The file is looked up in this order:
+		/// 1. the test’s specific directory  
+		/// 2. a compressed file matching that directory  
+		/// 3. a shared global directory  
 		/// </remarks>
-		public T AsJson<T>(string fileName)
+		public TResponse FromJson<TResponse>(string fileName)
 		{
 			var sourceFilePath = _coordinator.GetFilePath(fileName, _callingClassPath);
 
 			ThrowIfFileMissing(sourceFilePath);
 
 			var jsonContent = _coordinator.OsFile.ReadAllText(sourceFilePath);
-			return JsonSerializer.Deserialize<T>(jsonContent);
+			return JsonSerializer.Deserialize<TResponse>(jsonContent);
 		}
 
+
 		/// <summary>
-		/// Retrieves the data that was registered with <see cref="Lokator"/>.
+		/// Reads the JSON file for the current test, and deserializes it into <typeparamref name="TResponse" />.
 		/// </summary>
-		/// <param name="fromSource">Determines which registered file to retrieve.</param>
-		/// <returns>
-		/// Returns the source file as an instance of <typeparamref name="T"/>.
-		/// </returns>
-		/// <exception cref="ArgumentOutOfRangeException"/>
-		public T AsJson<T>(From fromSource)
+		/// <typeparam name="TResponse">Indicates what the JSON data will be derserialized as.</typeparam>
+		/// <param name="fromSource">Forces the global default file to be returned.</param>
+		/// <returns>The deserialized object of type <typeparamref name="TResponse" />.</returns>
+		/// <remarks>
+		/// The file is looked up in this order:
+		/// 1. the test’s specific directory  
+		/// 2. a compressed file matching that directory  
+		/// 3. a shared global directory  
+		/// </remarks>
+		public TResponse FromJson<TResponse>(From fromSource)
 		{
 			var sourceFilePath = GetGlobalDefaultPath(fromSource);
 
 			ThrowIfFileMissing(sourceFilePath);
 
 			var jsonContent = _coordinator.OsFile.ReadAllText(sourceFilePath);
-			return JsonSerializer.Deserialize<T>(jsonContent);
+			return JsonSerializer.Deserialize<TResponse>(jsonContent);
 		}
 	}
 }

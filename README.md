@@ -1,7 +1,7 @@
 # Daten Lokator
 
 [![.NET](https://github.com/BlueDotBrigade/daten-lokator/actions/workflows/dotnet.yml/badge.svg)](https://github.com/BlueDotBrigade/daten-lokator/actions/workflows/dotnet.yml)
-[![CodeQL](https://github.com/BlueDotBrigade/daten-lokator/actions/workflows/codeql.yml/badge.svg)](https://github.com/BlueDotBrigade/daten-lokator/actions/workflows/codeql.yml)
+[![CodeQL](https://github.com/BlueDotBrigade/daten-lokator/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/BlueDotBrigade/daten-lokator/actions/workflows/github-code-scanning/codeql)
 
 - [Overview](#overview)
 - [Features](#features)
@@ -10,9 +10,7 @@
 
 ## Overview
 
-If your automated tests are verifying more than just value types (`string`, `int`, `float`, etc), then consider using the [BlueDotBrigade.DatenLokator][NuGetPackage]  _NuGet_ package to automatically locate and load your test data (`*.log`, `*.xml`, `*.json`, `*.jpg`, etc). All you need to do is call one method:
-
-- `new Daten().AsString()`
+[BlueDotBrigade.DatenLokator][NuGetPackage] is a .NET _NuGet_ package that streamlines automated testing by allowing you to load input data with a single line of code, thus reducing visual noise and improving test comprehension. This library supports multiple data formats, automatic decompression, global caching, and run-time customization.
 
 ## Features
 
@@ -49,6 +47,10 @@ Setup:
 4. Create a`.Daten` folder within the project (`*.csproj`) directory.
    - Example: `/DemoTests/.Daten`
    - Storing the input data within the project directory provides traceability, because now the input data can be committed to source control (e.g. *GitHub*).
+
+Test data sources and mock endpoints:
+- Instances of `Daten` can be used to load deterministic input fixtures from disk.
+- `Lokator.Register()` can be used to setup lightweight sockets that serve static content — useful for testing HTTP clients without an external server.
 
 Managing source files:
 

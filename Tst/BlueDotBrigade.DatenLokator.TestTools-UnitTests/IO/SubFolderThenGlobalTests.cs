@@ -11,7 +11,6 @@
 	public class SubFolderThenGlobalTests
 	{
 		[TestMethod]
-		[ExpectedException(typeof(ArgumentException))]
 		public void Setup_InvalidPath_Throws()
 		{
 			var osFile = Substitute.For<IOsFile>();
@@ -22,9 +21,11 @@
 				.Returns(false);
 
 			var fileManager = new SubFolderThenGlobal(osDirectory, osFile);
-			fileManager.Setup(@"C:\This\Path\Does\Not\Exist");
 
-			Assert.Fail("Setup should have thrown an exception.");
+			Assert.Throws<ArgumentException>(() =>
+			{
+				fileManager.Setup(@"C:\This\Path\Does\Not\Exist");
+			});
 		}
 
 		[TestMethod]
@@ -77,7 +78,6 @@
 			osDirectory
 				.Exists(Arg.Any<string>())
 				.Returns(true);
-
 			var namingStrategy = Substitute.For<ITestNamingStrategy>();
 
 			var fileManager = new SubFolderThenGlobal(osDirectory, osFile);

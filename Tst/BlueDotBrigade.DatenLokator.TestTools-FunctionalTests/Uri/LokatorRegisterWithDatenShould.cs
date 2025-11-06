@@ -38,11 +38,14 @@ namespace BlueDotBrigade.DatenLokator.TestTools.Uri
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
 		public void RegisterUri_WithNullDaten_ThrowsArgumentNullException()
 		{
-			// Act
-			Lokator.Register(new Uri("http://localhost:5059/test"), (Daten)null);
+			Assert.Throws<ArgumentNullException>(() =>
+			{
+				// Act
+				Lokator.Register(new Uri("http://localhost:5059/test"), (Daten)null);
+				return (object?)null;
+			});
 		}
 	}
 }

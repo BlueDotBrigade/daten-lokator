@@ -18,8 +18,6 @@
 		private readonly IOsDirectory _osDirectory;
 		private readonly IOsFile _osFile;
 
-		private bool _isSetup = false;
-
 		internal Lokator() : this(new OsDirectory(), new OsFile())
 		{
 			// nothing to do
@@ -113,9 +111,19 @@
 		/// </remarks>
 		/// <seealso href="https://learn.microsoft.com/en-us/previous-versions/ms404699(v=vs.90)">MSDN: Using the TestContext</seealso>
 		/// <seealso href="https://blog.adilakhter.com/2008/05/04/more-on-unit-testing-testcontext/">More on Unit Testing: TestContext</seealso>
-		public Lokator UsingTestContext(IDictionary properties)
+		public Lokator UsingTestContext(IDictionary<string, object?> properties)
 		{
-			_configuration.TestEnvironmentProperties = properties as IDictionary<string, object>;
+			// Convert nullable MS Test v4 dictionary values to non-nullable values.
+			var normalized = new Dictionary<string, object>(StringComparer.Ordinal);
+			foreach ((string key, object value) in properties)
+			{
+				if (value is not null)
+				{
+					normalized[key] = value;
+				}
+			}
+
+			_configuration.TestEnvironmentProperties = normalized;
 
 			return this;
 		}
@@ -166,8 +174,6 @@
 				rootDirectoryPath);
 
 			_coordinator.Setup();
-
-			_isSetup = true;
 
 			return this;
 		}

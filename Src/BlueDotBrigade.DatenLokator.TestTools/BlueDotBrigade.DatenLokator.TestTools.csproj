@@ -23,12 +23,12 @@
 		<Company>Blue Dot Brigade</Company>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="MSTest.TestFramework" Version="3.6.3" />
+		<PackageReference Include="MSTest.TestFramework" Version="4.0.1" />
 		<PackageReference Include="System.Collections.Immutable" Version="9.0.0" />
 		<PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.0" />
 	</ItemGroup>
 	<ItemGroup>
-		<None Include="..\..\\README.md" Pack="true" PackagePath="\"/>
+		<None Include="..\..\\README.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
 	<ItemGroup>
 		<CodeAnalysisDictionary Include="..\..\DomainSpecificTerminology.xml">

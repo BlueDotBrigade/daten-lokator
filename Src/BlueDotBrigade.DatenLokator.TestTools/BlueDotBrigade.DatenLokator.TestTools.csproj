@@ -2,9 +2,9 @@
 	<PropertyGroup>
 		<TargetFramework>net9.0</TargetFramework>
 		<PackageId>BlueDotBrigade.DatenLokator</PackageId>
-		<Version>2.1.0</Version>
+		<Version>2.2.0</Version>
 		<Authors>BlueDotBrigade;</Authors>
-		<Copyright>© 2024 Blue Dot Brigade. All rights reserved.</Copyright>
+		<Copyright>© 2025 Blue Dot Brigade. All rights reserved.</Copyright>
 		<Owners>Blue Dot Brigade</Owners>
 		<Title>DatenLokator</Title>
 		<Summary>Project summary.</Summary>

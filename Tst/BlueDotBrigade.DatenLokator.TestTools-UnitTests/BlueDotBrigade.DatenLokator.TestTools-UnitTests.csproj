@@ -5,11 +5,11 @@
 		<IsPackable>false</IsPackable>
 		<RootNamespace>BlueDotBrigade.DatenLokator.TestTools</RootNamespace>
 		<PackageId>BlueDotBrigade.DatenLokator.TestTools-UnitTests</PackageId>
-		<Version>2.1.0</Version>
+		<Version>2.2.0</Version>
 		<Authors>BlueDotBrigade;</Authors>
 		<Company>Blue Dot Brigade;</Company>
 		<Description>Simplifies testing by automatically selecting the appropriate source data for a given test case.</Description>
-		<Copyright>© 2024 Blue Dot Brigade. All rights reserved.</Copyright>
+		<Copyright>© 2025 Blue Dot Brigade. All rights reserved.</Copyright>
 		<RepositoryUrl>https://dev.azure.com/BlueDotBrigade/OpenSource/_git</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageTags>BlueDotBrigade</PackageTags>

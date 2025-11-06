@@ -114,10 +114,13 @@
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(FileNotFoundException))]
 		public void AsString_FileDoesNotExist_ThrowsFileNotFound()
 		{
-			new Daten(_coordinator).AsString("ThisFileCannotBeFound.txt");
+			Assert.Throws<FileNotFoundException>(() =>
+			{
+				new Daten(_coordinator).AsString("ThisFileCannotBeFound.txt");
+				return (object?)null;
+			});
 		}
 		#endregion
 

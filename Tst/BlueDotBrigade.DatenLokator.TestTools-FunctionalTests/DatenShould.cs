@@ -1,24 +1,28 @@
-﻿namespace BlueDotBrigade.DatenLokator.TestTools
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace BlueDotBrigade.DatenLokator.TestTools
 {
 	[TestClass]
 	public class DatenShould
 	{
 		[TestMethod]
-		[ExpectedException(typeof(FileNotFoundException))]
 		public void AsString_ByConventionFileDoesNotExist_Throws()
 		{
-			var fileContent = new Daten().AsString();
-
-			Assert.Fail("An exception should have been thrown.");
+			Assert.Throws<FileNotFoundException>(() =>
+			{
+				var fileContent = new Daten().AsString();
+				return (object?)null;
+			});
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(FileNotFoundException))]
 		public void AsString_ByFileNameFileDoesNotExist_Throws()
 		{
-			var fileContent = new Daten().AsString("ThisFileDoesNotExist.txt");
-
-			Assert.Fail("An exception should have been thrown.");
+			Assert.Throws<FileNotFoundException>(() =>
+			{
+				var fileContent = new Daten().AsString("ThisFileDoesNotExist.txt");
+				return (object?)null;
+			});
 		}
 
 		[TestMethod]

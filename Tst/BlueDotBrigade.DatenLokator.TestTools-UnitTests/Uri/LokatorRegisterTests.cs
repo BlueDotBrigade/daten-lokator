@@ -36,7 +36,7 @@ namespace BlueDotBrigade.DatenLokator.TestTools.Uri
 		{
 			// Arrange
 			var uri = new Uri("http://localhost:6051/api/data");
-			var content = new { Id = 1, Name = "Test" };
+			var content = new { Id =1, Name = "Test" };
 
 			// Act
 			using (Lokator.Register(uri, content))
@@ -90,10 +90,7 @@ namespace BlueDotBrigade.DatenLokator.TestTools.Uri
 			// Act & Assert
 			using var client = new HttpClient();
 			client.Timeout = TimeSpan.FromSeconds(5);
-			await Assert.ThrowsExceptionAsync<HttpRequestException>(async () =>
-			{
-				await client.GetStringAsync(uri);
-			});
+			await Assert.ThrowsAsync<HttpRequestException>(() => client.GetStringAsync(uri));
 		}
 
 		[TestMethod]
@@ -118,27 +115,36 @@ namespace BlueDotBrigade.DatenLokator.TestTools.Uri
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
 		public void RegisterUri_WithNullUri_ThrowsArgumentNullException()
 		{
-			// Act
-			Lokator.Register(null, "content");
+			Assert.Throws<ArgumentNullException>(() =>
+			{
+				// Act
+				Lokator.Register(null, "content");
+				return (object?)null;
+			});
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(ArgumentException))]
 		public void RegisterUri_WithRelativeUri_ThrowsArgumentException()
 		{
-			// Act
-			Lokator.Register(new Uri("/relative", UriKind.Relative), "content");
+			Assert.Throws<ArgumentException>(() =>
+			{
+				// Act
+				Lokator.Register(new Uri("/relative", UriKind.Relative), "content");
+				return (object?)null;
+			});
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
 		public void RegisterUri_WithNullContent_ThrowsArgumentNullException()
 		{
-			// Act
-			Lokator.Register(new Uri("http://localhost:6055/test"), null);
+			Assert.Throws<ArgumentNullException>(() =>
+			{
+				// Act
+				Lokator.Register(new Uri("http://localhost:6055/test"), null);
+				return (object?)null;
+			});
 		}
 
 		[TestMethod]
@@ -147,8 +153,8 @@ namespace BlueDotBrigade.DatenLokator.TestTools.Uri
 			// Arrange
 			var uri1 = new Uri("http://localhost:6056/test1");
 			var uri2 = new Uri("http://localhost:6057/test2");
-			var content1 = "Content 1";
-			var content2 = "Content 2";
+			var content1 = "Content1";
+			var content2 = "Content2";
 
 			// Act
 			using (Lokator.Register(uri1, content1))

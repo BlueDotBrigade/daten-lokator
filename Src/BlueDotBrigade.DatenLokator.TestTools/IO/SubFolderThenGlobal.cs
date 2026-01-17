@@ -178,14 +178,15 @@
 
 			var testDataSubDirectory = subDirectoryPath.Replace(AssemblyHelper.ProjectDirectoryPath, string.Empty);
 			// Remove leading separator (works for both / and \)
-			testDataSubDirectory = testDataSubDirectory.TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+			testDataSubDirectory = testDataSubDirectory.TrimStart('/', '\\');
 
-			// Normalize path separators for non-Windows platforms, preserving drive letters like C:\
+			// Normalize path separators for non-Windows platforms
 			var normalizedRootPath = this.RootDirectoryPath;
 			if (Path.DirectorySeparatorChar == '/')
 			{
-				// On Unix-like systems, convert backslashes to forward slashes, except for drive letters
-				// Preserve patterns like C:\ at the start
+				// On Unix-like systems, convert backslashes to forward slashes
+				// Preserve Windows-style drive letters (e.g., C:\) for cross-platform testing scenarios
+				// where mock file systems may use Windows paths
 				if (normalizedRootPath.Length >= 3 && normalizedRootPath[1] == ':' && normalizedRootPath[2] == '\\')
 				{
 					// Has a drive letter like C:\, preserve the first backslash, convert the rest
@@ -198,7 +199,7 @@
 				testDataSubDirectory = testDataSubDirectory.Replace('\\', '/');
 			}
 			// Remove any trailing separators
-			normalizedRootPath = normalizedRootPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+			normalizedRootPath = normalizedRootPath.TrimEnd('/', '\\');
 
 			var testDataPath = System.IO.Path.Combine(normalizedRootPath, testDataSubDirectory);
 

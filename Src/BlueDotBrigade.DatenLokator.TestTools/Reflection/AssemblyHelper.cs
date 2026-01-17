@@ -20,7 +20,7 @@
                 var uriBuilder = new UriBuilder(new Uri(codeBase));
                 var path = Uri.UnescapeDataString(uriBuilder.Path);
 
-                return path.Replace(@"/", @"\");
+                return path;
             }
         }
 
@@ -29,7 +29,7 @@
 			get
 			{
 				var binIndex =  ExecutingDirectory.LastIndexOf(
-					@"\Bin\", 
+					$"{Path.DirectorySeparatorChar}bin{Path.DirectorySeparatorChar}", 
 					StringComparison.InvariantCultureIgnoreCase);
 
 				var projectPath = ExecutingDirectory.Substring(

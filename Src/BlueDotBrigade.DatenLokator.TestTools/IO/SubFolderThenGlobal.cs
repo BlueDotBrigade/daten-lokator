@@ -177,9 +177,30 @@
 			}
 
 			var testDataSubDirectory = subDirectoryPath.Replace(AssemblyHelper.ProjectDirectoryPath, string.Empty);
-			testDataSubDirectory = testDataSubDirectory.Substring(1, testDataSubDirectory.Length - 1);
+			// Remove leading separator (works for both / and \)
+			testDataSubDirectory = testDataSubDirectory.TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
 
-			var testDataPath = System.IO.Path.Combine(this.RootDirectoryPath, testDataSubDirectory);
+			// Normalize path separators for non-Windows platforms, preserving drive letters like C:\
+			var normalizedRootPath = this.RootDirectoryPath;
+			if (Path.DirectorySeparatorChar == '/')
+			{
+				// On Unix-like systems, convert backslashes to forward slashes, except for drive letters
+				// Preserve patterns like C:\ at the start
+				if (normalizedRootPath.Length >= 3 && normalizedRootPath[1] == ':' && normalizedRootPath[2] == '\\')
+				{
+					// Has a drive letter like C:\, preserve the first backslash, convert the rest
+					normalizedRootPath = normalizedRootPath.Substring(0, 3) + normalizedRootPath.Substring(3).Replace('\\', '/');
+				}
+				else
+				{
+					normalizedRootPath = normalizedRootPath.Replace('\\', '/');
+				}
+				testDataSubDirectory = testDataSubDirectory.Replace('\\', '/');
+			}
+			// Remove any trailing separators
+			normalizedRootPath = normalizedRootPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+
+			var testDataPath = System.IO.Path.Combine(normalizedRootPath, testDataSubDirectory);
 
 			return testDataPath.Substring(0, testDataPath.Length - ExtensionLength);
 		}
@@ -215,7 +236,7 @@
 						{
 							case 0:
 								throw new FileNotFoundException(
-									$@"A file for this test case could not be found. DirectoryPath=`{sourceDirectory}\`, ImpliedName=`{testCaseName}`",
+									$@"A file for this test case could not be found. DirectoryPath=`{sourceDirectory}{Path.DirectorySeparatorChar}`, ImpliedName=`{testCaseName}`",
 									sourceFilePath);
 
 							case 1:
@@ -224,7 +245,7 @@
 
 							default:
 								throw new FileNotFoundException(
-									$@"Multiple files matching the test case have been found - too many results. DirectoryPath=`{sourceDirectory}\`, ImpliedName=`{testCaseName}.*`",
+									$@"Multiple files matching the test case have been found - too many results. DirectoryPath=`{sourceDirectory}{Path.DirectorySeparatorChar}`, ImpliedName=`{testCaseName}.*`",
 									sourceFilePath);
 						}
 					}
@@ -232,7 +253,7 @@
 				else
 				{
 					throw new FileNotFoundException(
-						$@"Unable to determine the source file name. DirectoryPath=`{sourceDirectory}\`, FileNameOrHint=`{fileNameOrHint}`",
+						$@"Unable to determine the source file name. DirectoryPath=`{sourceDirectory}{Path.DirectorySeparatorChar}`, FileNameOrHint=`{fileNameOrHint}`",
 						sourceFilePath);
 				}
 			}

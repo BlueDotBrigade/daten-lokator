@@ -60,14 +60,14 @@
 			fileManager.Setup(@"C:\New\Root\Directory\Path");
 
 			Assert.AreEqual(
-				@"C:\New\Root\Directory\Path\.Global",
+				Path.Combine(@"C:\New\Root\Directory\Path", ".Global"),
 				fileManager.GlobalDirectoryPath);
 		}
 
 		[TestMethod]
 		public void GetFilePath_NewRootDirectory_ReturnsCorrectPath()
 		{
-			var thisClassPath = Path.Combine(AssemblyHelper.ProjectDirectoryPath, @"IO\SubFolderThenGlobalTests.cs");
+			var thisClassPath = Path.Combine(AssemblyHelper.ProjectDirectoryPath, "IO", "SubFolderThenGlobalTests.cs");
 
 			var osFile = Substitute.For<IOsFile>();
 			osFile
@@ -84,7 +84,7 @@
 			fileManager.Setup(@"C:\SampleData\");
 
 			Assert.AreEqual(
-				@"C:\SampleData\IO\SubFolderThenGlobalTests\FooBar.txt",
+				Path.Combine(@"C:\SampleData", "IO", "SubFolderThenGlobalTests", "FooBar.txt"),
 				fileManager.GetFilePath(
 					namingStrategy,
 					"FooBar.txt",

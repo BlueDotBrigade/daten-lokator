@@ -28,20 +28,20 @@
 		[TestMethod]
 		public void GetProjectDirectoryPath_NoBinSegment_ReturnsTrimmedPath()
 		{
-			var path = "C:\\Work\\DemoTests\\";
+			var path = @"C:\Work\DemoTests\";
 
 			Assert.AreEqual(
-				NormalizePath("C:\\Work\\DemoTests"),
+				NormalizePath(@"C:\Work\DemoTests"),
 				AssemblyHelper.GetProjectDirectoryPath(path));
 		}
 
 		[TestMethod]
 		public void GetProjectDirectoryPath_WithBinSegment_ReturnsProjectRoot()
 		{
-			var path = "C:\\Work\\DemoTests\\bin\\Debug\\";
+			var path = @"C:\Work\DemoTests\bin\Debug\";
 
 			Assert.AreEqual(
-				NormalizePath("C:\\Work\\DemoTests"),
+				NormalizePath(@"C:\Work\DemoTests"),
 				AssemblyHelper.GetProjectDirectoryPath(path));
 		}
 	}

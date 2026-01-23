@@ -90,7 +90,7 @@
 				.Returns(true);
 
 			var fileManager = new SubFolderThenGlobal(osDirectory, osFile);
-			fileManager.Setup(@"\home\runner\work\demo\.Daten");
+			fileManager.Setup(@"/home/runner/work/demo/.Daten");
 
 			Assert.AreEqual(
 				"/home/runner/work/demo/.Daten",
@@ -116,7 +116,7 @@
 			var fileManager = new SubFolderThenGlobal(osDirectory, osFile);
 			fileManager.Setup(@"C:\SampleData\");
 
-			var normalizedRoot = NormalizePath(@"C:\SampleData\").TrimEnd('/', '\\');
+			var normalizedRoot = NormalizePath(@"C:\SampleData\").TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
 
 			Assert.AreEqual(
 				Path.Combine(normalizedRoot, "IO", "SubFolderThenGlobalTests", "FooBar.txt"),

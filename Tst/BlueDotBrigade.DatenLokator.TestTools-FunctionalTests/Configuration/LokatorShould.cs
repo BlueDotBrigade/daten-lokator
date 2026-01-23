@@ -12,6 +12,16 @@
 	[TestClass]
 	public class LokatorShould
 	{
+		private static string NormalizePath(string path)
+		{
+			if (Path.DirectorySeparatorChar == '/')
+			{
+				return path.Replace('\\', '/');
+			}
+
+			return path.Replace('/', '\\');
+		}
+
 		[TestMethod]
 		public void UseDefaultRootDirectory()
 		{
@@ -38,7 +48,12 @@
 			directory.Exists(Arg.Any<string>()).Returns(true);
 
 			var file = Substitute.For<IOsFile>();
-			file.Exists(Arg.Any<string>()).Returns(true);
+			file.Exists(Arg.Any<string>()).Returns(callInfo =>
+			{
+				var path = callInfo.Arg<string>();
+				var normalizedRoot = NormalizePath(CustomRootDirectory);
+				return path.StartsWith(CustomRootDirectory) || path.StartsWith(normalizedRoot);
+			});
 
 			var coordinator = new Coordinator(
 				file,
@@ -52,7 +67,8 @@
 
 			var sourceFilePath = new Daten(coordinator).AsFilePath("MyFile.log");
 
-			Assert.IsTrue(sourceFilePath.StartsWith(CustomRootDirectory.Replace('\\', '/')) ||
+			var normalizedRootPath = NormalizePath(CustomRootDirectory);
+			Assert.IsTrue(sourceFilePath.StartsWith(normalizedRootPath) ||
 				sourceFilePath.StartsWith(CustomRootDirectory));
 		}
 	}

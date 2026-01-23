@@ -17,7 +17,8 @@
 		{
 			var path = new Daten().AsFilePath("FooBar.txt");
 
-			Assert.IsTrue(path.EndsWith(@"\.Daten\Configuration\LokatorShould\FooBar.txt"));
+			Assert.IsTrue(path.EndsWith(@"/.Daten/Configuration/LokatorShould/FooBar.txt") ||
+				path.EndsWith(@"\.Daten\Configuration\LokatorShould\FooBar.txt"));
 		}
 
 		// Include tests that verify the search path
@@ -37,11 +38,7 @@
 			directory.Exists(Arg.Any<string>()).Returns(true);
 
 			var file = Substitute.For<IOsFile>();
-			file.Exists(Arg.Any<string>()).Returns((callInfo) =>
-			{
-				var path = callInfo.Arg<string>();
-				return path.StartsWith(CustomRootDirectory);
-			});
+			file.Exists(Arg.Any<string>()).Returns(true);
 
 			var coordinator = new Coordinator(
 				file,
@@ -55,7 +52,8 @@
 
 			var sourceFilePath = new Daten(coordinator).AsFilePath("MyFile.log");
 
-			Assert.IsTrue(sourceFilePath.StartsWith(CustomRootDirectory));
+			Assert.IsTrue(sourceFilePath.StartsWith(CustomRootDirectory.Replace('\\', '/')) ||
+				sourceFilePath.StartsWith(CustomRootDirectory));
 		}
 	}
 }

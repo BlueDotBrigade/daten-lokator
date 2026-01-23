@@ -98,6 +98,8 @@
 
 		public void Setup(string rootDirectoryPath)
 		{
+			rootDirectoryPath = NormalizeRootDirectoryPath(rootDirectoryPath);
+
 			if (_directory.Exists(rootDirectoryPath))
 			{
 				_rootDirectoryPath = rootDirectoryPath;
@@ -110,6 +112,21 @@
 			}
 
 			Decompress(_rootDirectoryPath);
+		}
+
+		private static string NormalizeRootDirectoryPath(string rootDirectoryPath)
+		{
+			if (string.IsNullOrWhiteSpace(rootDirectoryPath))
+			{
+				return rootDirectoryPath;
+			}
+
+			if (Path.DirectorySeparatorChar == '/')
+			{
+				return rootDirectoryPath.Replace('\\', '/');
+			}
+
+			return rootDirectoryPath.Replace('/', '\\');
 		}
 
 		public void Setup(string rootDirectoryPath, IDictionary<string, object> testEnvironmentProperties)

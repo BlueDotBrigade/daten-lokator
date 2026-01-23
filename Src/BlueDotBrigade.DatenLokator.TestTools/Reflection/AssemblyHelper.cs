@@ -35,9 +35,15 @@
 		internal static string GetProjectDirectoryPath(string executingDirectory)
 		{
 			var normalizedDirectory = executingDirectory
-				.Replace('\\', Path.DirectorySeparatorChar)
-				.Replace('/', Path.DirectorySeparatorChar)
+				.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar)
 				.TrimEnd(Path.DirectorySeparatorChar);
+
+			if (Path.DirectorySeparatorChar == '/')
+			{
+				normalizedDirectory = normalizedDirectory
+					.Replace('\\', Path.DirectorySeparatorChar)
+					.TrimEnd(Path.DirectorySeparatorChar);
+			}
 
 			var binToken = $"{Path.DirectorySeparatorChar}bin{Path.DirectorySeparatorChar}";
 			var binIndex = normalizedDirectory.LastIndexOf(

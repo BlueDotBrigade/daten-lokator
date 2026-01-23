@@ -9,10 +9,18 @@
 	{
 		private static string NormalizePath(string path)
 		{
-			return path
-				.Replace('\\', Path.DirectorySeparatorChar)
-				.Replace('/', Path.DirectorySeparatorChar)
+			var normalized = path
+				.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar)
 				.TrimEnd(Path.DirectorySeparatorChar);
+
+			if (Path.DirectorySeparatorChar == '/')
+			{
+				normalized = normalized
+					.Replace('\\', Path.DirectorySeparatorChar)
+					.TrimEnd(Path.DirectorySeparatorChar);
+			}
+
+			return normalized;
 		}
 
 		[TestMethod]

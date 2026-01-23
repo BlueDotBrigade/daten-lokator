@@ -34,16 +34,12 @@
 
 		internal static string GetProjectDirectoryPath(string executingDirectory)
 		{
-			var normalizedDirectory = executingDirectory
-				.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar)
-				.TrimEnd(Path.DirectorySeparatorChar);
+			var normalizedDirectory = executingDirectory;
 
-			if (Path.DirectorySeparatorChar == '/')
-			{
-				normalizedDirectory = normalizedDirectory
-					.Replace('\\', Path.DirectorySeparatorChar)
-					.TrimEnd(Path.DirectorySeparatorChar);
-			}
+			normalizedDirectory = normalizedDirectory
+				.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar)
+				.Replace(Path.DirectorySeparatorChar == '/' ? '\\' : '/', Path.DirectorySeparatorChar)
+				.TrimEnd(Path.DirectorySeparatorChar);
 
 			var binToken = $"{Path.DirectorySeparatorChar}bin{Path.DirectorySeparatorChar}";
 			var binIndex = normalizedDirectory.LastIndexOf(

@@ -21,8 +21,8 @@
 		public void ExecutingDirectory_MatchesDomainBaseDirectory()
 		{
 			Assert.AreEqual(
-				AppDomain.CurrentDomain.BaseDirectory,
-				AssemblyHelper.ExecutingDirectory);
+				NormalizePath(AppDomain.CurrentDomain.BaseDirectory),
+				NormalizePath(AssemblyHelper.ExecutingDirectory));
 		}
 
 		[TestMethod]

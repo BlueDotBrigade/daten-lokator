@@ -21,7 +21,9 @@
                 var path = Uri.UnescapeDataString(uriBuilder.Path);
 
                 // Normalize path separators to match the platform (fixes Windows vs Linux differences)
-                path = path.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+                path = path
+					.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar)
+					.Replace(Path.DirectorySeparatorChar == '/' ? '\\' : '/', Path.DirectorySeparatorChar);
 
                 return path;
             }

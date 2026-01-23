@@ -28,16 +28,37 @@
 		{
 			get
 			{
-				var binIndex =  ExecutingDirectory.LastIndexOf(
-					$"{Path.DirectorySeparatorChar}bin{Path.DirectorySeparatorChar}", 
-					StringComparison.InvariantCultureIgnoreCase);
-
-				var projectPath = ExecutingDirectory.Substring(
-					0,
-					binIndex);
-
-				return projectPath;
+				return GetProjectDirectoryPath(ExecutingDirectory);
 			}
+		}
+
+		internal static string GetProjectDirectoryPath(string executingDirectory)
+		{
+			var normalizedDirectory = executingDirectory
+				.Replace('\\', Path.DirectorySeparatorChar)
+				.Replace('/', Path.DirectorySeparatorChar)
+				.TrimEnd(Path.DirectorySeparatorChar);
+
+			var binToken = $"{Path.DirectorySeparatorChar}bin{Path.DirectorySeparatorChar}";
+			var binIndex = normalizedDirectory.LastIndexOf(
+				binToken,
+				StringComparison.InvariantCultureIgnoreCase);
+
+			if (binIndex < 0)
+			{
+				var binSuffix = $"{Path.DirectorySeparatorChar}bin";
+				if (normalizedDirectory.EndsWith(binSuffix, StringComparison.InvariantCultureIgnoreCase))
+				{
+					binIndex = normalizedDirectory.Length - binSuffix.Length;
+				}
+			}
+
+			if (binIndex < 0)
+			{
+				return normalizedDirectory;
+			}
+
+			return normalizedDirectory.Substring(0, binIndex);
 		}
 
 		internal static string DefaultDatenDirectoryPath

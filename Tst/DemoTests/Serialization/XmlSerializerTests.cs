@@ -10,6 +10,11 @@
 	[TestClass]
 	public class XmlSerializerTests
 	{
+		private static string NormalizeNewLines(string value)
+		{
+			return value.Replace("\r\n", "\n");
+		}
+
 		/// <summary>
 		/// An example of a typical unit test that includes an embedded string value for comparison.
 		/// </summary>
@@ -70,7 +75,7 @@
 
 			// Not only does the preceding line make the test visually noisy,
 			// ... but the string is also very error prone.
-			Assert.AreEqual(expectedMessage, message);
+			Assert.AreEqual(NormalizeNewLines(expectedMessage), NormalizeNewLines(message));
 		}
 
 		/// <summary>
@@ -104,7 +109,7 @@
 			var message = new XmlSerializer().ToXml(droid);
 
 			// Assert
-			Assert.AreEqual(new Daten().AsString(), message);
+			Assert.AreEqual(NormalizeNewLines(new Daten().AsString()), NormalizeNewLines(message));
 		}
 
 		/// <summary>
@@ -125,7 +130,7 @@
 			var message = new XmlSerializer().ToXml(droid);
 
 			// Assert
-			Assert.AreEqual(new Daten().AsString("Bespin.xml"), message);
+			Assert.AreEqual(NormalizeNewLines(new Daten().AsString("Bespin.xml")), NormalizeNewLines(message));
 		}
 
 		/// <summary>
@@ -151,7 +156,7 @@
 			var message = new XmlSerializer().ToXml(droid);
 
 			// Assert
-			Assert.AreEqual(new Daten().AsString(), message);
+			Assert.AreEqual(NormalizeNewLines(new Daten().AsString()), NormalizeNewLines(message));
 		}
 
 		/// <summary>
@@ -184,8 +189,8 @@
 
 			// Assert
 			Assert.AreEqual(
-				expected: new Daten().AsString(), 
-				actual: message, 
+				expected: NormalizeNewLines(new Daten().AsString()), 
+				actual: NormalizeNewLines(message), 
 				message:"Input data was not automatically decompressed.");
 		}
 	}

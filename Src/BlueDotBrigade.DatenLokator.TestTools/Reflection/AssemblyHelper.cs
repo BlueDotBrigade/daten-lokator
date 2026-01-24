@@ -20,7 +20,7 @@
                 var uriBuilder = new UriBuilder(new Uri(codeBase));
                 var path = Uri.UnescapeDataString(uriBuilder.Path);
 
-                return path.Replace(@"/", @"\");
+                return path;
             }
         }
 
@@ -28,16 +28,39 @@
 		{
 			get
 			{
-				var binIndex =  ExecutingDirectory.LastIndexOf(
-					@"\Bin\", 
-					StringComparison.InvariantCultureIgnoreCase);
-
-				var projectPath = ExecutingDirectory.Substring(
-					0,
-					binIndex);
-
-				return projectPath;
+				return GetProjectDirectoryPath(ExecutingDirectory);
 			}
+		}
+
+		internal static string GetProjectDirectoryPath(string executingDirectory)
+		{
+			var normalizedDirectory = executingDirectory;
+
+			normalizedDirectory = normalizedDirectory
+				.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar)
+				.Replace(Path.DirectorySeparatorChar == '/' ? '\\' : '/', Path.DirectorySeparatorChar)
+				.TrimEnd(Path.DirectorySeparatorChar);
+
+			var binToken = $"{Path.DirectorySeparatorChar}bin{Path.DirectorySeparatorChar}";
+			var binIndex = normalizedDirectory.LastIndexOf(
+				binToken,
+				StringComparison.InvariantCultureIgnoreCase);
+
+			if (binIndex < 0)
+			{
+				var binSuffix = $"{Path.DirectorySeparatorChar}bin";
+				if (normalizedDirectory.EndsWith(binSuffix, StringComparison.InvariantCultureIgnoreCase))
+				{
+					binIndex = normalizedDirectory.Length - binSuffix.Length;
+				}
+			}
+
+			if (binIndex < 0)
+			{
+				return normalizedDirectory;
+			}
+
+			return normalizedDirectory.Substring(0, binIndex);
 		}
 
 		internal static string DefaultDatenDirectoryPath

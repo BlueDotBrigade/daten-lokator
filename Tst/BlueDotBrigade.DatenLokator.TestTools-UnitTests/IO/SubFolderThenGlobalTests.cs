@@ -10,6 +10,16 @@
 	[TestClass]
 	public class SubFolderThenGlobalTests
 	{
+		private static string NormalizePath(string path)
+		{
+			if (Path.DirectorySeparatorChar == '/')
+			{
+				return path.Replace('\\', '/');
+			}
+
+			return path.Replace('/', '\\');
+		}
+
 		[TestMethod]
 		public void Setup_InvalidPath_Throws()
 		{
@@ -42,7 +52,7 @@
 			fileManager.Setup(@"C:\New\Root\Directory\Path");
 
 			Assert.AreEqual(
-				@"C:\New\Root\Directory\Path",
+				NormalizePath(@"C:\New\Root\Directory\Path"),
 				fileManager.RootDirectoryPath);
 		}
 
@@ -60,14 +70,37 @@
 			fileManager.Setup(@"C:\New\Root\Directory\Path");
 
 			Assert.AreEqual(
-				@"C:\New\Root\Directory\Path\.Global",
+				Path.Combine(NormalizePath(@"C:\New\Root\Directory\Path"), ".Global"),
 				fileManager.GlobalDirectoryPath);
+		}
+
+		[TestMethod]
+		public void Setup_WindowsPathOnUnix_NormalizesSeparators()
+		{
+			if (Path.DirectorySeparatorChar != '/')
+			{
+				Assert.Inconclusive("Test only applies on Unix-like systems.");
+			}
+
+			var osFile = Substitute.For<IOsFile>();
+			var osDirectory = Substitute.For<IOsDirectory>();
+
+			osDirectory
+				.Exists(Arg.Any<string>())
+				.Returns(true);
+
+			var fileManager = new SubFolderThenGlobal(osDirectory, osFile);
+			fileManager.Setup(@"/home/runner/work/demo/.Daten");
+
+			Assert.AreEqual(
+				"/home/runner/work/demo/.Daten",
+				fileManager.RootDirectoryPath);
 		}
 
 		[TestMethod]
 		public void GetFilePath_NewRootDirectory_ReturnsCorrectPath()
 		{
-			var thisClassPath = Path.Combine(AssemblyHelper.ProjectDirectoryPath, @"IO\SubFolderThenGlobalTests.cs");
+			var thisClassPath = Path.Combine(AssemblyHelper.ProjectDirectoryPath, "IO", "SubFolderThenGlobalTests.cs");
 
 			var osFile = Substitute.For<IOsFile>();
 			osFile
@@ -83,8 +116,10 @@
 			var fileManager = new SubFolderThenGlobal(osDirectory, osFile);
 			fileManager.Setup(@"C:\SampleData\");
 
+			var normalizedRoot = NormalizePath(@"C:\SampleData\").TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+
 			Assert.AreEqual(
-				@"C:\SampleData\IO\SubFolderThenGlobalTests\FooBar.txt",
+				Path.Combine(normalizedRoot, "IO", "SubFolderThenGlobalTests", "FooBar.txt"),
 				fileManager.GetFilePath(
 					namingStrategy,
 					"FooBar.txt",

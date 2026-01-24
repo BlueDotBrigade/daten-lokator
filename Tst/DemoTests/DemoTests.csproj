@@ -5,7 +5,7 @@
 		<IsPackable>false</IsPackable>
 		<RootNamespace>Demo</RootNamespace>
 		<PackageId>BlueDotBrigade.DatenLokator.DemoTests</PackageId>
-		<Version>2.3.0</Version>
+		<Version>2.4.0</Version>
 		<Authors>BlueDotBrigade;</Authors>
 		<Company>Blue Dot Brigade;</Company>
 		<Description>Simplifies testing by automatically selecting the appropriate input data for a given test case.</Description>

@@ -68,13 +68,14 @@ Managing source files:
 
 ### Sample Code
 
-The following [unit tests][DemoTests], written for a trivial [application][DemoApp], demonstrate how:
+The [daten-lokator-demo][DemoRepository] repository contains a complete, runnable example: [unit tests][DemoTests], written for a trivial [application][DemoApp], that use the published [NuGet package][NuGetPackage] and demonstrate how:
 
 1. easy it is to use _Daten Lokator_, and 
 2. how the library reduces visual noise thus making the test easier to read
 
-[DemoApp]: https://github.com/BlueDotBrigade/daten-lokator/tree/main/Src/Demo
-[DemoTests]: https://github.com/BlueDotBrigade/daten-lokator/blob/main/Tst/DemoTests/Serialization/XmlSerializerTests.cs
+[DemoRepository]: https://github.com/BlueDotBrigade/daten-lokator-demo
+[DemoApp]: https://github.com/BlueDotBrigade/daten-lokator-demo/tree/main/Src/Demo
+[DemoTests]: https://github.com/BlueDotBrigade/daten-lokator-demo/blob/main/Tst/DemoTests/Serialization/XmlSerializerTests.cs
 
 [NuGetPackage]: https://www.nuget.org/packages/BlueDotBrigade.DatenLokator
 

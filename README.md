@@ -76,13 +76,18 @@ The [daten-lokator-demo][DemoRepository] repository contains a complete, runnabl
 
 ## Creating the Package
 
-From the repository's root folder, create the _NuGet_ package with a Release build:
+From the repository's root folder, create the _NuGet_ package with:
 
 ```
-dotnet build -c Release
+dotnet pack -c Release
 ```
 
-The package is saved in `Src/BlueDotBrigade.DatenLokator.TestTools/bin/x64/Release`. A Debug build does not create a package, so a package built without optimization cannot be published by mistake. The debugging information (PDB) is embedded in the DLL, so stack traces still show file names and line numbers.
+In Visual Studio, select the Release configuration, then right-click the project and choose __Pack__.
+
+- The package is saved in `Src/BlueDotBrigade.DatenLokator.TestTools/bin/x64/Release`.
+- Only a pack creates the package. A build does not, even in Release.
+- Packing in Debug stops with an error, so a package built without optimization cannot be published by mistake.
+- The debugging information (PDB) is embedded in the DLL, so stack traces still show file names and line numbers.
 
 [DemoRepository]: https://github.com/BlueDotBrigade/daten-lokator-demo
 [DemoApp]: https://github.com/BlueDotBrigade/daten-lokator-demo/tree/main/Src/Demo

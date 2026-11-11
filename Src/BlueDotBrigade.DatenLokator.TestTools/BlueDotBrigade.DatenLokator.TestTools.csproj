@@ -19,7 +19,15 @@
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/BlueDotBrigade/daten-lokator</RepositoryUrl>
 		<Platforms>x64</Platforms>
-		<GeneratePackageOnBuild Condition="'$(Configuration)' == 'Release'">true</GeneratePackageOnBuild>
+		<!--
+			Packaging (#52): only `dotnet pack`, or Visual Studio's Pack command, creates the NuGet package, and only from a Release build.
+			- A build never creates the package, in Debug or in Release. `GeneratePackageOnBuild` is deliberately not set:
+			  with it, `dotnet pack` skips its build step, and fails on a clean checkout with NU5026.
+			- `dotnet pack` builds before it packs, in Release by default.
+			- Packing any other configuration stops with an error: see the RequireReleaseToPack target below.
+			  2.4.0 was published from a Debug build, which BenchmarkDotNet refuses to measure alongside.
+		-->
+		<!-- The PDB is embedded in the DLL, so stack traces show file names and line numbers. The DLL is still optimized in Release. -->
 		<DebugType>embedded</DebugType>
 		<Company>Blue Dot Brigade</Company>
 	</PropertyGroup>
@@ -35,4 +43,11 @@
 			<Link>Properties\DomainSpecificTerminology.xml</Link>
 		</CodeAnalysisDictionary>
 	</ItemGroup>
+	<!--
+		Stops a pack of any configuration but Release, before the package is written (#52).
+		It runs before GenerateNuspec: before the Pack target itself would be too late, because the package already exists by then.
+	-->
+	<Target Name="RequireReleaseToPack" BeforeTargets="GenerateNuspec" Condition="'$(Configuration)' != 'Release'">
+		<Error Text="The NuGet package is created only from a Release build, so that it is optimized (#52). Run: dotnet pack -c Release" />
+	</Target>
 </Project>

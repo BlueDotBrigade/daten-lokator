@@ -7,6 +7,7 @@
 - [Features](#features)
 - [Getting Started](#getting-started)
    - [Sample Code](#sample-code)
+- [Creating the Package](#creating-the-package)
 
 ## Overview
 
@@ -72,6 +73,16 @@ The [daten-lokator-demo][DemoRepository] repository contains a complete, runnabl
 
 1. easy it is to use _Daten Lokator_, and 
 2. how the library reduces visual noise thus making the test easier to read
+
+## Creating the Package
+
+From the repository's root folder, create the _NuGet_ package with a Release build:
+
+```
+dotnet build -c Release
+```
+
+The package is saved in `Src/BlueDotBrigade.DatenLokator.TestTools/bin/x64/Release`. A Debug build does not create a package, so a package built without optimization cannot be published by mistake. The debugging information (PDB) is embedded in the DLL, so stack traces still show file names and line numbers.
 
 [DemoRepository]: https://github.com/BlueDotBrigade/daten-lokator-demo
 [DemoApp]: https://github.com/BlueDotBrigade/daten-lokator-demo/tree/main/Src/Demo

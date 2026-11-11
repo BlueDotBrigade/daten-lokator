@@ -19,7 +19,8 @@
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/BlueDotBrigade/daten-lokator</RepositoryUrl>
 		<Platforms>x64</Platforms>
-		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<GeneratePackageOnBuild Condition="'$(Configuration)' == 'Release'">true</GeneratePackageOnBuild>
+		<DebugType>embedded</DebugType>
 		<Company>Blue Dot Brigade</Company>
 	</PropertyGroup>
 	<ItemGroup>

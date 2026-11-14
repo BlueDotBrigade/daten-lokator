@@ -98,6 +98,81 @@
 		}
 
 		[TestMethod]
+		public void Setup_AncestorDirectoryHasDecompressedSuffix_SearchesForArchives()
+		{
+			// Only the name of the directory itself marks it as decompressed, not the path above it.
+			var rootPath = NormalizePath(@"C:\Backup~TMP\Project\.Daten");
+
+			var osFile = Substitute.For<IOsFile>();
+			var osDirectory = Substitute.For<IOsDirectory>();
+			osDirectory.Exists(rootPath).Returns(true);
+
+			var fileManager = new SubFolderThenGlobal(osDirectory, osFile);
+			fileManager.Setup(rootPath);
+
+			osDirectory.Received().GetFiles(rootPath);
+		}
+
+		[TestMethod]
+		public void Setup_DecompressedDirectory_IsNotSearchedForArchives()
+		{
+			var rootPath = NormalizePath(@"C:\SampleData");
+			var decompressedPath = Path.Combine(rootPath, "TestClass~TMP");
+			var regularPath = Path.Combine(rootPath, "OtherTestClass");
+
+			var osFile = Substitute.For<IOsFile>();
+			var osDirectory = Substitute.For<IOsDirectory>();
+			osDirectory.Exists(rootPath).Returns(true);
+			osDirectory.GetDirectories(rootPath).Returns(new[] { decompressedPath, regularPath });
+
+			var fileManager = new SubFolderThenGlobal(osDirectory, osFile);
+			fileManager.Setup(rootPath);
+
+			osDirectory.DidNotReceive().GetFiles(decompressedPath);
+			osDirectory.Received().GetFiles(regularPath);
+		}
+
+		[TestMethod]
+		public void Setup_ExtensionOnlyResemblesArchive_IsNotDecompressed()
+		{
+			var rootPath = NormalizePath(@"C:\SampleData");
+
+			var osFile = Substitute.For<IOsFile>();
+			var osDirectory = Substitute.For<IOsDirectory>();
+			osDirectory.Exists(rootPath).Returns(true);
+			osDirectory.GetFiles(rootPath).Returns(new[] { Path.Combine(rootPath, "Sample.zipx") });
+
+			var fileManager = new SubFolderThenGlobal(osDirectory, osFile);
+
+			// The file does not exist, so an attempt to decompress it would throw.
+			fileManager.Setup(rootPath);
+		}
+
+		[TestMethod]
+		public void GetFilePath_FileInDecompressedDirectory_ReturnsDecompressedPath()
+		{
+			var thisClassPath = Path.Combine(AssemblyHelper.ProjectDirectoryPath, "IO", "SubFolderThenGlobalTests.cs");
+			var rootPath = NormalizePath(@"C:\SampleData");
+			var expectedPath = Path.Combine(rootPath, "IO", "SubFolderThenGlobalTests~TMP", "FooBar.txt");
+
+			var osFile = Substitute.For<IOsFile>();
+			osFile.Exists(expectedPath).Returns(true);
+
+			var osDirectory = Substitute.For<IOsDirectory>();
+			osDirectory.Exists(rootPath).Returns(true);
+
+			var fileManager = new SubFolderThenGlobal(osDirectory, osFile);
+			fileManager.Setup(rootPath);
+
+			Assert.AreEqual(
+				expectedPath,
+				fileManager.GetFilePath(
+					Substitute.For<ITestNamingStrategy>(),
+					"FooBar.txt",
+					thisClassPath));
+		}
+
+		[TestMethod]
 		public void GetFilePath_NewRootDirectory_ReturnsCorrectPath()
 		{
 			var thisClassPath = Path.Combine(AssemblyHelper.ProjectDirectoryPath, "IO", "SubFolderThenGlobalTests.cs");

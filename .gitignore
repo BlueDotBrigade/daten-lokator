@@ -331,4 +331,4 @@ ASALocalRun/
 
 # DatenLokator temporarily uses this directory 
 # to store decompressed files for automated tests.
-*~ZIP/
+*~TMP/

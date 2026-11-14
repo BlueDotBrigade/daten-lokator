@@ -6,6 +6,7 @@
 - [Overview](#overview)
 - [Features](#features)
 - [Getting Started](#getting-started)
+   - [Compressed Input Data](#compressed-input-data)
    - [Sample Code](#sample-code)
 - [Creating the Package](#creating-the-package)
 
@@ -22,8 +23,9 @@
    -	`AsStream()`
    -	`AsStreamReader()`
    -	`AsJson()`
-2. Automatic decompression of `*.zip` files.
+2. Automatic decompression of archives: `*.zip`
     -	Useful for saving disk space.
+    -	See [Compressed Input Data](#compressed-input-data).
 3. Global cache support.
     - Useful when multiple tests consume the same file as input.
 4. Run-time customization.
@@ -66,6 +68,18 @@ Managing source files:
       - `Serialization` is the namespace where the `XmlSerializerTests.cs` automated tests can be found.
 3. When an input file is needed, simply call the appropriate `Daten` method from your automated test.
    - For example: `new Daten().AsString()`
+
+### Compressed Input Data
+
+Input data can be stored in an archive. Supported formats: `*.zip`
+
+1. When `Lokator.Get().Setup()` runs, each archive under `.Daten` is decompressed into a sibling directory whose name ends with `~TMP`.
+   - For example: `.Daten/Serialization/XmlSerializerTests.zip` is decompressed into `.Daten/Serialization/XmlSerializerTests~TMP/`
+2. `Daten` then searches the `~TMP` directory as though it were the test's own directory.
+   - Global data: when a test asks for `LargeFile.txt`, `.Daten/.Global/LargeFile~TMP/` is searched, which holds the content of `.Daten/.Global/LargeFile.zip`
+3. The `~TMP` directory is kept between test runs, so an archive is only decompressed once.
+   - After changing an archive, delete its `~TMP` directory so that it is decompressed again.
+4. Add `*~TMP/` to your `.gitignore` file, so that decompressed files are not committed to source control.
 
 ### Sample Code
 

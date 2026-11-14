@@ -60,6 +60,14 @@
 			return directoryName.EndsWith(DecompressedDirectorySuffix, StringComparison.OrdinalIgnoreCase);
 		}
 
+		private static string GetDecompressedDirectoryPath(string archivePath)
+		{
+			var directoryName = Path.GetFileNameWithoutExtension(archivePath) + DecompressedDirectorySuffix;
+
+			// ReSharper disable once AssignNullToNotNullAttribute
+			return Path.Combine(Path.GetDirectoryName(archivePath), directoryName);
+		}
+
 		private void Decompress(string directoryPath)
 		{
 			if (IsDecompressedDirectory(directoryPath))
@@ -71,15 +79,23 @@
 
 			var originalDirectories = _directory.GetDirectories(directoryPath);
 
-			foreach (var file in _directory.GetFiles(directoryPath).Where(ArchiveExtractor.IsArchive))
-			{
-				var newDirectoryName = Path.GetFileNameWithoutExtension(file) + DecompressedDirectorySuffix;
-				// ReSharper disable once AssignNullToNotNullAttribute
-				var targetDirectory = Path.Combine(Path.GetDirectoryName(file), newDirectoryName);
+			var archivesByTarget = _directory.GetFiles(directoryPath)
+				.Where(ArchiveExtractor.IsArchive)
+				.GroupBy(GetDecompressedDirectoryPath, StringComparer.OrdinalIgnoreCase)
+				.ToList();
 
-				if (!_directory.Exists(targetDirectory))
+			// Check every archive before decompressing any, so that a mistake is reported before files are written.
+			foreach (var archives in archivesByTarget.Where(group => group.Count() > 1))
+			{
+				throw new InvalidOperationException(
+					$"Archives with the same name cannot share a directory, because each would be decompressed into `{Path.GetFileName(archives.Key)}`. Rename or remove all but one. Archives=`{string.Join("`, `", archives)}`");
+			}
+
+			foreach (var archives in archivesByTarget)
+			{
+				if (!_directory.Exists(archives.Key))
 				{
-					ArchiveExtractor.Extract(file, targetDirectory);
+					ArchiveExtractor.Extract(archives.Single(), archives.Key);
 				}
 			}
 

@@ -33,6 +33,8 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="MSTest.TestFramework" Version="4.5.2" />
+		<!-- Decompresses *.7z files, which .NET does not support (#49). -->
+		<PackageReference Include="SharpCompress" Version="0.50.7" />
 		<PackageReference Include="System.Configuration.ConfigurationManager" Version="10.0.14" />
 	</ItemGroup>
 	<ItemGroup>

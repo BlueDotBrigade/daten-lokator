@@ -4,6 +4,10 @@ namespace BlueDotBrigade.DatenLokator.TestTools.IO
 	using System.Collections.Generic;
 	using System.IO;
 	using System.IO.Compression;
+	using SharpCompress.Archives;
+	using SharpCompress.Archives.SevenZip;
+	using SharpCompress.Common;
+	using SharpCompress.Readers;
 
 	/// <summary>
 	/// Extracts the content of the supported archive formats.
@@ -14,7 +18,22 @@ namespace BlueDotBrigade.DatenLokator.TestTools.IO
 			new Dictionary<string, Action<string, string>>(StringComparer.OrdinalIgnoreCase)
 			{
 				[".zip"] = (archivePath, targetDirectory) => ZipFile.ExtractToDirectory(archivePath, targetDirectory),
+				[".7z"] = ExtractSevenZip,
 			};
+
+		private static void ExtractSevenZip(string archivePath, string targetDirectory)
+		{
+			// .NET cannot read *.7z files, so SharpCompress is used instead.
+			using var archive = SevenZipArchive.OpenArchive(archivePath, new ReaderOptions());
+
+			archive.WriteToDirectory(
+				targetDirectory,
+				new ExtractionOptions
+				{
+					ExtractFullPath = true,
+					Overwrite = true,
+				});
+		}
 
 		/// <summary>
 		/// The file extensions, including the leading period, of the supported archive formats.

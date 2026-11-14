@@ -24,6 +24,8 @@
     <None Include=".Daten\.Global\ByFileNameGlobalData.md" />
     <None Include=".Daten\.Global\ByConventionGlobalData.md" />
     <None Include=".Daten\.Global\CompressedFileIsGlobal.zip" />
+    <None Include=".Daten\.Global\SevenZipIsGlobal.7z" />
+    <None Include=".Daten\Compression\SevenZipShould.7z" />
   </ItemGroup>
 
   <ItemGroup>

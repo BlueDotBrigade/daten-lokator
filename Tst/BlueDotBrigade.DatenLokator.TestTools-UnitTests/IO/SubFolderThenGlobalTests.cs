@@ -149,6 +149,28 @@
 		}
 
 		[TestMethod]
+		public void Setup_ArchivesShareName_Throws()
+		{
+			var rootPath = NormalizePath(@"C:\SampleData");
+
+			var osFile = Substitute.For<IOsFile>();
+			var osDirectory = Substitute.For<IOsDirectory>();
+			osDirectory.Exists(rootPath).Returns(true);
+			osDirectory.GetFiles(rootPath).Returns(new[]
+			{
+				Path.Combine(rootPath, "Sample.zip"),
+				Path.Combine(rootPath, "Sample.7z"),
+			});
+
+			var fileManager = new SubFolderThenGlobal(osDirectory, osFile);
+
+			// Both archives would be decompressed into the same `Sample~TMP` directory.
+			var exception = Assert.Throws<InvalidOperationException>(() => fileManager.Setup(rootPath));
+
+			StringAssert.Contains(exception.Message, "Sample~TMP");
+		}
+
+		[TestMethod]
 		public void GetFilePath_FileInDecompressedDirectory_ReturnsDecompressedPath()
 		{
 			var thisClassPath = Path.Combine(AssemblyHelper.ProjectDirectoryPath, "IO", "SubFolderThenGlobalTests.cs");

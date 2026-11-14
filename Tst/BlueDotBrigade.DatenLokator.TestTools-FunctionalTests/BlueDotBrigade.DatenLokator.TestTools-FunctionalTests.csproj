@@ -26,6 +26,8 @@
     <None Include=".Daten\.Global\CompressedFileIsGlobal.zip" />
     <None Include=".Daten\.Global\SevenZipIsGlobal.7z" />
     <None Include=".Daten\Compression\SevenZipShould.7z" />
+    <None Include=".Daten\.Global\TarIsGlobal.tar" />
+    <None Include=".Daten\Compression\TarShould.tar" />
   </ItemGroup>
 
   <ItemGroup>

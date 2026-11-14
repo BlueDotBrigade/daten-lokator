@@ -2,6 +2,7 @@ namespace BlueDotBrigade.DatenLokator.TestTools.IO
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Formats.Tar;
 	using System.IO;
 	using System.IO.Compression;
 	using SharpCompress.Archives;
@@ -19,6 +20,7 @@ namespace BlueDotBrigade.DatenLokator.TestTools.IO
 			{
 				[".zip"] = (archivePath, targetDirectory) => ZipFile.ExtractToDirectory(archivePath, targetDirectory),
 				[".7z"] = ExtractSevenZip,
+				[".tar"] = (archivePath, targetDirectory) => TarFile.ExtractToDirectory(archivePath, targetDirectory, overwriteFiles: true),
 			};
 
 		private static void ExtractSevenZip(string archivePath, string targetDirectory)

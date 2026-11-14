@@ -23,7 +23,7 @@
    -	`AsStream()`
    -	`AsStreamReader()`
    -	`AsJson()`
-2. Automatic decompression of archives: `*.zip`, `*.7z`
+2. Automatic decompression of archives: `*.zip`, `*.7z`, `*.tar`
     -	Useful for saving disk space.
     -	See [Compressed Input Data](#compressed-input-data).
 3. Global cache support.
@@ -71,7 +71,7 @@ Managing source files:
 
 ### Compressed Input Data
 
-Input data can be stored in an archive. Supported formats: `*.zip`, `*.7z`
+Input data can be stored in an archive. Supported formats: `*.zip`, `*.7z`, `*.tar`
 
 1. When `Lokator.Get().Setup()` runs, each archive under `.Daten` is decompressed into a sibling directory whose name ends with `~TMP`.
    - For example: `.Daten/Serialization/XmlSerializerTests.zip` is decompressed into `.Daten/Serialization/XmlSerializerTests~TMP/`

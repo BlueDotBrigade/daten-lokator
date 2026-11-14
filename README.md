@@ -6,7 +6,11 @@
 - [Overview](#overview)
 - [Features](#features)
 - [Getting Started](#getting-started)
+   - [Compressed Input Data](#compressed-input-data)
    - [Sample Code](#sample-code)
+- [Upgrading to 2.5.0](#upgrading-to-250)
+- [Creating the Package](#creating-the-package)
+- [Change Log][ChangeLog]
 
 ## Overview
 
@@ -21,8 +25,9 @@
    -	`AsStream()`
    -	`AsStreamReader()`
    -	`AsJson()`
-2. Automatic decompression of `*.zip` files.
+2. Automatic decompression of archives: `*.zip`, `*.7z`, `*.tar`
     -	Useful for saving disk space.
+    -	See [Compressed Input Data](#compressed-input-data).
 3. Global cache support.
     - Useful when multiple tests consume the same file as input.
 4. Run-time customization.
@@ -50,7 +55,7 @@ Setup:
 
 Test data sources and mock endpoints:
 - Instances of `Daten` can be used to load deterministic input fixtures from disk.
-- `Lokator.Register()` can be used to setup lightweight sockets that serve static content — useful for testing HTTP clients without an external server.
+- `Lokator.Register()` can be used to setup lightweight sockets that serve static content â€” useful for testing HTTP clients without an external server.
 
 Managing source files:
 
@@ -66,17 +71,55 @@ Managing source files:
 3. When an input file is needed, simply call the appropriate `Daten` method from your automated test.
    - For example: `new Daten().AsString()`
 
+### Compressed Input Data
+
+Input data can be stored in an archive. Supported formats: `*.zip`, `*.7z`, `*.tar`
+
+1. When `Lokator.Get().Setup()` runs, each archive under `.Daten` is decompressed into a sibling directory whose name ends with `~TMP`.
+   - For example: `.Daten/Serialization/XmlSerializerTests.zip` is decompressed into `.Daten/Serialization/XmlSerializerTests~TMP/`
+2. `Daten` then searches the `~TMP` directory as though it were the test's own directory.
+   - Global data: when a test asks for `LargeFile.txt`, `.Daten/.Global/LargeFile~TMP/` is searched, which holds the content of `.Daten/.Global/LargeFile.zip`
+3. The `~TMP` directory is kept between test runs, so an archive is only decompressed once.
+   - After changing an archive, delete its `~TMP` directory so that it is decompressed again.
+4. Add `*~TMP/` to your `.gitignore` file, so that decompressed files are not committed to source control.
+
 ### Sample Code
 
-The following [unit tests][DemoTests], written for a trivial [application][DemoApp], demonstrate how:
+The [daten-lokator-demo][DemoRepository] repository contains a complete, runnable example: [unit tests][DemoTests], written for a trivial [application][DemoApp], that use the published [NuGet package][NuGetPackage] and demonstrate how:
 
 1. easy it is to use _Daten Lokator_, and 
 2. how the library reduces visual noise thus making the test easier to read
 
-[DemoApp]: https://github.com/BlueDotBrigade/daten-lokator/tree/main/Src/Demo
-[DemoTests]: https://github.com/BlueDotBrigade/daten-lokator/blob/main/Tst/DemoTests/Serialization/XmlSerializerTests.cs
+## Upgrading to 2.5.0
+
+1. Your test project must target .NET 10 (`net10.0`) or later.
+2. Archives are now decompressed into `<name>~TMP/` instead of `<name>~ZIP/`.
+   - In your `.gitignore` file, replace `*~ZIP/` with `*~TMP/`.
+   - Delete any `~ZIP` directories that are left under `.Daten`.
+
+The [Change Log][ChangeLog] lists every change in this release.
+
+## Creating the Package
+
+From the repository's root folder, create the _NuGet_ package with:
+
+```
+dotnet pack -c Release
+```
+
+In Visual Studio, select the Release configuration, then right-click the project and choose __Pack__.
+
+- The package is saved in `Src/BlueDotBrigade.DatenLokator.TestTools/bin/x64/Release`.
+- Only a pack creates the package. A build does not, even in Release.
+- Packing in Debug stops with an error, so a package built without optimization cannot be published by mistake.
+- The debugging information (PDB) is embedded in the DLL, so stack traces still show file names and line numbers.
+
+[DemoRepository]: https://github.com/BlueDotBrigade/daten-lokator-demo
+[DemoApp]: https://github.com/BlueDotBrigade/daten-lokator-demo/tree/main/Src/Demo
+[DemoTests]: https://github.com/BlueDotBrigade/daten-lokator-demo/blob/main/Tst/DemoTests/Serialization/XmlSerializerTests.cs
 
 [NuGetPackage]: https://www.nuget.org/packages/BlueDotBrigade.DatenLokator
+[ChangeLog]: https://github.com/BlueDotBrigade/daten-lokator/blob/main/ChangeLog.md
 
 [AAA]: https://automationpanda.com/2020/07/07/arrange-act-assert-a-pattern-for-writing-good-tests/
 [ExtensionMethod]: https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods

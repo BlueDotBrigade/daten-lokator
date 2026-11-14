@@ -2,9 +2,7 @@
 {
 	using System;
 	using System.Collections.Generic;
-	using System.Globalization;
 	using System.IO;
-	using System.IO.Compression;
 	using System.Linq;
 	using BlueDotBrigade.DatenLokator.TestTools.NamingConventions;
 	using BlueDotBrigade.DatenLokator.TestTools.Reflection;
@@ -23,8 +21,13 @@
 		/// </remarks>
 		private const string GlobalDirectoryName = ".Global";
 
-		public const string CompressedFileExtension = ".Zip";
-		public const string CompressedFileTempDirectory = "~ZIP";
+		/// <summary>
+		/// Appended to an archive's name to form the directory that holds its decompressed content.
+		/// </summary>
+		/// <example>
+		/// <c>TestClass.zip</c> is decompressed into <c>TestClass~TMP\</c>.
+		/// </example>
+		public const string DecompressedDirectorySuffix = "~TMP";
 
 		private readonly IOsDirectory _directory;
 		private readonly IOsFile _file;
@@ -49,50 +52,56 @@
 		/// </summary>
 		public string RootDirectoryPath => _rootDirectoryPath;
 
+		private static bool IsDecompressedDirectory(string directoryPath)
+		{
+			// Only the directory's own name matters, so that a parent directory cannot cause it to be skipped.
+			var directoryName = Path.GetFileName(directoryPath.TrimEnd('/', '\\'));
+
+			return directoryName.EndsWith(DecompressedDirectorySuffix, StringComparison.OrdinalIgnoreCase);
+		}
+
+		private static string GetDecompressedDirectoryPath(string archivePath)
+		{
+			var directoryName = Path.GetFileNameWithoutExtension(archivePath) + DecompressedDirectorySuffix;
+
+			// ReSharper disable once AssignNullToNotNullAttribute
+			return Path.Combine(Path.GetDirectoryName(archivePath), directoryName);
+		}
+
 		private void Decompress(string directoryPath)
 		{
-			var isDecompressedArchive = CultureInfo.InvariantCulture.CompareInfo.IndexOf(
-				directoryPath,
-				CompressedFileTempDirectory,
-				CompareOptions.IgnoreCase) >= 0;
-
-			if (isDecompressedArchive)
+			if (IsDecompressedDirectory(directoryPath))
 			{
-				// this directory holds content from a *.zip file
+				// this directory holds content from an archive
 				// ... we can skip over it
+				return;
 			}
-			else
+
+			var originalDirectories = _directory.GetDirectories(directoryPath);
+
+			var archivesByTarget = _directory.GetFiles(directoryPath)
+				.Where(ArchiveExtractor.IsArchive)
+				.GroupBy(GetDecompressedDirectoryPath, StringComparer.OrdinalIgnoreCase)
+				.ToList();
+
+			// Check every archive before decompressing any, so that a mistake is reported before files are written.
+			foreach (var archives in archivesByTarget.Where(group => group.Count() > 1))
 			{
-				var originalDirectories = _directory.GetDirectories(directoryPath);
+				throw new InvalidOperationException(
+					$"Archives with the same name cannot share a directory, because each would be decompressed into `{Path.GetFileName(archives.Key)}`. Rename or remove all but one. Archives=`{string.Join("`, `", archives)}`");
+			}
 
-				foreach (var file in _directory.GetFiles(directoryPath))
+			foreach (var archives in archivesByTarget)
+			{
+				if (!_directory.Exists(archives.Key))
 				{
-					// ReSharper disable once PossibleNullReferenceException
-
-					var isCompressedFile = CultureInfo.InvariantCulture.CompareInfo.IndexOf(
-						Path.GetExtension(file),
-						CompressedFileExtension,
-						CompareOptions.IgnoreCase) >= 0;
-
-					if (isCompressedFile)
-					{
-						var newDirectoryName =
-							Path.GetFileNameWithoutExtension(file) + CompressedFileTempDirectory;
-						// ReSharper disable once AssignNullToNotNullAttribute
-						var targetDirectory =
-							Path.Combine(Path.GetDirectoryName(file), newDirectoryName);
-
-						if (!_directory.Exists(targetDirectory))
-						{
-							ZipFile.ExtractToDirectory(file, targetDirectory);
-						}
-					}
+					ArchiveExtractor.Extract(archives.Single(), archives.Key);
 				}
+			}
 
-				foreach (var directory in originalDirectories)
-				{
-					Decompress(directory);
-				}
+			foreach (var directory in originalDirectories)
+			{
+				Decompress(directory);
 			}
 		}
 
@@ -149,9 +158,9 @@
 		/// DatenLokator will search for <paramref name="fileName"/> in the following order:
 		/// <list type="number">
 		/// <item>.Daten\TestClass\</item>
-		/// <item>.Daten\TestClass~ZIP\</item>
-		/// <item>.Daten\~Global\fileName~ZIP\</item>
-		/// <item>.Daten\~Global\</item>
+		/// <item>.Daten\TestClass~TMP\</item>
+		/// <item>.Daten\.Global\fileName~TMP\</item>
+		/// <item>.Daten\.Global\</item>
 		/// </list>
 		/// </remarks>
 		private string[] GetSearchPaths(string fileName, string sourceDirectory)
@@ -166,15 +175,15 @@
 			{
 				var impliedDirectory = AppendToRootDirectory(sourceDirectory).Replace(SourceCodeFileExtension, string.Empty);
 				searchPaths.Add(impliedDirectory);
-				searchPaths.Add(impliedDirectory + CompressedFileTempDirectory);
+				searchPaths.Add(impliedDirectory + DecompressedDirectorySuffix);
 			}
 			else
 			{
 				searchPaths.Add(sourceDirectory);
-				searchPaths.Add(sourceDirectory + CompressedFileTempDirectory);
+				searchPaths.Add(sourceDirectory + DecompressedDirectorySuffix);
 			}
 
-			var decompressedArchive = Path.GetFileNameWithoutExtension(fileName) + CompressedFileTempDirectory;
+			var decompressedArchive = Path.GetFileNameWithoutExtension(fileName) + DecompressedDirectorySuffix;
 
 			// try looking in the shared file cache
 			searchPaths.Add(Path.Combine(this.GlobalDirectoryPath, decompressedArchive));

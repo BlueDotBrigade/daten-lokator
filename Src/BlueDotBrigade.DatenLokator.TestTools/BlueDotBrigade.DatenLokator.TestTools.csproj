@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
 		<PackageId>BlueDotBrigade.DatenLokator</PackageId>
-		<Version>2.4.0</Version>
+		<Version>2.5.0</Version>
 		<Authors>BlueDotBrigade;</Authors>
 		<Copyright>© 2026 Blue Dot Brigade. All rights reserved.</Copyright>
 		<Owners>Blue Dot Brigade</Owners>
@@ -11,7 +11,7 @@
 		<Description>Simplifies testing by automatically selecting the appropriate input data for a given test case.</Description>
 		<IsPackable>true</IsPackable>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageReleaseNotes>This libary is currently a work in progress (WIP). As a result, backwards compatibility is not guaranteed.</PackageReleaseNotes>
+		<PackageReleaseNotes>This library is currently a work in progress (WIP). As a result, backwards compatibility is not guaranteed. Change log: https://github.com/BlueDotBrigade/daten-lokator/blob/main/ChangeLog.md</PackageReleaseNotes>
 		<PackageTags>BlueDotBrigade;Framework;TDD;Test;TestFramework;Test;Testing;UnitTest;</PackageTags>
 		<PackageProjectUrl>https://github.com/BlueDotBrigade/daten-lokator</PackageProjectUrl>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -33,6 +33,8 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="MSTest.TestFramework" Version="4.5.2" />
+		<!-- Decompresses *.7z files, which .NET does not support (#49). -->
+		<PackageReference Include="SharpCompress" Version="0.50.7" />
 		<PackageReference Include="System.Configuration.ConfigurationManager" Version="10.0.14" />
 	</ItemGroup>
 	<ItemGroup>

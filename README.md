@@ -2,6 +2,10 @@
 
 [![.NET](https://github.com/BlueDotBrigade/daten-lokator/actions/workflows/dotnet.yml/badge.svg)](https://github.com/BlueDotBrigade/daten-lokator/actions/workflows/dotnet.yml)
 [![CodeQL](https://github.com/BlueDotBrigade/daten-lokator/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/BlueDotBrigade/daten-lokator/actions/workflows/github-code-scanning/codeql)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=BlueDotBrigade_daten-lokator&metric=sqale_rating)](https://sonarcloud.io/project/overview?id=BlueDotBrigade_daten-lokator)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=BlueDotBrigade_daten-lokator&metric=coverage)](https://sonarcloud.io/project/overview?id=BlueDotBrigade_daten-lokator)
+[![Duplicated Lines](https://sonarcloud.io/api/project_badges/measure?project=BlueDotBrigade_daten-lokator&metric=duplicated_lines_density)](https://sonarcloud.io/project/overview?id=BlueDotBrigade_daten-lokator)
+
 
 - [Overview](#overview)
 - [Features](#features)
